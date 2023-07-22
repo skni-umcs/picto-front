@@ -31,32 +31,33 @@ function getTopics(){
   return [{value: "elephant", path: "elephant.png"},{value: "kettle", path: "kettle.png"},{value: "grass", path: "grass.png"},{value: "knife", path: "knife.png"}]
 }
 
-function generateColumns(width){
-  let columns = [];
-  for(let i = 0;i<width;++i){
-    columns.push({field: `col${i}`, width: 150});
-    console.log("c");
-  }
-  return columns;
-}
-function generateRows(height, columns, selectionSymbols){
+function generateRows(height, width, selectionSymbols){
   let rows = [];
-  for(let j = 0;j<height;++j){
-    let toAdd = {id: j};
-    for(let i = 0;i<columns.length;++i){
-      toAdd[`col${i}`] = selectionSymbols[i][j].path;
+  for(let j = 0;j<width;++j){
+    let columnContent = []
+    for(let i = 0;i<height;++i){
+      let toAdd = <Box>{selectionSymbols[j][i].path}</Box>;
+      columnContent.push(toAdd);
     }
-    rows.push(toAdd);
+    rows.push(<Box>{columnContent}</Box>)
+    
   }
   return rows;
 }
 
 function symbolSelectionComponent(){
   let selectionSymbols = getSelectionSymbols();
-  let columns = generateColumns(getSelectionWidth());
-  let rows = generateRows(getSelectionHeight(),columns, selectionSymbols);
+  let rows = generateRows(getSelectionHeight(),getSelectionWidth(), selectionSymbols);
   return (
-      <DataGrid slots={{columnHeaders: () => null}} hideFooter rows={rows} columns={columns}></DataGrid>
+      <Box sx={{
+        display: 'flex',
+        flexWrap: 'nowrap',
+        p: 1,
+        m: 1,
+        bgcolor: 'background.paper',
+        borderRadius: 1,
+        justifyContent : 'space-between'
+      }}>{rows}</Box>
   )
 }
 
@@ -64,10 +65,18 @@ function topicComponent(){
   let rows = []
   let topics = getTopics()
   for(let i = 0;i<topics.length;++i){
-    rows.push({id: i, 'col1': topics[i].path})
+    rows.push(<Box>{topics[i].path}</Box>)
   }
   return (
-    <DataGrid slots={{columnHeaders: () => null}} hideFooter rows={rows} columns={[{field: 'col1', width: 150}]}></DataGrid>
+    <Box sx={{
+      display: 'flex',
+      flexWrap: 'nowrap',
+      p: 1,
+      m: 1,
+      bgcolor: 'background.paper',
+      borderRadius: 1,
+      justifyContent : 'space-between'
+    }}>{rows}</Box>
   )
 }
 

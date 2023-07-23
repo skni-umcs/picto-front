@@ -1,5 +1,4 @@
 import './App.css';
-import { DataGrid } from '@mui/x-data-grid';
 import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 import { Container } from "@mui/material";
@@ -28,7 +27,7 @@ function getSelectionSymbols(){
 }
 
 function getTopics(){
-  return [{value: "elephant", path: "elephant.png"},{value: "kettle", path: "kettle.png"},{value: "grass", path: "grass.png"},{value: "knife", path: "knife.png"}]
+  return [{value: "elephant", path: "elephant.png", chosen: false},{value: "kettle", path: "kettle.png", chosen: true},{value: "grass", path: "grass.png", chosen: false},{value: "knife", path: "knife.png", chosen: false}]
 }
 
 function generateRows(height, width, selectionSymbols){
@@ -40,7 +39,6 @@ function generateRows(height, width, selectionSymbols){
       columnContent.push(toAdd);
     }
     rows.push(<Box>{columnContent}</Box>)
-    
   }
   return rows;
 }
@@ -65,7 +63,12 @@ function topicComponent(){
   let rows = []
   let topics = getTopics()
   for(let i = 0;i<topics.length;++i){
-    rows.push(<Box>{topics[i].path}</Box>)
+    if(topics[i].chosen){
+      rows.push(<Box sx={{padding: 1, borderRadius:1, border: 5, borderColor: 'error.main'}}>{topics[i].path}</Box>)
+    }
+    else{
+      rows.push(<Box>{topics[i].path}</Box>)
+    }
   }
   return (
     <Box sx={{

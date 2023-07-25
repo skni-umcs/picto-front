@@ -1,3 +1,7 @@
+export function getTopicsLength(){
+    return 4;
+}
+
 export function getTopics(){
     return [ //throws an error but these are only placeholder values
         {value: "elephant", path: "elephant.png", chosen: false},

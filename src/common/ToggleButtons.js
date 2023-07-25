@@ -1,5 +1,4 @@
 import * as React from 'react';
-import './App.css';
 import Box from "@mui/material/Box";
 import { ToggleButton } from "@mui/material";
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';

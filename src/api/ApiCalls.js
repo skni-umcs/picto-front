@@ -4,10 +4,10 @@ export function getImagesLength(){
 
 export function getImages(){
     return [ //throws an error but these are only placeholder values
-        {value: "elephant", path: "elephant.png", chosen: false},
-        {value: "kettle", path: "kettle.png", chosen: true},
-        {value: "grass", path: "grass.png", chosen: false},
-        {value: "knife", path: "knife.png", chosen: false}
+        {value: "elephant", path: "images/elephant.png", chosen: false},
+        {value: "kettle", path: "images/kettle.png", chosen: true},
+        {value: "grass", path: "images/grass.png", chosen: false},
+        {value: "knife", path: "images/knife.png", chosen: false}
     ]
 }
 
@@ -21,9 +21,9 @@ export function getSelectionHeight(){
 
 export function getSelectionSymbols(){ 
 return [ //throws an error but these are only placeholder values
-        [{value: "black", path: "black.png"}, {value: "white", path: "white.png"}, {value: "gray", path: "gray.png"}],
-        [{value: "one", path: "one.png"}, {value: "two", path: "two.png"}, {value: "three", path: "three.png"}],
-        [{value: "circle", path: "circle.png"}, {value: "square", path: "square.png"}, {value: "triangle", path: "triangle.png"}]
+        [{value: "black", path: "symbols/colors/black.png"}, {value: "white", path: "symbols/colors/white.png"}, {value: "gray", path: "symbols/colors/gray.png"}],
+        [{value: "one", path: "symbols/numbers/one.png"}, {value: "two", path: "symbols/numbers/two.png"}, {value: "three", path: "symbols/numbers/three.png"}],
+        [{value: "circle", path: "symbols/shapes/circle.png"}, {value: "square", path: "symbols/shapes/square.png"}, {value: "triangle", path: "symbols/shapes/triangle.png"}]
     ];
 }
 

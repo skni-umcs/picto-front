@@ -2,6 +2,7 @@ import * as React from 'react';
 import Box from "@mui/material/Box";
 import { ToggleButton } from "@mui/material";
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import { PictureComponent } from './ImageComponent';
 
 export function ToggleButtons(symbol_array) {
     const [alignment, setAlignment] = React.useState('button');
@@ -18,7 +19,7 @@ export function ToggleButtons(symbol_array) {
         onChange={handleAlignment}
         aria-label="text alignment"
         >
-        {symbol_array.map((symbol) => {return <ToggleButton value={symbol.value}><Box>{symbol.path}</Box></ToggleButton>})}
+        {symbol_array.map((symbol) => {return <ToggleButton value={symbol.value}><Box><PictureComponent path={symbol.path}></PictureComponent></Box></ToggleButton>})}
       </ToggleButtonGroup>
     );
   }

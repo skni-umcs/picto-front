@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 import { Container } from "@mui/material";
 
 import React from "react";
-import imageComponent from './ImageComponent'
+import ImagesListComponent from './ImageComponent'
 import symbolSelectionComponent from '../speaker/SymbolSelectionComponent'
 import submitComponent from './SubmitComponent'
 
@@ -19,7 +19,7 @@ function User() {
     return (
       <Container maxWidth={false}>
         <Wrapper>
-          <Box>{imageComponent()}</Box>
+          <Box>{ImagesListComponent()}</Box>
           <Box>{symbolSelectionComponent()}</Box>
           <Box sx={{display:'flex', justifyContent: 'center'}}>{submitComponent()}</Box>
         </Wrapper>

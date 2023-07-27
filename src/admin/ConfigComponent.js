@@ -1,6 +1,7 @@
-import { Container } from "@mui/material";
+import { Container, ImageList, ImageListItem } from "@mui/material";
 import React from "react";
 import Box from "@mui/material/Box";
+import {PictureComponent} from '../common/ImageComponent'
 
 export function ElementConfigComponent({name, defaultValue}) {
     return (
@@ -12,20 +13,26 @@ export function ElementConfigComponent({name, defaultValue}) {
 
 export function PreviewElement({element}){
     return (
-    <img 
-    alt="failed to load image"
-    src={`${element.path}`}
-
-    >
-    </img>
+    <ImageListItem>
+    <PictureComponent path={element.path}/>
+    <Box>{element.path}</Box>
+    </ImageListItem>
   )
 }
 
 export function PreviewElementList({name, list}){
     return (
-        <Box>
+        <ImageList
+        sx={{
+            flexDirection: 'row',
+            display: 'flex',
+            flexWrap: 'wrap',
+            p: 1,
+            m: 1,
+          }}
+        >
             { name }: { list.map((element, key) => {return <PreviewElement key={key} element={element}></PreviewElement>}) }
-        </Box>
+        </ImageList>
     )
 }
 

@@ -1,6 +1,6 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import { ElementConfigComponent, ListConfigComponent, ListOfListConfigComponent } from './ConfigComponent'
+import { ElementConfigComponent, PreviewElementList, ListOfPreviewElementLists } from './ConfigComponent'
 
 import * as ApiCalls from '../api/ApiCalls'
 
@@ -34,6 +34,17 @@ function Admin() {
         defaultValue={ApiCalls.getImagesLength()}
         >
         </ElementConfigComponent>
+        <PreviewElementList
+        name="Images"
+        list={ApiCalls.getImages()}
+        >
+        </PreviewElementList>
+        <ListOfPreviewElementLists
+        name="Symbols"
+        list={ApiCalls.getSelectionSymbols()}
+        >
+
+        </ListOfPreviewElementLists>
       </Box>
     )
   }

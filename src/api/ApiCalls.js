@@ -1,8 +1,8 @@
-export function getTopicsLength(){
+export function getImagesLength(){
     return 4;
 }
 
-export function getTopics(){
+export function getImages(){
     return [ //throws an error but these are only placeholder values
         {value: "elephant", path: "elephant.png", chosen: false},
         {value: "kettle", path: "kettle.png", chosen: true},

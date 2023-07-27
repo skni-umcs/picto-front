@@ -1,10 +1,10 @@
 import Box from "@mui/material/Box";
 
-import { getTopics } from '../api/ApiCalls'
+import { getImages } from '../api/ApiCalls'
 
-export default function topicComponent(){
+export default function imageComponent(){
     let rows = []
-    let topics = getTopics()
+    let topics = getImages()
     for(let i = 0;i<topics.length;++i){
       if(topics[i].chosen){
         rows.push(<Box sx={{padding: 1, borderRadius:1, border: 5, borderColor: 'error.main'}}>{topics[i].path}</Box>)

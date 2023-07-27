@@ -21,31 +21,19 @@ function Admin() {
       >
         <ElementConfigComponent
         name="SelectionWidth"
-        value={ApiCalls.getSelectionWidth()}
+        defaultValue={ApiCalls.getSelectionWidth()}
         >
         </ElementConfigComponent>
         <ElementConfigComponent
         name="SelectionHeight"
-        value={ApiCalls.getSelectionHeight()}
+        defaultValue={ApiCalls.getSelectionHeight()}
         >
         </ElementConfigComponent>
         <ElementConfigComponent
         name="TopicsLength"
-        value={ApiCalls.getTopicsLength()}
+        defaultValue={ApiCalls.getImagesLength()}
         >
         </ElementConfigComponent>
-        <ListConfigComponent
-        name="Topics"
-        value={ApiCalls.getTopics().map((topic) => {return topic.path})}
-        length={ApiCalls.getTopics().length}
-        >
-        </ListConfigComponent>
-        <ListOfListConfigComponent
-        name="Symbols"
-        value={ApiCalls.getSelectionSymbols().map((symbol_array) => {return symbol_array.map((symbol) => {return symbol.path})})}
-        length={ApiCalls.getSelectionHeight()}
-        >
-        </ListOfListConfigComponent>
       </Box>
     )
   }

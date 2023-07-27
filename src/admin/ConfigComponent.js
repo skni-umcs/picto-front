@@ -14,12 +14,8 @@ export function PreviewElement({element}){
     return (
     <img 
     alt="failed to load image"
-    src={require(`./${element.path}`)}
-    onError={({ currentTarget }) => {
-        console.log('eee xd')
-        currentTarget.onerror = null; // prevents looping
-        currentTarget.src="https://cdn.discordapp.com/attachments/377846006949085184/1133817331064250440/image.png";
-    }}
+    src={`${element.path}`}
+
     >
     </img>
   )

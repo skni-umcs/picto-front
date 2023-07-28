@@ -22,29 +22,23 @@ function Admin() {
         <ElementConfigComponent
         name="SelectionWidth"
         defaultValue={ApiCalls.getSelectionWidth()}
-        >
-        </ElementConfigComponent>
+        />
         <ElementConfigComponent
         name="SelectionHeight"
         defaultValue={ApiCalls.getSelectionHeight()}
-        >
-        </ElementConfigComponent>
+        />
         <ElementConfigComponent
         name="TopicsLength"
         defaultValue={ApiCalls.getImagesLength()}
-        >
-        </ElementConfigComponent>
+        />
         <PreviewElementList
         name="Images"
         list={ApiCalls.getImages()}
-        >
-        </PreviewElementList>
+        />
         <ListOfPreviewElementLists
         name="Symbols"
         list={ApiCalls.getSelectionSymbols()}
-        >
-
-        </ListOfPreviewElementLists>
+        />
       </Box>
     )
   }

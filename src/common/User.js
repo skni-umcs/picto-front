@@ -11,13 +11,18 @@ import submitComponent from './SubmitComponent'
 const Wrapper = styled(Box)({
   display: "grid",
   gridTemplateColumns: "repeat(1, 1fr)",
-  gridGap: '75%',
-  marginTop: 30
+  marginTop: 30,
+  height: '100%'
 });
 
 function User() {
     return (
-      <Container maxWidth={false}>
+      <Container 
+        maxWidth={false} 
+        sx={{
+          height: '100%'
+        }}
+      >
         <Wrapper>
           <Box>{ImagesListComponent()}</Box>
           <Box>{symbolSelectionComponent()}</Box>

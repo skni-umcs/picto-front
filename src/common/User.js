@@ -6,6 +6,7 @@ import React from "react";
 import ImagesListComponent from './ImageComponent'
 import symbolSelectionComponent from '../speaker/SymbolSelectionComponent'
 import submitComponent from './SubmitComponent'
+import { InfoComponent } from '../common/InfoComponent'
 
 
 const Wrapper = styled(Box)({
@@ -13,6 +14,10 @@ const Wrapper = styled(Box)({
   gridTemplateColumns: "repeat(1, 1fr)",
   height: '100%'
 });
+
+function middleComponents(){
+  return [symbolSelectionComponent(), InfoComponent()]
+}
 
 function User() {
     return (
@@ -24,7 +29,7 @@ function User() {
       >
         <Wrapper>
           <Box>{ImagesListComponent()}</Box>
-          <Box>{symbolSelectionComponent()}</Box>
+          <Box sx={{display: 'grid', gridTemplateColumns: "75% 25%"}}>{middleComponents()}</Box>
           <Box sx={{display:'flex', justifyContent: 'center'}}>{submitComponent()}</Box>
         </Wrapper>
       </Container>

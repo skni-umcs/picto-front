@@ -30,3 +30,7 @@ return [ //throws an error but these are only placeholder values
 export function submit(){
     console.log("backend where")
 }
+
+export function getEnabledTimer(){
+    return false;
+}

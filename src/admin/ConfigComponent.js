@@ -1,7 +1,15 @@
-import { Container, ImageList, ImageListItem } from "@mui/material";
+import { Checkbox, Container, ImageList, ImageListItem } from "@mui/material";
 import React from "react";
 import Box from "@mui/material/Box";
 import {PictureComponent} from '../common/ImageComponent'
+
+export function CheckBoxConfigComponent({name, defaultValue}){
+  return (
+    <Container>
+      { name } : {<Checkbox defaultValue={defaultValue}></Checkbox>}
+    </Container>
+  )
+}
 
 export function ElementConfigComponent({name, defaultValue}) {
     return (

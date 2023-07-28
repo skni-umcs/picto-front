@@ -11,7 +11,6 @@ import submitComponent from './SubmitComponent'
 const Wrapper = styled(Box)({
   display: "grid",
   gridTemplateColumns: "repeat(1, 1fr)",
-  marginTop: 30,
   height: '100%'
 });
 

@@ -1,0 +1,23 @@
+.infoText {
+    text-align: center;
+    font-size: 70px;
+}
+
+.doubleSplit {
+    display: grid;
+    grid-template-columns: 75% 25%;
+}
+
+.horizonstalToggleButton {
+    orientation: "vertical";
+    display: 'flex';
+    flex-wrap: 'nowrap';
+    background-color: 'background.paper';
+    border-radius: 1;
+    justify-content: 'space-between';
+    width: '100%'
+}
+
+.verticalToggleButton {
+    orientation: "vertical";
+}

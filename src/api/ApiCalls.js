@@ -27,10 +27,30 @@ return [ //throws an error but these are only placeholder values
     ];
 }
 
+export function getSelectedSymbols(){
+    return [{value: "black", path: "symbols/colors/black.png"},{value: "two", path: "symbols/numbers/two.png"},{value: "circle", path: "symbols/shapes/circle.png"}];
+}
+
 export function submit(){
     console.log("backend where")
 }
 
 export function getEnabledTimer(){
     return false;
+}
+
+export function getUserRole(){
+    return 1; //0 will be speaker, 1 will be listener, anything different is waiting
+}
+
+export function initializeGame(){
+    console.log("initialized game")
+}
+
+export function startGame(){
+    console.log("started game")
+}
+
+export function finishGame(){
+    console.log("finished game")
 }

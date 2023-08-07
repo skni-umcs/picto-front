@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import { SymbolToggleButtons } from './SymbolToggleButtons.js'
+import { PictureToggleButtons } from '../common/PictureToggleButtons.js'
 
 import { getSelectionHeight } from '../api/ApiCalls'
 import { getSelectionWidth } from '../api/ApiCalls'
@@ -14,12 +14,12 @@ function generateRows(height, width, selectionSymbols){
         columnContent.push(selectionSymbols[j][i]);
         console.log(selectionSymbols[j][i].path)
       }
-      rows.push(SymbolToggleButtons(columnContent))
+      rows.push(PictureToggleButtons(columnContent))
     }
     return rows;
   }
   
-export default function symbolSelectionComponent(){
+export default function SymbolSelectionComponent(){
     let selectionSymbols = getSelectionSymbols();
     let rows = generateRows(getSelectionHeight(),getSelectionWidth(), selectionSymbols);
     return (

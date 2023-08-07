@@ -28,7 +28,7 @@ export function PreviewElement({element}){
   )
 }
 
-export function PreviewElementList({name, list}){
+export function PreviewElementList({key_value, name, list}){
     return (
         <ImageList
         sx={{
@@ -39,7 +39,7 @@ export function PreviewElementList({name, list}){
             m: 1,
           }}
         >
-            { name }: { list.map((element, key) => {return <PreviewElement key={key} element={element}></PreviewElement>}) }
+            { name }{key_value}: { list.map((element, key) => {return <PreviewElement key={key} element={element}></PreviewElement>}) }
         </ImageList>
     )
 }
@@ -47,7 +47,7 @@ export function PreviewElementList({name, list}){
 export function ListOfPreviewElementLists({name, list}){
     let result = []
     for(let i = 0;i<list.length;++i){
-        result.push(<PreviewElementList key={i} name={name} list={list[i]}></PreviewElementList>)
+        result.push(<PreviewElementList key={i} key_value={i} name={name} list={list[i]}></PreviewElementList>)
     }
     return result;
 }

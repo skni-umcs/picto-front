@@ -20,31 +20,34 @@ export function PictureComponent({path}){
   )
 }
 
-export default function ImagesListComponent(){
-    let rows = []
-    let topics = getImages()
-    for(let i = 0;i<topics.length;++i){
-      if(topics[i].chosen){
-        rows.push(<Box sx={{padding: 1, borderRadius:1, border: 5, borderColor: 'error.main'}}>{<PictureComponent path={topics[i].path}/>}</Box>)
-      }
-      else{
-        rows.push(<PictureComponent path={topics[i].path}/>)
-      }
+export function PictureListComponent(pictures){
+  let rows = []
+  for(let i = 0;i<pictures.length;++i){
+    if(pictures[i].chosen){
+      rows.push(<Box sx={{padding: 1, borderRadius:1, border: 5, borderColor: 'error.main'}}>{<PictureComponent path={pictures[i].path}/>}</Box>)
     }
-    return (
-      <Box 
-        sx={{
-          display: 'flex',
-          flexWrap: 'nowrap',
-          p: 1,
-          m: 1,
-          bgcolor: 'background.paper',
-          borderRadius: 1,
-          justifyContent : 'space-between'
-        }}
-      >
-        {rows}
-      </Box>
-    )
+    else{
+      rows.push(<PictureComponent path={pictures[i].path}/>)
+    }
   }
+  return (
+    <Box 
+      sx={{
+        display: 'flex',
+        flexWrap: 'nowrap',
+        p: 1,
+        m: 1,
+        bgcolor: 'background.paper',
+        borderRadius: 1,
+        justifyContent : 'space-between'
+      }}
+    >
+      {rows}
+    </Box>
+  )
+}
+
+export default function ImagesListComponent(){
+    return PictureListComponent(getImages());
+}
   

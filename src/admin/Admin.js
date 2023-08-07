@@ -62,13 +62,13 @@ function GameButtonsComponent(){
     }}
   >
     <Box>
-      <Button>
+      <Button onClick={ApiCalls.initializeGame}>
         Initialize Game
       </Button>
-      <Button>
+      <Button onClick={ApiCalls.startGame}>
         Start Game
       </Button>
-      <Button>
+      <Button onClick={ApiCalls.finishGame}>
         Finish Game
       </Button>
     </Box>

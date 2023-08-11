@@ -5,10 +5,10 @@ import * as ApiCalls from '../api/ApiCalls'
 
   
 function User(){
-  if(ApiCalls.getUserRole()==0){
+  if(ApiCalls.getUserRole()===0){
     return SpeakerComponent();
   }
-  else if(ApiCalls.getUserRole()==1){
+  else if(ApiCalls.getUserRole()===1){
     return ListenerComponent();
   }
   else{

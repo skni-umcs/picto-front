@@ -3,18 +3,18 @@ import React from "react";
 import Box from "@mui/material/Box";
 import {PictureComponent} from '../common/ImageComponent'
 
-export function CheckBoxConfigComponent({name, defaultValue}){
+export function CheckBoxConfigComponent({name, defaultValue, onChange}){
   return (
     <Container>
-      { name } : {<Checkbox defaultValue={defaultValue}></Checkbox>}
+      { name } : {<Checkbox defaultValue={defaultValue} onChange={onChange}></Checkbox>}
     </Container>
   )
 }
 
-export function ElementConfigComponent({name, defaultValue}) {
+export function ElementConfigComponent({name, defaultValue, onChange}) {
     return (
       <Container maxWidth={false}>
-        { name }: {<input defaultValue={defaultValue}></input> }
+        { name }: {<input defaultValue={defaultValue} onChange={onChange}></input> }
       </Container>
     )
 }

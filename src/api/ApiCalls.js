@@ -1,3 +1,10 @@
+import axios from 'axios'
+
+const backend = axios.create({
+    baseURL: 'http://localhost:8080/',
+    timeout: 5000,
+}) 
+
 export function getImagesLength(){
     return 4;
 }
@@ -17,6 +24,26 @@ export function getSelectionWidth(){
 
 export function getSelectionHeight(){
     return 3;
+}
+
+export function getUserOneTime(){
+    return 25;
+}
+
+export function getUserTwoTime(){
+    return 25;
+}
+
+export function getCorrectAnswerPoints(){
+    return 1;
+}
+
+export function getWrongAnswerPoints(){
+    return -1;
+}
+
+export function getTopologyId(){
+    return 0;
 }
 
 export function getSelectionSymbols(){ 
@@ -43,8 +70,38 @@ export function getUserRole(){
     return 1; //0 will be speaker, 1 will be listener, anything different is waiting
 }
 
-export function startGame(){
-    console.log("started game")
+export function createGame({
+    userOneNumberOfImages, 
+    userTwoNumberOfImages, 
+    userOneTime, 
+    userTwoTime, 
+    symbolGroupsAmount, 
+    symbolsInGroupAmount,
+    correctAnswerPoints,
+    wrongAnswerPoints,
+    topologyId,
+    createDateTime
+    }){
+    backend.post("game/admin/create",
+    {
+        "userOneNumberOfImages": userOneNumberOfImages,
+        "userTwoNumberOfImages": userTwoNumberOfImages,
+        "userOneTime": userOneTime,
+        "userTwoTime": userTwoTime,
+        "symbolGroupsAmount": symbolGroupsAmount,
+        "symbolsInGroupAmount": symbolsInGroupAmount,
+        "correctAnswerPoints": correctAnswerPoints,
+        "wrongAnswerPoints": wrongAnswerPoints,
+        "topologyId": topologyId,
+        "createDateTime": createDateTime
+    })
+    .then(function (response) {
+        console.log(response)
+    })
+    .catch(function (error) {
+        console.log(error)
+    })
+    
 }
 
 export function beginGame(){

@@ -3,7 +3,6 @@ import { getImages } from '../api/ApiCalls'
 import { ImageListItem } from "@mui/material";
 
 export function PictureComponent({path}){
-  console.log(path)
   return (
   <ImageListItem>
   <img 

@@ -43,12 +43,12 @@ export function getUserRole(){
     return 1; //0 will be speaker, 1 will be listener, anything different is waiting
 }
 
-export function initializeGame(){
-    console.log("initialized game")
-}
-
 export function startGame(){
     console.log("started game")
+}
+
+export function beginGame(){
+    console.log("began game")
 }
 
 export function finishGame(){

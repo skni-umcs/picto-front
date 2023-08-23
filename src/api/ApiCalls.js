@@ -54,6 +54,10 @@ export function getMaxVertexDegree(){
     return 3;
 }
 
+export function getEndGameid(){
+    return 0;
+}
+
 export function getSelectionSymbols(){ 
 return [ //throws an error but these are only placeholder values
         [{value: "black", path: "symbols/colors/black.png"}, {value: "white", path: "symbols/colors/white.png"}, {value: "gray", path: "symbols/colors/gray.png"}],
@@ -90,7 +94,8 @@ export function createGame({
     topologyId,
     probabilityOfEdgeRedrawing,
     maxVertexDegree,
-    createDateTime
+    createDateTime,
+    setEndRoundId
     }){
     backend.post("game/admin/create",
     {
@@ -109,6 +114,7 @@ export function createGame({
     })
     .then(function (response) {
         console.log(response)
+        setEndRoundId(response.data.id)
     })
     .catch(function (error) {
         console.log(error)
@@ -116,10 +122,19 @@ export function createGame({
     
 }
 
-export function beginGame(){
+export function beginGame() {
     console.log("began game")
 }
 
-export function finishGame(){
-    console.log("finished game")
+export function endGame(gameId) {
+    backend.post(`game/${gameId}/admin/end`,
+    {
+        "gameId": gameId
+    })
+    .then(function (response) {
+        console.log(response)
+    })
+    .catch(function (error) {
+        console.log(error)
+    })
 }

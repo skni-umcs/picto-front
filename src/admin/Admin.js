@@ -58,6 +58,8 @@ function AdminFormComponent(){
 
   const [buttonMode, setButtonMode] = useState("none")
 
+  const [endRoundId, setEndRoundId] = useState(ApiCalls.getEndGameid())
+
   function onSubmit(){
     ApiCalls.createGame({
       userOneNumberOfImages:topicsLength, 
@@ -71,8 +73,13 @@ function AdminFormComponent(){
       topologyId:topologyId,
       probabilityOfEdgeRedrawing:probabilityOfEdgeRedrawing,
       maxVertexDegree:maxVertexDegree,
-      createDateTime:moment().format("YYYY-MM-DD[T]HH:mm:ss.SSS")
+      createDateTime:moment().format("YYYY-MM-DD[T]HH:mm:ss.SSS"),
+      setEndRoundId:setEndRoundId
     })
+  }
+
+  function onEnd(){
+    ApiCalls.endGame(endRoundId)
   }
 
 
@@ -186,6 +193,7 @@ function AdminFormComponent(){
   }
 
   function GameButtonsComponent(){
+
     return (
       <Box
       sx={{
@@ -204,9 +212,21 @@ function AdminFormComponent(){
         <Button onClick={ApiCalls.beginGame}>
           Begin Game
         </Button>
-        <Button onClick={ApiCalls.finishGame}>
-          Finish Game
-        </Button>
+        <Box 
+        sx={{
+          width: '50%',
+          flexDirection: 'column',
+          display: 'flex',
+          flexWrap: 'nowrap',
+          justifyContent : 'center',
+          alignItems: 'center'
+        }}
+        >
+          <Button onClick={onEnd}>
+            End Game
+          </Button>
+          <input value={endRoundId} onChange={e => setEndRoundId(e.target.value)}></input>
+        </Box>
       </Box>
     </Box>
     )

@@ -54,7 +54,7 @@ export function getMaxVertexDegree(){
     return 3;
 }
 
-export function getEndGameid(){
+export function getCurrentGameId(){
     return 0;
 }
 
@@ -122,8 +122,17 @@ export function createGame({
     
 }
 
-export function beginGame() {
-    console.log("began game")
+export function beginGame(gameId) {
+    backend.post(`game/${gameId}/admin/begin`,
+    {
+        "gameId": gameId
+    })
+    .then(function (response) {
+        console.log(response)
+    })
+    .catch(function (error) {
+        console.log(error)
+    })
 }
 
 export function endGame(gameId) {

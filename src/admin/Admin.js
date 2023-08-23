@@ -58,7 +58,7 @@ function AdminFormComponent(){
 
   const [buttonMode, setButtonMode] = useState("none")
 
-  const [endRoundId, setEndRoundId] = useState(ApiCalls.getEndGameid())
+  const [currentRoundId, setCurrentRoundId] = useState(ApiCalls.getCurrentGameId())
 
   function onSubmit(){
     ApiCalls.createGame({
@@ -74,12 +74,16 @@ function AdminFormComponent(){
       probabilityOfEdgeRedrawing:probabilityOfEdgeRedrawing,
       maxVertexDegree:maxVertexDegree,
       createDateTime:moment().format("YYYY-MM-DD[T]HH:mm:ss.SSS"),
-      setEndRoundId:setEndRoundId
+      setEndRoundId:setCurrentRoundId
     })
   }
 
+  function onBegin(){
+    ApiCalls.beginGame(currentRoundId)
+  }
+
   function onEnd(){
-    ApiCalls.endGame(endRoundId)
+    ApiCalls.endGame(currentRoundId)
   }
 
 
@@ -209,7 +213,7 @@ function AdminFormComponent(){
         <Button onClick={onSubmit}>
           Create Game
         </Button>
-        <Button onClick={ApiCalls.beginGame}>
+        <Button onClick={onBegin}>
           Begin Game
         </Button>
         <Box 
@@ -225,7 +229,7 @@ function AdminFormComponent(){
           <Button onClick={onEnd}>
             End Game
           </Button>
-          <input value={endRoundId} onChange={e => setEndRoundId(e.target.value)}></input>
+          <input value={currentRoundId} onChange={e => setCurrentRoundId(e.target.value)}></input>
         </Box>
       </Box>
     </Box>

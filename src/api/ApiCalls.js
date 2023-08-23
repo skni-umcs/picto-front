@@ -1,9 +1,26 @@
 import axios from 'axios'
+import {useEffect} from 'react'
 
 const backend = axios.create({
     baseURL: 'http://localhost:8080/',
     timeout: 5000,
 }) 
+
+export function OnNextRound(){
+    console.log("onNextRound")
+    useEffect(() => {
+        const source = new EventSource("http://localhost:8080/round/next")
+        source.onmessage = function (event) {
+            console.log("b")
+            console.log(event)
+        };
+        return () => {
+            source.close();
+            console.log("eventsource closed")
+        }
+    })
+
+}
 
 export function getImagesLength(){
     return 4;

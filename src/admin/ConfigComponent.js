@@ -11,13 +11,34 @@ export function CheckBoxConfigComponent({name, defaultValue, onChange}){
   )
 }
 
-export function ElementConfigComponent({name, defaultValue, onChange}) {
+/*export class ElementConfigComponent extends React.Component {
+
+  constructor({name, defaultValue, onChange}) {
+    super();
+    this.name = name
+    this.defaultValue = defaultValue
+    this.onChange = onChange
+    this.inputField = <input name={this.name} defaultValue={this.defaultValue} onChange={this.onChange}></input>
+  }
+
+  render() {
     return (
       <Container maxWidth={false}>
-        { name }: {<input defaultValue={defaultValue} onChange={onChange}></input> }
+        { this.name }: { this.inputField }
       </Container>
     )
+  }
+}*/
+
+export function ElementConfigComponent({name, defaultValue, onChange}){
+  return (
+    <Container key={name} maxWidth={false}>
+      { name }: { <input key={name} name={name} value={defaultValue} onChange={onChange}></input> }
+    </Container>
+  )
 }
+
+
 
 export function PreviewElement({element}){
     return (

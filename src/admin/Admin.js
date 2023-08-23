@@ -1,10 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useForm } from "react";
+import Radio from '@mui/material/Radio';
 import Box from "@mui/material/Box";
 import { CheckBoxConfigComponent, ElementConfigComponent, PreviewElementList, ListOfPreviewElementLists } from './ConfigComponent'
 import Button from '@mui/material/Button';
 import moment from 'moment'
 
 import * as ApiCalls from '../api/ApiCalls'
+import { FormControlLabel, RadioGroup } from "@mui/material";
+
+function RadioButtonsComponent(buttonMode, setButtonMode, buttons){
+  console.log("rad")
+  return <Box><RadioGroup>
+  <FormControlLabel value="topologyId" control={<Radio checked={buttonMode==="topologyId"} onClick={e => {setButtonMode("topologyId")}}/>} label="Topology Id"></FormControlLabel>
+  <FormControlLabel value="detailed" control={<Radio checked={buttonMode==="detailed"} onClick={e => {setButtonMode("detailed")}} />} label="Detailed"></FormControlLabel>
+  </RadioGroup></Box>
+}
+
+function TopologyConfigDetailedButtons({probabilityOfEdgeRedrawing ,setProbabilityOfEdgeRedrawing, maxVertexDegree, setMaxVertexDegree}) {
+  console.log("tcfd")
+  return <Box>
+    <ElementConfigComponent
+      name="probabilityOfEdgeRedrawing"
+      defaultValue={probabilityOfEdgeRedrawing}
+      onChange={e => setProbabilityOfEdgeRedrawing(e.target.value)}
+    />
+    <ElementConfigComponent
+      name="maxVertexDegree"
+      defaultValue={maxVertexDegree}
+      onChange={e => setMaxVertexDegree(e.target.value)}
+    />
+  </Box>
+}
+
+function topologyConfigTopologyIdButtons({topologyId, setTopologyId}) {
+  <Box>
+  <ElementConfigComponent
+    name="topologyId"
+    defaultValue={topologyId}
+    onChange={e => setTopologyId(e.target.value)}
+  />
+  </Box>
+}
 
 function AdminFormComponent(){
 
@@ -17,6 +53,10 @@ function AdminFormComponent(){
   const [correctAnswerPoints, setCorrectAnswerPoints] = useState(ApiCalls.getCorrectAnswerPoints())
   const [wrongAnswerPoints, setWrongAnswerPoints] = useState(ApiCalls.getWrongAnswerPoints())
   const [topologyId, setTopologyId] = useState(ApiCalls.getTopologyId())
+  const [probabilityOfEdgeRedrawing, setProbabilityOfEdgeRedrawing] = useState(ApiCalls.getProbabilityOfEdgeRedrawing())
+  const [maxVertexDegree, setMaxVertexDegree] = useState(ApiCalls.getMaxVertexDegree())
+
+  const [buttonMode, setButtonMode] = useState("none")
 
   function onSubmit(){
     ApiCalls.createGame({
@@ -29,11 +69,51 @@ function AdminFormComponent(){
       correctAnswerPoints:correctAnswerPoints,
       wrongAnswerPoints:wrongAnswerPoints,
       topologyId:topologyId,
+      probabilityOfEdgeRedrawing:probabilityOfEdgeRedrawing,
+      maxVertexDegree:maxVertexDegree,
       createDateTime:moment().format("YYYY-MM-DD[T]HH:mm:ss.SSS")
     })
   }
 
+
+
+  function setTopologyConfigDetailed(){ 
+    setTopologyId(ApiCalls.getTopologyId())
+    return <TopologyConfigDetailedButtons maxVertexDegree={maxVertexDegree} probabilityOfEdgeRedrawing={probabilityOfEdgeRedrawing} setProbabilityOfEdgeRedrawing={setProbabilityOfEdgeRedrawing} setMaxVertexDegree={setMaxVertexDegree}></TopologyConfigDetailedButtons>
+  }
+  function setTopologyConfigTopologyId(){
+    setProbabilityOfEdgeRedrawing(ApiCalls.getProbabilityOfEdgeRedrawing())
+    setMaxVertexDegree(ApiCalls.getMaxVertexDegree())
+    return topologyConfigTopologyIdButtons
+  }
+
+  function TopologyButtonsConfigComponent(){
+    console.log("aaa")
+    if(buttonMode === "detailed"){
+      return setTopologyConfigDetailed()
+    }
+    else if(buttonMode === "topologyId"){
+      return setTopologyConfigTopologyId()
+    }
+    else{
+      return <Box>Failed to load buttons</Box>
+    }
+  }
+
+
+
+  function TopologyConfigComponent(){
+    console.log(buttonMode)
+    return (
+      <Box>
+        
+        
+      </Box>
+    )
+  }
+
   function ConfigsComponent(){
+    console.log("confi")
     return (
       <Box  
       sx={{
@@ -89,11 +169,10 @@ function AdminFormComponent(){
         defaultValue={wrongAnswerPoints}
         onChange={e => setWrongAnswerPoints(e.target.value)}
       />
-      <ElementConfigComponent
-        name="topologyId"
-        defaultValue={topologyId}
-        onChange={e => setTopologyId(e.target.value)}
-      />
+      {RadioButtonsComponent(buttonMode, setButtonMode)}
+      <TopologyButtonsConfigComponent></TopologyButtonsConfigComponent>
+      
+      
       <PreviewElementList
         name="Images"
         list={ApiCalls.getImages()}
@@ -133,8 +212,9 @@ function AdminFormComponent(){
     )
   }
 
-  return (
-    <Box
+
+  console.log("comp")
+  return <Box
       sx={{
         flexDirection: 'row',
         display: 'flex',
@@ -146,11 +226,12 @@ function AdminFormComponent(){
       {ConfigsComponent()}
       {GameButtonsComponent()}
     </Box>
-  )
+  
 }
 
 function Admin() {
-    return AdminFormComponent()
-  }
+  console.log("admin")
+  return <AdminFormComponent/>
+}
   
 export default Admin;

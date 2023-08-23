@@ -46,6 +46,14 @@ export function getTopologyId(){
     return 0;
 }
 
+export function getProbabilityOfEdgeRedrawing(){
+    return 0.5;
+}
+
+export function getMaxVertexDegree(){
+    return 3;
+}
+
 export function getSelectionSymbols(){ 
 return [ //throws an error but these are only placeholder values
         [{value: "black", path: "symbols/colors/black.png"}, {value: "white", path: "symbols/colors/white.png"}, {value: "gray", path: "symbols/colors/gray.png"}],
@@ -80,6 +88,8 @@ export function createGame({
     correctAnswerPoints,
     wrongAnswerPoints,
     topologyId,
+    probabilityOfEdgeRedrawing,
+    maxVertexDegree,
     createDateTime
     }){
     backend.post("game/admin/create",
@@ -93,6 +103,8 @@ export function createGame({
         "correctAnswerPoints": correctAnswerPoints,
         "wrongAnswerPoints": wrongAnswerPoints,
         "topologyId": topologyId,
+        "probabilityOfEdgeRedrawing": probabilityOfEdgeRedrawing,
+        "maxVertexDegree": maxVertexDegree,        
         "createDateTime": createDateTime
     })
     .then(function (response) {

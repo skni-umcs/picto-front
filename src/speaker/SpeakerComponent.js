@@ -14,22 +14,17 @@ const Wrapper = styled(Box)({
     height: '100%'
   });
   
-function middleComponents(){
-    return [SymbolSelectionComponent(), InfoComponent()]
+function middleComponents(userId, setChosenSymbol){
+    return [SymbolSelectionComponent(setChosenSymbol), InfoComponent(userId)]
 }
 
-function SpeakerComponent() {
+function SpeakerComponent(userId, chosenSymbols, setChosenSymbol) {
     return (
-    <Container 
-        maxWidth={false} 
-        sx={{
-            height: '100%'
-        }}
-    >
+    <Container className="fillSite">
         <Wrapper>
         <Box>{ImagesListComponent()}</Box>
-        <Box className="doubleSplit">{middleComponents()}</Box>
-        <Box>{submitComponent()}</Box>
+        <Box className="doubleSplit">{middleComponents(userId, setChosenSymbol)}</Box>
+        <Box>{submitComponent(chosenSymbols)}</Box>
         </Wrapper>
     </Container>
     )

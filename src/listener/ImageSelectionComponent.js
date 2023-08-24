@@ -2,14 +2,14 @@ import Box from "@mui/material/Box";
 import { getImages } from '../api/ApiCalls'
 import { PictureToggleButtons } from '../common/PictureToggleButtons'
 
-function generateRows(topics){
+function generateRows(topics, setChosenImage){
     let content = [];
-    content.push(PictureToggleButtons(topics,"horizonstalToggleButton"))
+    content.push(PictureToggleButtons(topics,setChosenImage,"horizonstalToggleButton"))
     return content;
 }
   
-export default function ImageSelectionComponent(){
-    let rows = generateRows(getImages());
+export default function ImageSelectionComponent(alignment, setAlignment, setChosenImage){
+    let rows = generateRows(getImages(),setChosenImage);
     return (
         <Box
           sx={{

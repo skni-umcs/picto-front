@@ -21,22 +21,17 @@ function SymbolListComponent() {
     return PictureListComponent(getSelectedSymbols())
 }
 
-function middleComponents(){
-    return [ImageSelectionComponent(), InfoComponent()]
+function middleComponents(userId, alignment, setAlignment, setChosenImage){
+    return [ImageSelectionComponent(alignment, setAlignment,setChosenImage), InfoComponent(userId)]
 }
 
-function ListenerComponent() {
+function ListenerComponent(userId, alignment, setAlignment, chosenImage, setChosenImage) {
     return (
-        <Container 
-            maxWidth={false} 
-            sx={{
-            height: '100%'
-        }}
-        >
+        <Container className="fillSite">
             <Wrapper>
                 <Box>{SymbolListComponent()}</Box>
-                <Box className="doubleSplit">{middleComponents()}</Box>
-                <Box>{submitComponent()}</Box>
+                <Box className="doubleSplit">{middleComponents(userId, alignment, setAlignment, setChosenImage)}</Box>
+                <Box>{submitComponent(chosenImage)}</Box>
             </Wrapper>
     </Container>
     )

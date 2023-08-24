@@ -1,26 +1,22 @@
 import * as React from 'react';
 import Box from "@mui/material/Box";
-import { ToggleButton } from "@mui/material";
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { PictureComponent } from '../common/ImageComponent';
 import '../common/Common.css'
+import RadioGroup from '@mui/material/RadioGroup';
+import Radio from '@mui/material/Radio'
+import '../common/Common.css'
+import FormControlLabel from '@mui/material/FormControlLabel'
 
-export function PictureToggleButtons(picture_array, className="horizonstalToggleButton") {
-    const [alignment, setAlignment] = React.useState('button');
-  
-    const handleAlignment = (event, newAlignment) => {
-      setAlignment(newAlignment);
-    };
-  
-    return (
-       <ToggleButtonGroup 
-        value={alignment}
-        exclusive
-        onChange={handleAlignment}
-        aria-label="text alignment"
-        className={className}
-        >
-        {picture_array.map((picture) => {return <ToggleButton value={picture.value}><Box><PictureComponent path={picture.path}></PictureComponent></Box></ToggleButton>})}
-      </ToggleButtonGroup>
-    );
+export function PictureToggleButtons(picture_array, setChosenSymbol, className="horizonstalToggleButton") {
+    return <RadioGroup className={className}>
+    {
+      picture_array.map((picture) => {
+        return <FormControlLabel
+        className='tentamten'
+        control={<Radio  onClick={() => setChosenSymbol(picture.id, picture.groupId)} value={picture.id}></Radio>}
+        label={<Box><PictureComponent  path={picture.path}></PictureComponent></Box>}
+      />
+      })
+    }
+  </RadioGroup>
   }

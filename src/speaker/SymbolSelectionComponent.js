@@ -6,7 +6,7 @@ import { getSelectionWidth } from '../api/ApiCalls'
 
 import { getSelectionSymbols } from '../api/ApiCalls'
 
-function generateRows(height, width, selectionSymbols){
+function generateRows(height, width, selectionSymbols, alignment, setAlignment,chosenSymbols,setChosenSymbol){
     let rows = [];
     for(let j = 0;j<width;++j){
       let columnContent = []
@@ -14,14 +14,14 @@ function generateRows(height, width, selectionSymbols){
         columnContent.push(selectionSymbols[j][i]);
         console.log(selectionSymbols[j][i].path)
       }
-      rows.push(PictureToggleButtons(columnContent))
+      rows.push(PictureToggleButtons(columnContent,alignment,setAlignment,chosenSymbols,setChosenSymbol))
     }
     return rows;
   }
   
-export default function SymbolSelectionComponent(){
+export default function SymbolSelectionComponent(alignment, setAlignment,chosenSymbols, setChosenSymbol){
     let selectionSymbols = getSelectionSymbols();
-    let rows = generateRows(getSelectionHeight(),getSelectionWidth(), selectionSymbols);
+    let rows = generateRows(getSelectionHeight(),getSelectionWidth(), selectionSymbols, alignment, setAlignment,chosenSymbols, setChosenSymbol);
     return (
         <Box
           sx={{

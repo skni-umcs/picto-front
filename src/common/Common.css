@@ -21,3 +21,17 @@
 .verticalToggleButton {
     orientation: "vertical";
 }
+
+.joinButton {
+    width: 50%;
+    height: 50%;
+}
+
+.fillSite {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    margin-left: auto;
+}

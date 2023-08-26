@@ -2,20 +2,25 @@ import Box from "@mui/material/Box";
 import { getImages } from '../api/ApiCalls'
 import { ImageListItem } from "@mui/material";
 
-export function PictureComponent({path}){
+export function PictureComponent({path, chosen}){
+  console.log(chosen)
   return (
-  <ImageListItem>
-  <img 
-  alt="failed to load image"
-  src={`${path}`}
-  style={{
-      borderColor: 'red',
-      borderWidth: 5,
-      maxHeight: 100,
-      maxWidth: 200,
-    }}
-  />
-  </ImageListItem>
+  <Box sx={{
+    border: chosen ? "7px" : "0px",
+    borderColor: 'red',
+    borderStyle: "solid"
+  }}>
+    <ImageListItem>
+      <img 
+      alt="failed to load image"
+      src={`${path}`}
+      style={{
+          maxHeight: 100,
+          maxWidth: 200,
+        }}
+      />
+    </ImageListItem>
+  </Box>
   )
 }
 
@@ -32,9 +37,9 @@ export function PictureListComponent({pictures}){
         justifyContent : 'space-between'
       }}
     >
-      {pictures.map(picture => <PictureComponent path={picture.path}></PictureComponent>)}
+      {pictures.map(picture => <PictureComponent path={picture.path} chosen={picture.chosen}></PictureComponent>)}
     </Box>
-  ) //need to move box to Picture Component
+  )
 }
 
 export default function ImagesListComponent(){

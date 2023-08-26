@@ -6,15 +6,15 @@ function TimerComponent(){
     return <Box className='infoText'>01:03</Box>
 }
 
-function UserInfoComponent(userId){
+function UserInfoComponent({userId}){
     return <Box className='infoText'>{userId}</Box>
 }
 
-export function InfoComponent(userId){
+export function InfoComponent({userId}){
     return (
         <Box>
-            {UserInfoComponent(userId)}
-            {TimerComponent()}
+            <UserInfoComponent userId={userId}/>
+            <TimerComponent></TimerComponent>
         </Box>
     )
 }

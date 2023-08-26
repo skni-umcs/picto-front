@@ -9,7 +9,9 @@ import { PictureListComponent } from "../common/ImageComponent"
 import { getSelectedSymbols } from "../api/ApiCalls";
 import ImageSelectionComponent from "../listener/ImageSelectionComponent"
 import { InfoComponent } from '../common/InfoComponent'
-import submitComponent from "../common/SubmitComponent";
+import ListenerSubmitComponent from "../listener/ListenerSubmitComponent";
+
+import {useState} from 'react'
 
 const Wrapper = styled(Box)({
     display: "grid",
@@ -18,20 +20,20 @@ const Wrapper = styled(Box)({
   });
 
 function SymbolListComponent() {
-    return PictureListComponent(getSelectedSymbols())
+    return <PictureListComponent pictures={getSelectedSymbols()}/>
 }
 
-function middleComponents(userId, alignment, setAlignment, setChosenImage){
-    return [ImageSelectionComponent(alignment, setAlignment,setChosenImage), InfoComponent(userId)]
-}
-
-function ListenerComponent(userId, alignment, setAlignment, chosenImage, setChosenImage) {
+function ListenerComponent({userId, setUserState}) {
+    const [chosenImage, setChosenImageObject] = useState(null)
+    function setChosenImage(imageId, groupId) {
+        setChosenImageObject(imageId)
+    }
     return (
         <Container className="fillSite">
             <Wrapper>
-                <Box>{SymbolListComponent()}</Box>
-                <Box className="doubleSplit">{middleComponents(userId, alignment, setAlignment, setChosenImage)}</Box>
-                <Box>{submitComponent(chosenImage)}</Box>
+                <Box><SymbolListComponent/></Box>
+                <Box className="doubleSplit"><ImageSelectionComponent setChosenImage={setChosenImage}/><InfoComponent userId={userId}/></Box>
+                <Box><ListenerSubmitComponent imageSelected={chosenImage} setUserState={setUserState}/></Box>
             </Wrapper>
     </Container>
     )

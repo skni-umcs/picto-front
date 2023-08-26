@@ -4,7 +4,8 @@ import User from './common/User.js'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 
-function siteContent(){
+
+function App() {
   return (
     <BrowserRouter>
       <Routes>
@@ -13,10 +14,6 @@ function siteContent(){
       </Routes>
     </BrowserRouter>
   )
-}
-
-function App() {
-  return siteContent();
 }
 
 export default App;

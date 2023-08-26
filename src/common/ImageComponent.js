@@ -19,16 +19,7 @@ export function PictureComponent({path}){
   )
 }
 
-export function PictureListComponent(pictures){
-  let rows = []
-  for(let i = 0;i<pictures.length;++i){
-    if(pictures[i].chosen){
-      rows.push(<Box sx={{padding: 1, borderRadius:1, border: 5, borderColor: 'error.main'}}>{<PictureComponent path={pictures[i].path}/>}</Box>)
-    }
-    else{
-      rows.push(<PictureComponent path={pictures[i].path}/>)
-    }
-  }
+export function PictureListComponent({pictures}){
   return (
     <Box 
       sx={{
@@ -41,12 +32,12 @@ export function PictureListComponent(pictures){
         justifyContent : 'space-between'
       }}
     >
-      {rows}
+      {pictures.map(picture => <PictureComponent path={picture.path}></PictureComponent>)}
     </Box>
-  )
+  ) //need to move box to Picture Component
 }
 
 export default function ImagesListComponent(){
-    return PictureListComponent(getImages());
+    return <PictureListComponent pictures={getImages()}/>;
 }
   

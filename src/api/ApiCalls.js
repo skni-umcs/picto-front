@@ -1,24 +1,22 @@
 import axios from 'axios'
-import {useEffect} from 'react'
 
 const backend = axios.create({
     baseURL: 'http://localhost:8080/',
     timeout: 5000,
 }) 
 
-export function OnNextRound(setUserState){
+export function onNextRound(setUserState){
     console.log("onNextRound")
-    useEffect(() => {
-        const source = new EventSource("http://localhost:8080/round/next")
-        source.onmessage = function (event) {
-            var roundObject = JSON.parse(event.data)
-            console.log(roundObject.id)
-        };
-        return () => {
-            source.close();
-            console.log("eventsource closed")
-        }
-    })
+    const source = new EventSource("http://localhost:8080/round/next")
+    source.onmessage = function (event) {
+        var roundObject = JSON.parse(event.data)
+        console.log(roundObject.id)
+    };
+    return () => {
+        source.close();
+        console.log("eventsource closed")
+    }
+    
 }
 
 export function getImagesLength(){
@@ -86,8 +84,27 @@ export function getSelectedSymbols(){
     return [{value: "black", path: "symbols/colors/black.png"},{value: "two", path: "symbols/numbers/two.png"},{value: "circle", path: "symbols/shapes/circle.png"}];
 }
 
-export function submitSpeaker(userId, roundId, answerTime, imageSelected, symbolsSelected){
+export function submitSpeaker(userId, roundId, answerTime, symbolsSelected, setUserState){
+    console.log(symbolsSelected)
     backend.post(`/round/${roundId}/speaker`,
+    {
+        "userId": userId,
+        "roundId": roundId,
+        "answerTime": answerTime,
+        "imageSelected": {},
+        "symbolsSelected": symbolsSelected
+    })
+    .then(function (response) {
+        console.log(response)
+        setUserState("waiting")
+    })
+    .catch(function (error){
+        console.log(error)
+    })
+}
+
+export function submitListener(userId, roundId, answerTime, imageSelected, symbolsSelected, setUserState){
+    backend.post(`/round/${roundId}/listener`,
     {
         "userId": userId,
         "roundId": roundId,
@@ -95,16 +112,14 @@ export function submitSpeaker(userId, roundId, answerTime, imageSelected, symbol
         "imageSelected": imageSelected,
         "symbolsSelected": symbolsSelected
     })
-    .then(function (response) {
+    .then(function (response)
+    {
         console.log(response)
+        setUserState("waiting")
     })
     .catch(function (error){
         console.log(error)
     })
-}
-
-export function submitListener(userId, roundId, answerTime, imageSelected, symbolsSelected){
-    backend.post(`/round/${roundId}/listener`)
 }
 
 export function getEnabledTimer(){

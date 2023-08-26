@@ -6,22 +6,23 @@ import { getSelectionWidth } from '../api/ApiCalls'
 
 import { getSelectionSymbols } from '../api/ApiCalls'
 
-function generateRows(height, width, selectionSymbols, alignment, setAlignment,chosenSymbols,setChosenSymbol){
-    let rows = [];
+function generateRows(height, width, selectionSymbols){
+    const rows = [];
     for(let j = 0;j<width;++j){
       let columnContent = []
       for(let i = 0;i<height;++i){
         columnContent.push(selectionSymbols[j][i]);
         console.log(selectionSymbols[j][i].path)
       }
-      rows.push(PictureToggleButtons(columnContent,alignment,setAlignment,chosenSymbols,setChosenSymbol))
+      rows.push({columnContent})
+      console.log(rows)
     }
     return rows;
   }
   
-export default function SymbolSelectionComponent(alignment, setAlignment,chosenSymbols, setChosenSymbol){
-    let selectionSymbols = getSelectionSymbols();
-    let rows = generateRows(getSelectionHeight(),getSelectionWidth(), selectionSymbols, alignment, setAlignment,chosenSymbols, setChosenSymbol);
+export default function SymbolSelectionComponent({setChosenSymbol}){
+    const selectionSymbols = getSelectionSymbols();
+    const rows = generateRows(getSelectionHeight(),getSelectionWidth(), selectionSymbols, 0, 0,0, 0);
     return (
         <Box
           sx={{
@@ -34,7 +35,7 @@ export default function SymbolSelectionComponent(alignment, setAlignment,chosenS
             justifyContent : 'space-between'
           }}
         >
-          {rows}
+          {rows.map(row => <PictureToggleButtons picture_array={row.columnContent} setChosenSymbol={setChosenSymbol}/>)}
         </Box>
     )
 }

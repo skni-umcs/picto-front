@@ -5,8 +5,10 @@ import { Container } from "@mui/material";
 import React from "react";
 import ImagesListComponent from '../common/ImageComponent'
 import SymbolSelectionComponent from '../speaker/SymbolSelectionComponent'
-import submitComponent from '../common/SubmitComponent'
+import SpeakerSubmitComponent from '../speaker/SpeakerSubmitComponent'
 import { InfoComponent } from '../common/InfoComponent'
+
+import {useState} from "react"
 
 const Wrapper = styled(Box)({
     display: "grid",
@@ -14,17 +16,21 @@ const Wrapper = styled(Box)({
     height: '100%'
   });
   
-function middleComponents(userId, setChosenSymbol){
-    return [SymbolSelectionComponent(setChosenSymbol), InfoComponent(userId)]
-}
 
-function SpeakerComponent(userId, chosenSymbols, setChosenSymbol) {
+function SpeakerComponent({userId, setUserState}) {
+    const [chosenSymbols, setChosenSymbolsObject] = useState({})
+    function setChosenSymbol(symbolId, groupId) {
+        let newChosenSymbols = chosenSymbols
+        newChosenSymbols[groupId] = symbolId
+        setChosenSymbolsObject(newChosenSymbols)
+        console.log(chosenSymbols)
+    }
     return (
     <Container className="fillSite">
-        <Wrapper>
-        <Box>{ImagesListComponent()}</Box>
-        <Box className="doubleSplit">{middleComponents(userId, setChosenSymbol)}</Box>
-        <Box>{submitComponent(chosenSymbols)}</Box>
+        <Wrapper> 
+        <Box><ImagesListComponent></ImagesListComponent></Box>
+        <Box className="doubleSplit"><SymbolSelectionComponent setChosenSymbol={setChosenSymbol}/><InfoComponent userId={userId}/></Box>
+        <Box><SpeakerSubmitComponent chosenSymbols={chosenSymbols} setUserState={setUserState}/></Box>
         </Wrapper>
     </Container>
     )

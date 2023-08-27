@@ -126,10 +126,6 @@ export function getEnabledTimer(){
     return false;
 }
 
-export function getUserRole(){
-    return 0; //0 will be speaker, 1 will be listener, anything different is waiting
-}
-
 export function createGame({
     userOneNumberOfImages, 
     userTwoNumberOfImages, 

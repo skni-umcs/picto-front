@@ -2,33 +2,29 @@ import Box from "@mui/material/Box";
 import { getImages } from '../api/ApiCalls'
 import { ImageListItem } from "@mui/material";
 
-export function PictureComponent({path}){
+export function PictureComponent({path, chosen}){
+  console.log(chosen)
   return (
-  <ImageListItem>
-  <img 
-  alt="failed to load image"
-  src={`${path}`}
-  style={{
-      borderColor: 'red',
-      borderWidth: 5,
-      maxHeight: 100,
-      maxWidth: 200,
-    }}
-  />
-  </ImageListItem>
+  <Box sx={{
+    border: chosen ? "7px" : "0px",
+    borderColor: 'red',
+    borderStyle: "solid"
+  }}>
+    <ImageListItem>
+      <img 
+      alt="failed to load image"
+      src={`${path}`}
+      style={{
+          maxHeight: 100,
+          maxWidth: 200,
+        }}
+      />
+    </ImageListItem>
+  </Box>
   )
 }
 
-export function PictureListComponent(pictures){
-  let rows = []
-  for(let i = 0;i<pictures.length;++i){
-    if(pictures[i].chosen){
-      rows.push(<Box sx={{padding: 1, borderRadius:1, border: 5, borderColor: 'error.main'}}>{<PictureComponent path={pictures[i].path}/>}</Box>)
-    }
-    else{
-      rows.push(<PictureComponent path={pictures[i].path}/>)
-    }
-  }
+export function PictureListComponent({pictures}){
   return (
     <Box 
       sx={{
@@ -41,12 +37,12 @@ export function PictureListComponent(pictures){
         justifyContent : 'space-between'
       }}
     >
-      {rows}
+      {pictures.map(picture => <PictureComponent path={picture.path} chosen={picture.chosen}></PictureComponent>)}
     </Box>
   )
 }
 
 export default function ImagesListComponent(){
-    return PictureListComponent(getImages());
+    return <PictureListComponent pictures={getImages()}/>;
 }
   

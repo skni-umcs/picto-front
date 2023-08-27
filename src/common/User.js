@@ -1,19 +1,26 @@
-import SpeakerComponent from '../speaker/SpeakerComponent'
-import ListenerComponent from '../listener/ListenerComponent'
-import WaitingComponent from '../common/WaitingComponent'
-import * as ApiCalls from '../api/ApiCalls'
+import { onNextRound } from '../api/ApiCalls';  
+import {useState, useEffect} from 'react'
 
-  
+import Box from '@mui/material/Box'
+
+import SpeakerComponent from '../speaker/SpeakerComponent';
+import ListenerComponent from '../listener/ListenerComponent';
+import UserJoin from './UserJoin';
+import WaitingComponent from './WaitingComponent';
+
 function User(){
-  if(ApiCalls.getUserRole()===0){
-    return SpeakerComponent();
-  }
-  else if(ApiCalls.getUserRole()===1){
-    return ListenerComponent();
-  }
-  else{
-    return WaitingComponent();
-  }
+  const [userState, setUserState] = useState("join")
+  const [userId, setUserId] = useState()
+   useEffect(() => {
+     onNextRound(setUserState)
+   }, [])
+  
+   return <Box>
+       {userState === "speaker" && <SpeakerComponent userId={userId} setUserState={setUserState}/>}
+       {userState === "listener" && <ListenerComponent userId={userId} setUserState={setUserState}/>}
+       {userState === "join" && <UserJoin setUserState={setUserState} setUserId={setUserId}/>}
+       {userState === "waiting" && <WaitingComponent/>}
+   </Box>;
 }
 
 export default User;

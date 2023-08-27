@@ -1,4 +1,4 @@
-import React, { useState, useForm } from "react";
+import React, { useState, useEffect } from "react";
 import Radio from '@mui/material/Radio';
 import Box from "@mui/material/Box";
 import { CheckBoxConfigComponent, ElementConfigComponent, PreviewElementList, ListOfPreviewElementLists } from './ConfigComponent'
@@ -8,16 +8,10 @@ import moment from 'moment'
 import * as ApiCalls from '../api/ApiCalls'
 import { FormControlLabel, RadioGroup } from "@mui/material";
 
-function RadioButtonsComponent(buttonMode, setButtonMode, buttons){
-  console.log("rad")
-  return <Box><RadioGroup>
-  <FormControlLabel value="topologyId" control={<Radio checked={buttonMode==="topologyId"} onClick={e => {setButtonMode("topologyId")}}/>} label="Topology Id"></FormControlLabel>
-  <FormControlLabel value="detailed" control={<Radio checked={buttonMode==="detailed"} onClick={e => {setButtonMode("detailed")}} />} label="Detailed"></FormControlLabel>
-  </RadioGroup></Box>
-}
-
-function TopologyConfigDetailedButtons({probabilityOfEdgeRedrawing ,setProbabilityOfEdgeRedrawing, maxVertexDegree, setMaxVertexDegree}) {
-  console.log("tcfd")
+function TopologyConfigDetailedButtons({setTopologyId, probabilityOfEdgeRedrawing, setProbabilityOfEdgeRedrawing, maxVertexDegree, setMaxVertexDegree}) {
+  useEffect(() => {
+    setTopologyId(ApiCalls.getTopologyId())
+  })
   return <Box>
     <ElementConfigComponent
       name="probabilityOfEdgeRedrawing"
@@ -32,14 +26,16 @@ function TopologyConfigDetailedButtons({probabilityOfEdgeRedrawing ,setProbabili
   </Box>
 }
 
-function topologyConfigTopologyIdButtons({topologyId, setTopologyId}) {
-  <Box>
-  <ElementConfigComponent
+function TopologyConfigTopologyIdButtons({setProbabilityOfEdgeRedrawing, setMaxVertexDegree, topologyId, setTopologyId}){
+  useEffect(() => {
+    setProbabilityOfEdgeRedrawing(ApiCalls.getProbabilityOfEdgeRedrawing())
+    setMaxVertexDegree(ApiCalls.getMaxVertexDegree())
+  })
+  return <ElementConfigComponent
     name="topologyId"
     defaultValue={topologyId}
     onChange={e => setTopologyId(e.target.value)}
   />
-  </Box>
 }
 
 function AdminFormComponent(){
@@ -58,6 +54,8 @@ function AdminFormComponent(){
 
   const [buttonMode, setButtonMode] = useState("none")
 
+  const [currentRoundId, setCurrentRoundId] = useState(ApiCalls.getCurrentGameId())
+
   function onSubmit(){
     ApiCalls.createGame({
       userOneNumberOfImages:topicsLength, 
@@ -71,50 +69,35 @@ function AdminFormComponent(){
       topologyId:topologyId,
       probabilityOfEdgeRedrawing:probabilityOfEdgeRedrawing,
       maxVertexDegree:maxVertexDegree,
-      createDateTime:moment().format("YYYY-MM-DD[T]HH:mm:ss.SSS")
+      createDateTime:moment().format("YYYY-MM-DD[T]HH:mm:ss.SSS"),
+      setEndRoundId:setCurrentRoundId
     })
   }
 
-
-
-  function setTopologyConfigDetailed(){ 
-    setTopologyId(ApiCalls.getTopologyId())
-    return <TopologyConfigDetailedButtons maxVertexDegree={maxVertexDegree} probabilityOfEdgeRedrawing={probabilityOfEdgeRedrawing} setProbabilityOfEdgeRedrawing={setProbabilityOfEdgeRedrawing} setMaxVertexDegree={setMaxVertexDegree}></TopologyConfigDetailedButtons>
-  }
-  function setTopologyConfigTopologyId(){
-    setProbabilityOfEdgeRedrawing(ApiCalls.getProbabilityOfEdgeRedrawing())
-    setMaxVertexDegree(ApiCalls.getMaxVertexDegree())
-    return topologyConfigTopologyIdButtons
+  function onBegin(){
+    ApiCalls.beginGame(currentRoundId)
   }
 
-  function TopologyButtonsConfigComponent(){
-    console.log("aaa")
-    if(buttonMode === "detailed"){
-      return setTopologyConfigDetailed()
-    }
-    else if(buttonMode === "topologyId"){
-      return setTopologyConfigTopologyId()
-    }
-    else{
-      return <Box>Failed to load buttons</Box>
-    }
+  function onEnd(){
+    ApiCalls.endGame(currentRoundId)
   }
 
-
-
-  function TopologyConfigComponent(){
-    console.log(buttonMode)
-    return (
-      <Box>
-        
-        
-      </Box>
-    )
+  function RadioButtonsComponent({buttonMode, setButtonMode}){
+    return <Box><RadioGroup>
+    <FormControlLabel value="topologyId" control={<Radio checked={buttonMode==="topologyId"} onClick={e => {setButtonMode("topologyId")}}/>} label="Topology Id"></FormControlLabel>
+    <FormControlLabel value="detailed" control={<Radio checked={buttonMode==="detailed"} onClick={e => {setButtonMode("detailed")}} />} label="Detailed"></FormControlLabel>
+    </RadioGroup></Box>
   }
 
-  function ConfigsComponent(){
-    console.log("confi")
-    return (
+  return <Box
+      sx={{
+        flexDirection: 'row',
+        display: 'flex',
+        flexWrap: 'nowrap',
+        borderRadius: 1,
+        flex: 1
+      }}
+    >
       <Box  
       sx={{
         width: '50%',
@@ -169,8 +152,11 @@ function AdminFormComponent(){
         defaultValue={wrongAnswerPoints}
         onChange={e => setWrongAnswerPoints(e.target.value)}
       />
-      {RadioButtonsComponent(buttonMode, setButtonMode)}
-      <TopologyButtonsConfigComponent></TopologyButtonsConfigComponent>
+      <RadioButtonsComponent buttonMode={buttonMode} setButtonMode={setButtonMode}/>
+      <Box> 
+      {buttonMode === "detailed" && <TopologyConfigDetailedButtons setTopologyId={setTopologyId} probabilityOfEdgeRedrawing={probabilityOfEdgeRedrawing} setProbabilityOfEdgeRedrawing={setProbabilityOfEdgeRedrawing} maxVertexDegree={maxVertexDegree} setMaxVertexDegree={setMaxVertexDegree}/>}
+      {buttonMode === "topologyId" && <TopologyConfigTopologyIdButtons setProbabilityOfEdgeRedrawing={setProbabilityOfEdgeRedrawing} setMaxVertexDegree={setMaxVertexDegree} topologyId={topologyId} setTopologyId={setTopologyId}/>}
+    </Box>
       
       
       <PreviewElementList
@@ -182,12 +168,7 @@ function AdminFormComponent(){
         list={ApiCalls.getSelectionSymbols()}
       />
     </Box>
-    )
-  }
-
-  function GameButtonsComponent(){
-    return (
-      <Box
+    <Box
       sx={{
         width: '50%',
         flexDirection: 'column',
@@ -201,30 +182,26 @@ function AdminFormComponent(){
         <Button onClick={onSubmit}>
           Create Game
         </Button>
-        <Button onClick={ApiCalls.beginGame}>
+        <Button onClick={onBegin}>
           Begin Game
         </Button>
-        <Button onClick={ApiCalls.finishGame}>
-          Finish Game
-        </Button>
+        <Box 
+        sx={{
+          width: '50%',
+          flexDirection: 'column',
+          display: 'flex',
+          flexWrap: 'nowrap',
+          justifyContent : 'center',
+          alignItems: 'center'
+        }}
+        >
+          <Button onClick={onEnd}>
+            End Game
+          </Button>
+          <input value={currentRoundId} onChange={e => setCurrentRoundId(e.target.value)}></input>
+        </Box>
       </Box>
     </Box>
-    )
-  }
-
-
-  console.log("comp")
-  return <Box
-      sx={{
-        flexDirection: 'row',
-        display: 'flex',
-        flexWrap: 'nowrap',
-        borderRadius: 1,
-        flex: 1
-      }}
-    >
-      {ConfigsComponent()}
-      {GameButtonsComponent()}
     </Box>
   
 }

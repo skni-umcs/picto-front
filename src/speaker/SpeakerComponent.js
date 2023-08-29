@@ -26,7 +26,7 @@ function SpeakerComponent({userId, setUserState}) {
         console.log(chosenSymbols)
     }
     return (
-    <Container className="fillSite">
+    <Container className="speakerComponent">
         <Wrapper> 
         <Box><ImagesListComponent></ImagesListComponent></Box>
         <Box className="doubleSplit"><SymbolSelectionComponent setChosenSymbol={setChosenSymbol}/><InfoComponent userId={userId}/></Box>

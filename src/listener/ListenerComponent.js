@@ -29,7 +29,7 @@ function ListenerComponent({userId, setUserState}) {
         setChosenImageObject(imageId)
     }
     return (
-        <Container className="fillSite">
+        <Container className="listenerComponent">
             <Wrapper>
                 <Box><SymbolListComponent/></Box>
                 <Box className="doubleSplit"><ImageSelectionComponent setChosenImage={setChosenImage}/><InfoComponent userId={userId}/></Box>

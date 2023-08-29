@@ -1,12 +1,12 @@
 import { onNextRound } from '../api/ApiCalls';  
 import {useState, useEffect} from 'react'
 
-import Box from '@mui/material/Box'
-
 import SpeakerComponent from '../speaker/SpeakerComponent';
 import ListenerComponent from '../listener/ListenerComponent';
 import UserJoin from './UserJoin';
 import WaitingComponent from './WaitingComponent';
+
+import { StyledEngineProvider } from '@mui/material';
 
 function User(){
   const [userState, setUserState] = useState("join")
@@ -15,12 +15,12 @@ function User(){
      onNextRound(setUserState)
    }, [])
   
-   return <Box>
+   return <StyledEngineProvider injectFirst>
        {userState === "speaker" && <SpeakerComponent userId={userId} setUserState={setUserState}/>}
        {userState === "listener" && <ListenerComponent userId={userId} setUserState={setUserState}/>}
        {userState === "join" && <UserJoin setUserState={setUserState} setUserId={setUserId}/>}
        {userState === "waiting" && <WaitingComponent/>}
-   </Box>;
+    </StyledEngineProvider>;
 }
 
 export default User;

@@ -12,19 +12,15 @@
     background-color: #456990;
     display: flex;
     flex-wrap: nowrap;
+    border-radius: 5px;
 }
 
 .imageToggleButtons {
-    flex-direction: "row"
+    flex-direction: row;
 }
 
 .symbolToggleButtons {
-    orientation: vertical;
-}
-
-.imageToggleButtons {
-    display: flex;
-    orientation: vertical;
+    flex-direction: column;
 }
 
 .waitingComponent, .joinComponent {
@@ -38,18 +34,56 @@
     border-radius: 10px;
 }
 
+.listenerSubmitButton, .speakerSubmitButton {
+    background-color: #EEB868;
+    color:#456990;
+    border-radius: 5px;
+}
+
 .joinComponent, .waitingComponent, .listenerComponent, .speakerComponent {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
     max-width: 100%;
     height: 100%;
     margin-left: auto;
     color: white;
 }
 
-.imageFormLabel {
+.symbolListComponent, .imageListComponent {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 5%;
+}
+
+.pictureNotSelectedComponent {
+    border: 0px;
+    margin: 7px;
+}
+
+.pictureSelectedComponent {
+    border: 7px;
+    border-color: #456990;
+    border-style: solid;
+}
+
+.speakerWrapper, .listenerWrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.symbolSelectionComponent, .imageSelectionComponent {
+    display: flex;
+    flex-direction: row;
+    gap: 5%;
+    justify-content: center;
+}
+
+.imageFormLabel, .symbolFormLabel {
     margin-right: 0px;
     margin-left: 0px;
 }
@@ -61,6 +95,7 @@
 .imageSelected, .symbolSelected {
     border-style: solid;
     border-width: 4px;
+    border-radius: 4px;
 }
 
 .symbolSelected {

@@ -9,7 +9,7 @@ import WaitingComponent from './WaitingComponent';
 import { StyledEngineProvider } from '@mui/material';
 
 function User(){
-  const [userState, setUserState] = useState("join")
+  const [userState, setUserState] = useState("speaker")
   const [userId, setUserId] = useState()
    useEffect(() => {
      onNextRound(setUserState)

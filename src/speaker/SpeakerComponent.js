@@ -3,19 +3,14 @@ import { styled } from "@mui/material/styles";
 import { Container } from "@mui/material";
 
 import React from "react";
-import ImagesListComponent from '../common/ImageComponent'
+import {PictureListComponent} from '../common/ImageComponent'
 import SymbolSelectionComponent from '../speaker/SymbolSelectionComponent'
 import SpeakerSubmitComponent from '../speaker/SpeakerSubmitComponent'
 import { InfoComponent } from '../common/InfoComponent'
 
-import {useState} from "react"
+import { getImages } from '../api/ApiCalls'
 
-const Wrapper = styled(Box)({
-    display: "grid",
-    gridTemplateColumns: "repeat(1, 1fr)",
-    height: '100%'
-  });
-  
+import {useState} from "react"
 
 function SpeakerComponent({userId, setUserState}) {
     const [chosenSymbols, setChosenSymbolsObject] = useState({})
@@ -27,11 +22,12 @@ function SpeakerComponent({userId, setUserState}) {
     }
     return (
     <Container className="speakerComponent">
-        <Wrapper> 
-        <Box><ImagesListComponent></ImagesListComponent></Box>
-        <Box className="doubleSplit"><SymbolSelectionComponent setChosenSymbol={setChosenSymbol}/><InfoComponent userId={userId}/></Box>
-        <Box><SpeakerSubmitComponent chosenSymbols={chosenSymbols} setUserState={setUserState}/></Box>
-        </Wrapper>
+        <Box className="speakerWrapper"> 
+            <InfoComponent userId={userId}/>
+            <PictureListComponent pictures={getImages()} className="imageListComponent"/>;
+            <SymbolSelectionComponent setChosenSymbol={setChosenSymbol}/>
+            <SpeakerSubmitComponent chosenSymbols={chosenSymbols} setUserState={setUserState}/>
+        </Box>
     </Container>
     )
 }

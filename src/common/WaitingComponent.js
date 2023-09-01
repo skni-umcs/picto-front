@@ -1,9 +1,12 @@
 import Box from "@mui/material/Box";
 import React from "react";
 
-function WaitingComponent() {
+function WaitingComponent({userId="No user id provided"}) {
     return (
-        <Box>Waiting for your turn!</Box>
+        <Box className="waitingComponent">
+            <Box className="awaitingRound">Awaiting Round</Box>
+            <Box className="awaitingRoundUserId">{userId}</Box>
+        </Box>
     )
 }
 

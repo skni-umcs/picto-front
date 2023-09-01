@@ -9,7 +9,7 @@ import WaitingComponent from './WaitingComponent';
 import { StyledEngineProvider } from '@mui/material';
 
 function User(){
-  const [userState, setUserState] = useState("speaker")
+  const [userState, setUserState] = useState("join")
   const [userId, setUserId] = useState()
    useEffect(() => {
      onNextRound(setUserState)
@@ -19,7 +19,7 @@ function User(){
        {userState === "speaker" && <SpeakerComponent userId={userId} setUserState={setUserState}/>}
        {userState === "listener" && <ListenerComponent userId={userId} setUserState={setUserState}/>}
        {userState === "join" && <UserJoin setUserState={setUserState} setUserId={setUserId}/>}
-       {userState === "waiting" && <WaitingComponent/>}
+       {userState === "waiting" && <WaitingComponent userId={userId}/>}
     </StyledEngineProvider>;
 }
 

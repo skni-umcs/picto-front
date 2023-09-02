@@ -4,7 +4,7 @@ import { PictureToggleButtons } from '../common/PictureToggleButtons'
 
 function generateRows(topics, setChosenImage){
     let content = [];
-    content.push({topics,setChosenImage,className: "horizontalToggleButton"})
+    content.push({topics,setChosenImage})
     return content;
 }
   
@@ -12,17 +12,17 @@ export default function ImageSelectionComponent({setChosenImage}){
   let rows = generateRows(getImages(),setChosenImage);
   return (
       <Box
-        sx={{
-          display: 'flex',
-          flexWrap: 'nowrap',
-          p: 1,
-          m: 1,
-          bgcolor: 'background.paper',
-          borderRadius: 1,
-          justifyContent : 'space-between'
-        }}
+        className={"imageSelectionComponent"}
       >
-        {rows.map((row) => {return <PictureToggleButtons picture_array={row.topics} setChosenSymbol={row.setChosenImage} className={row.className}/>})}
+        {rows.map((row) => {
+          return <PictureToggleButtons 
+          picture_array={row.topics} 
+          setChosenSymbol={row.setChosenImage} 
+          groupClassName="imageToggleButtons"
+          selectedClassName="imageSelected"
+          notSelectedClassName="imageNotSelected" 
+          formLabelClassName="imageFormLabel"/>
+        })}
       </Box>
   )
 }

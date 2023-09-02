@@ -25,17 +25,24 @@ export default function SymbolSelectionComponent({setChosenSymbol}){
     const rows = generateRows(getSelectionHeight(),getSelectionWidth(), selectionSymbols, 0, 0,0, 0);
     return (
         <Box
+          className={"symbolSelectionComponent"}
           sx={{
             display: 'flex',
             flexWrap: 'nowrap',
             p: 1,
             m: 1,
-            bgcolor: 'background.paper',
-            borderRadius: 1,
             justifyContent : 'space-between'
           }}
         >
-          {rows.map(row => <PictureToggleButtons picture_array={row.columnContent} setChosenSymbol={setChosenSymbol}/>)}
+          {rows.map(row => <PictureToggleButtons 
+            picture_array={row.columnContent} 
+            setChosenSymbol={setChosenSymbol} 
+            groupClassName="symbolToggleButtons"
+            selectedClassName="symbolSelected"
+            notSelectedClassName="symbolNotSelected" 
+            formLabelClassName="symbolFormLabel"
+            />
+          )}
         </Box>
     )
 }

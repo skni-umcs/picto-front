@@ -3,6 +3,9 @@ import Admin from './admin/Admin.js'
 import User from './common/User.js'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
+import './common/Common.css'
+import './speaker/Speaker.css'
+import './listener/Listener.css'
 
 
 function App() {

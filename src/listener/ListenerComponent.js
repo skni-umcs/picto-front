@@ -13,15 +13,6 @@ import ListenerSubmitComponent from "../listener/ListenerSubmitComponent";
 
 import {useState} from 'react'
 
-const Wrapper = styled(Box)({
-    display: "grid",
-    gridTemplateColumns: "repeat(1, 1fr)",
-    height: '100%'
-  });
-
-function SymbolListComponent() {
-    return <PictureListComponent pictures={getSelectedSymbols()}/>
-}
 
 function ListenerComponent({userId, setUserState}) {
     const [chosenImage, setChosenImageObject] = useState(null)
@@ -29,12 +20,13 @@ function ListenerComponent({userId, setUserState}) {
         setChosenImageObject(imageId)
     }
     return (
-        <Container className="fillSite">
-            <Wrapper>
-                <Box><SymbolListComponent/></Box>
-                <Box className="doubleSplit"><ImageSelectionComponent setChosenImage={setChosenImage}/><InfoComponent userId={userId}/></Box>
-                <Box><ListenerSubmitComponent imageSelected={chosenImage} setUserState={setUserState}/></Box>
-            </Wrapper>
+        <Container className="listenerComponent">
+            <Box className="listenerWrapper">
+                <InfoComponent userId={userId}/>
+                <ImageSelectionComponent setChosenImage={setChosenImage}/>
+                <PictureListComponent pictures={getSelectedSymbols()} className="symbolListComponent"/>
+                <ListenerSubmitComponent imageSelected={chosenImage} setUserState={setUserState}/>
+            </Box>
     </Container>
     )
 }

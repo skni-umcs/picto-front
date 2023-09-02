@@ -1,37 +1,11 @@
 import axios from 'axios'
 
-const backend = axios.create({
+export const backend = axios.create({
     baseURL: 'http://localhost:8080/',
     timeout: 5000,
 }) 
 
-export function onNextRound(setUserState, userId){
-    console.log("onNextRound")
-    const source = new EventSource("http://localhost:8080/sse")
 
-    const EventType = {
-        BEGIN_GAME: "BEGIN_GAME",
-        SPEAKER_READY: "SPEAKER_READY",
-        LISTENER_READY: "LISTENER_READY",
-        SPEAKER_HOLD: "SPEAKER_HOLD",
-        LISTENER_HOLD: "LISTENER_HOLD",
-        PAUSE_GAME: "PAUSE_GAME",
-        END_GAME: "END_GAME"
-    };
-
-    source.addEventListener(EventType.BEGIN_GAME, (event) => {
-        console.log(event)
-    });
-
-    source.onmessage = function (event) {
-
-    };
-    return () => {
-        source.close();
-        console.log("eventsource closed")
-    }
-    
-}
 
 export function getImagesLength(){
     return 4;
@@ -140,25 +114,6 @@ export function getEnabledTimer(){
     return false;
 }
 
-export function setNextRoundState(userId, setUserState) {
-    backend.get(`round/next/${userId}`,{
-        "userId": userId
-    })
-    .then(function (response) {
-        var responseData = response.data;
-        if(responseData.userOne.id === userId) {
-            setUserState("speaker")
-        }
-        else if(response.userTwo.id === userId) {
-            setUserState("listener")
-        }
-        else {
-            //error
-            setUserState("error")
-        }
-    })
-}
-
 export function createGame({
     userOneNumberOfImages, 
     userTwoNumberOfImages, 
@@ -225,19 +180,3 @@ export function endGame(gameId) {
     })
 }
 
-export function joinUser(gameId, setUserState, setUserId){
-    backend.post(`game/${gameId}/join`,
-    {
-        "gameId": gameId
-    })
-    .then(function (response) {
-        var userObject = response.data
-        console.log(response)
-        setUserState("waiting")
-        setUserId(userObject.id)
-        //todo: save the incoming info into the cookie
-    })
-    .catch(function (error){
-        console.log(error)
-    })
-}

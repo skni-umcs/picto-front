@@ -1,12 +1,11 @@
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import { joinUser } from '../api/ApiCalls'
 import {useState} from 'react'
 
-function UserJoin({setUserState, setUserId}){
+function UserJoin({joinUser}){
     const [gameId, setGameId] = useState(0)
     function onJoin(){
-        joinUser(gameId, setUserState, setUserId)
+        joinUser(gameId)
     }
     return (
         <Box sx={{flexDirection: 'column', display: 'flex'}} className={"joinComponent"}>

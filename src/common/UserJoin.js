@@ -10,8 +10,10 @@ function UserJoin({setUserState, setUserId}){
     }
     return (
         <Box sx={{flexDirection: 'column', display: 'flex'}} className={"joinComponent"}>
-            <Button className='joinButton' onClick={onJoin}>JOIN</Button>
-            <input value={gameId} onChange={e => setGameId(e.target.value)}></input>
+            <Box className="joinComponentsContainer">
+                <input className='joinInput' value={gameId} onChange={e => setGameId(e.target.value)}></input>
+                <Button className='joinButton' onClick={onJoin}>JOIN</Button>
+            </Box>
         </Box>
     )
 }

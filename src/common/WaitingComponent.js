@@ -4,8 +4,10 @@ import React from "react";
 function WaitingComponent({userId="No user id provided"}) {
     return (
         <Box className="waitingComponent">
-            <Box className="awaitingRound">Awaiting Round</Box>
-            <Box className="awaitingRoundUserId">{userId}</Box>
+            <Box className="waitingComponentsContainer">
+                <Box className="awaitingRound">Awaiting Round</Box>
+                <Box className="awaitingRoundUserId">{userId}</Box>
+            </Box>
         </Box>
     )
 }

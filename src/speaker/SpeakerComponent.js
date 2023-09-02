@@ -24,7 +24,7 @@ function SpeakerComponent({userId, setUserState}) {
     <Container className="speakerComponent">
         <Box className="speakerWrapper"> 
             <InfoComponent userId={userId}/>
-            <PictureListComponent pictures={getImages()} className="imageListComponent"/>;
+            <PictureListComponent pictures={getImages()} className="imageListComponent"/>
             <SymbolSelectionComponent setChosenSymbol={setChosenSymbol}/>
             <SpeakerSubmitComponent chosenSymbols={chosenSymbols} setUserState={setUserState}/>
         </Box>

@@ -5,12 +5,26 @@ const backend = axios.create({
     timeout: 5000,
 }) 
 
-export function onNextRound(setUserState){
+export function onNextRound(setUserState, userId){
     console.log("onNextRound")
-    const source = new EventSource("http://localhost:8080/round/next")
+    const source = new EventSource("http://localhost:8080/sse")
+
+    const EventType = {
+        BEGIN_GAME: "BEGIN_GAME",
+        SPEAKER_READY: "SPEAKER_READY",
+        LISTENER_READY: "LISTENER_READY",
+        SPEAKER_HOLD: "SPEAKER_HOLD",
+        LISTENER_HOLD: "LISTENER_HOLD",
+        PAUSE_GAME: "PAUSE_GAME",
+        END_GAME: "END_GAME"
+    };
+
+    source.addEventListener(EventType.BEGIN_GAME, (event) => {
+        console.log(event)
+    });
+
     source.onmessage = function (event) {
-        var roundObject = JSON.parse(event.data)
-        console.log(roundObject.id)
+
     };
     return () => {
         source.close();
@@ -126,6 +140,25 @@ export function getEnabledTimer(){
     return false;
 }
 
+export function setNextRoundState(userId, setUserState) {
+    backend.get(`round/next/${userId}`,{
+        "userId": userId
+    })
+    .then(function (response) {
+        var responseData = response.data;
+        if(responseData.userOne.id === userId) {
+            setUserState("speaker")
+        }
+        else if(response.userTwo.id === userId) {
+            setUserState("listener")
+        }
+        else {
+            //error
+            setUserState("error")
+        }
+    })
+}
+
 export function createGame({
     userOneNumberOfImages, 
     userTwoNumberOfImages, 
@@ -200,7 +233,7 @@ export function joinUser(gameId, setUserState, setUserId){
     .then(function (response) {
         var userObject = response.data
         console.log(response)
-        setUserState("speaker")
+        setUserState("waiting")
         setUserId(userObject.id)
         //todo: save the incoming info into the cookie
     })

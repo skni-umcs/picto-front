@@ -6,14 +6,15 @@ import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-export function PictureToggleButtons({
-                                       picture_array,
-                                       setChosenSymbol,
-                                       groupClassName = 'symbolToggleButtons',
-                                       selectedClassName = 'symbolSelected',
-                                       notSelectedClassName = 'symbolNotSelected',
-                                       formLabelClassName = 'symbolFormLabelStyle',
-                                     }) {
+export function PictureToggleButtons(
+    {
+      picture_array,
+      setChosenSymbol,
+      groupClassName = 'symbolToggleButtons',
+      selectedClassName = 'symbolSelected',
+      notSelectedClassName = 'symbolNotSelected',
+      formLabelClassName = 'symbolFormLabelStyle',
+    }) {
   console.log(selectedClassName);
   return <RadioGroup><Box className={groupClassName}>
     {

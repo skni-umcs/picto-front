@@ -1,9 +1,11 @@
 import axios from 'axios'
 
+export const BACKEND_IP = 'http://localhost:8080'
+
 export const backend = axios.create({
-    baseURL: 'http://localhost:8080/',
+    baseURL: BACKEND_IP,
     timeout: 5000,
-}) 
+})
 
 
 

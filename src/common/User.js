@@ -1,4 +1,4 @@
-import {backend} from '../api/ApiCalls';
+import {backend, BACKEND_IP} from '../api/ApiCalls';
 import {useState, useEffect} from 'react'
 
 import SpeakerComponent from '../speaker/SpeakerComponent';
@@ -17,7 +17,7 @@ function User(){
     function subscribeEventSource(){
         console.log("subscribeEventSource")
         console.log(userId)
-        const source = new EventSource(`http://localhost:8080/event/${userId}`)
+        const source = new EventSource(`${BACKEND_IP}/event/${userId}`)
 
         const EventType = {
             AWAITING_GAME_BEGIN: "AWAITING_GAME_BEGIN",

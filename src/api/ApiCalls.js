@@ -33,21 +33,23 @@ export function submitListener(
   });
 }
 
-export function createGame({
-                             userOneNumberOfImages,
-                             userTwoNumberOfImages,
-                             userOneTime,
-                             userTwoTime,
-                             symbolGroupsAmount,
-                             symbolsInGroupAmount,
-                             correctAnswerPoints,
-                             wrongAnswerPoints,
-                             topologyId,
-                             probabilityOfEdgeRedrawing,
-                             maxVertexDegree,
-                             createDateTime,
-                             setEndRoundId,
-                           }) {
+export function createGame(
+    {
+      userOneNumberOfImages,
+      userTwoNumberOfImages,
+      userOneTime,
+      userTwoTime,
+      symbolGroupsAmount,
+      symbolsInGroupAmount,
+      correctAnswerPoints,
+      wrongAnswerPoints,
+      topologyId,
+      probabilityOfEdgeRedrawing,
+      maxVertexDegree,
+      createDateTime,
+      setEndRoundId,
+    },
+) {
   backend.post('game/admin/create',
       {
         'userOneNumberOfImages': userOneNumberOfImages,

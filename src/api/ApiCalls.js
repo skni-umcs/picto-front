@@ -74,17 +74,9 @@ export function getSelectedSymbols(){
 
 export function submitSpeaker(userId, roundId, answerTime, symbolsSelected, setUserState){
     console.log(symbolsSelected)
-    backend.post(`/round/${roundId}/speaker`,
-    {
-        "userId": userId,
-        "roundId": roundId,
-        "answerTime": answerTime,
-        "imageSelected": {},
-        "symbolsSelected": symbolsSelected
-    })
+    backend.post(`/round/${roundId}/speaker`)
     .then(function (response) {
         console.log(response)
-        setUserState("waiting")
     })
     .catch(function (error){
         console.log(error)
@@ -103,7 +95,6 @@ export function submitListener(userId, roundId, answerTime, imageSelected, symbo
     .then(function (response)
     {
         console.log(response)
-        setUserState("waiting")
     })
     .catch(function (error){
         console.log(error)

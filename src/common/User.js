@@ -8,19 +8,25 @@ import WaitingComponent from './WaitingComponent';
 
 import {StyledEngineProvider} from '@mui/material';
 import Result from './Result';
+import {useCookies} from 'react-cookie';
+import {EventSourcePolyfill} from 'event-source-polyfill';
 
 function User() {
 
   const [userState, setUserState] = useState('join');
   const [userId, setUserId] = useState(null);
+  const [cookies, setCookies, removeCookies] = useCookies();
+  const [images, setImages] = useState(null);
+  const [symbols, setSymbols] = useState(null);
 
   function subscribeEventSource() {
     console.log('subscribeEventSource');
-    console.log(userId);
-    const source = new EventSource(`${BACKEND_IP}/event/${userId}`);
+    console.log(cookies.userCookie);
+    const source = new EventSourcePolyfill(`${BACKEND_IP}/event`,
+        {headers: {'x-session': `${cookies.userCookie}`}});
 
     const EventType = {
-      AWAITING_GAME_BEGIN: 'AWAITING_GAME_BEGIN',
+      GAME_BEGIN: 'GAME_BEGIN',
       AWAITING_ROUND: 'AWAITING_ROUND',
       SPEAKER_READY: 'SPEAKER_READY',
       LISTENER_READY: 'LISTENER_READY',
@@ -30,7 +36,7 @@ function User() {
       END_GAME: 'END_GAME',
     };
 
-    source.addEventListener(EventType.AWAITING_GAME_BEGIN, (event) => {
+    source.addEventListener(EventType.GAME_BEGIN, (event) => {
       setUserState('waiting');
     });
 
@@ -54,9 +60,9 @@ function User() {
       setUserState('waiting');
     });
 
-    // source.onmessage = function (event) {
-    //
-    // };
+    source.onmessage = function(event) {
+      console.log(event);
+    };
 
     return () => {
       source.close();
@@ -69,32 +75,60 @@ function User() {
     backend.post(`game/${gameId}/join`,
         {
           'gameId': gameId,
-        }).then((response) => {
+        }, {withCredentials: true}).then((response) => {
       let userObject = response.data;
       console.log(userObject.id);
       console.log('joinUser');
+      setCookies('userCookie', userObject.cookie);
       setUserState('waiting');
       setUserId(userObject.id);
-      //todo: save the incoming info into the cookie
     }).catch(function(error) {
       console.log(error);
     });
   }
 
   function setNextRoundSpeakerState() {
-    backend.get(`round/next/${userId}`).then(function(response) {
-      setUserState('speaker');
-    }).catch(function(error) {
-      console.log(error);
-    });
+    backend.get(`round/next/${userId}`, {withCredentials: true}).
+        then(function(response) {
+          let roundObject = response.data;
+          console.log(roundObject);
+          let roundId = roundObject.id;
+          setPicturesFromBackend(roundId);
+          setUserState('speaker');
+        }).
+        catch(function(error) {
+          console.log(error);
+        });
   }
 
   function setNextRoundListenerState() {
-    backend.get(`round/next/${userId}`).then(function(response) {
-      setUserState('listener');
-    }).catch(function(error) {
-      console.log(error);
-    });
+    backend.get(`round/next/${userId}`, {withCredentials: true}).
+        then(function(response) {
+          let roundObject = response.data;
+          let roundId = roundObject.id;
+          setPicturesFromBackend(roundId);
+          setUserState('listener');
+        }).
+        catch(function(error) {
+          console.log(error);
+        });
+  }
+
+  function setPicturesFromBackend(roundId) {
+    backend.get(`round/${roundId}/images/${userId}`, {withCredentials: true}).
+        then(function(response) {
+          console.log("bebe")
+          console.log(response);
+          let incomingObject = response.data;
+          let imagesObject = incomingObject.images;
+          let symbolsObject = incomingObject.symbols;
+          setImages(imagesObject);
+          setSymbols(symbolsObject);
+          console.log(imagesObject);
+        }).
+        catch(function(error) {
+          console.log(error);
+        });
   }
 
   useEffect(() => {
@@ -107,11 +141,16 @@ function User() {
       <StyledEngineProvider injectFirst>
         {
             userState === 'speaker' &&
-            <SpeakerComponent userId={userId} setUserState={setUserState}/>
+            <SpeakerComponent userId={userId} setUserState={setUserState}
+                              images={images}
+                              symbols={symbols}/>
         }
         {
             userState === 'listener' &&
-            <ListenerComponent userId={userId} setUserState={setUserState}/>
+            <ListenerComponent userId={userId} setUserState={setUserState}
+                               images={images}
+                               symbols={symbols}
+                            />
         }
         {
             userState === 'join' &&

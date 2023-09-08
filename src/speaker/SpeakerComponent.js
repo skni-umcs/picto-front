@@ -7,9 +7,7 @@ import SymbolSelectionComponent from '../speaker/SymbolSelectionComponent';
 import SpeakerSubmitComponent from '../speaker/SpeakerSubmitComponent';
 import {InfoComponent} from '../common/InfoComponent';
 
-import {getImages} from '../api/ApiCalls';
-
-function SpeakerComponent({userId, setUserState}) {
+function SpeakerComponent({userId, setUserState, images, symbols}) {
   const [chosenSymbols, setChosenSymbolsObject] = useState({});
 
   function setChosenSymbol(symbolId, groupId) {
@@ -19,13 +17,22 @@ function SpeakerComponent({userId, setUserState}) {
     console.log(chosenSymbols);
   }
 
+  console.log('bleblekania');
+  console.log(images);
+  if (images === null) {
+    images = [];
+  }
+  if(symbols === null) {
+    symbols = [];
+  }
   return (
       <Container className="speakerComponent">
         <Box className="speakerWrapper">
           <InfoComponent userId={userId}/>
-          <PictureListComponent pictures={getImages()}
+          <PictureListComponent pictures={images}
                                 className="imageListComponent"/>
-          <SymbolSelectionComponent setChosenSymbol={setChosenSymbol}/>
+          <SymbolSelectionComponent setChosenSymbol={setChosenSymbol}
+                                    selectionSymbols={symbols}/>
           <SpeakerSubmitComponent chosenSymbols={chosenSymbols}
                                   setUserState={setUserState}/>
         </Box>

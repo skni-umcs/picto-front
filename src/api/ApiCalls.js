@@ -5,6 +5,9 @@ export const BACKEND_IP = 'http://localhost:8080';
 export const backend = axios.create({
   baseURL: BACKEND_IP,
   timeout: 5000,
+  headers: {
+    "x-session" : `${localStorage.getItem("access_token")}`
+  }
 });
 
 export function submitSpeaker(
@@ -60,9 +63,11 @@ export function createGame(
         'symbolsInGroupAmount': symbolsInGroupAmount,
         'correctAnswerPoints': correctAnswerPoints,
         'wrongAnswerPoints': wrongAnswerPoints,
-        'topologyId': topologyId,
-        'probabilityOfEdgeRedrawing': probabilityOfEdgeRedrawing,
-        'maxVertexDegree': maxVertexDegree,
+        'topology': {
+          'id': topologyId,
+          'probabilityOfEdgeRedrawing': probabilityOfEdgeRedrawing,
+          'maxVertexDegree': maxVertexDegree,
+        },
         'createDateTime': createDateTime,
       }).then(function(response) {
     console.log(response);
@@ -204,7 +209,7 @@ export function getWrongAnswerPoints() {
 }
 
 export function getTopologyId() {
-  return 0;
+  return 1;
 }
 
 export function getProbabilityOfEdgeRedrawing() {

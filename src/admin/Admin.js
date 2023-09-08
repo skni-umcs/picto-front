@@ -22,7 +22,7 @@ function TopologyConfigDetailedButtons(
       setMaxVertexDegree,
     }) {
   useEffect(() => {
-    setTopologyId(ApiCalls.getTopologyId());
+    setTopologyId(0);
   });
   return <Box>
     <ElementConfigComponent

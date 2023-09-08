@@ -8,8 +8,8 @@ function generateRows(topics, setChosenImage) {
   return content;
 }
 
-export default function ImageSelectionComponent({setChosenImage}) {
-  let rows = generateRows(getImages(), setChosenImage);
+export default function ImageSelectionComponent({images, setChosenImage}) {
+  let rows = generateRows(images, setChosenImage);
   return (
       <Box
           className={'imageSelectionComponent'}

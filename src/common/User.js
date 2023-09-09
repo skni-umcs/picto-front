@@ -48,12 +48,10 @@ function User() {
 
     source.addEventListener(EventType.SPEAKER_READY, (event) => {
       setUserState("speaker");
-      //setNextRoundSpeakerState();
     });
 
     source.addEventListener(EventType.LISTENER_READY, (event) => {
       setUserState("listener");
-      //setNextRoundListenerState();
     });
 
     source.addEventListener(EventType.SPEAKER_HOLD, (event) => {
@@ -98,7 +96,8 @@ function User() {
           console.log("inside callNextRound backend call")
           let roundObject = response.data;
           let roundId = roundObject.id;
-          setPicturesFromBackend(roundId)
+          setImagesFromBackend(roundId);
+          setSymbolsFromBackend(roundId);
           console.log(response);
         }).catch(function(error) {
       console.log(error);
@@ -106,46 +105,22 @@ function User() {
 
   }
 
-  function setNextRoundSpeakerState() {
-    backend.get(`round/next/${userId}`, {withCredentials: true}).
-        then(function(response) {
-          let roundObject = response.data;
-          console.log(roundObject);
-          console.log('spiker');
-          let roundId = roundObject.id;
-          setPicturesFromBackend(roundId);
-          setUserState('speaker');
-        }).
-        catch(function(error) {
-          console.log(error);
-        });
-  }
-
-  function setNextRoundListenerState() {
-    backend.get(`round/next/${userId}`, {withCredentials: true}).
-        then(function(response) {
-          let roundObject = response.data;
-          let roundId = roundObject.id;
-          setPicturesFromBackend(roundId);
-          setUserState('listener');
-        }).
-        catch(function(error) {
-          console.log(error);
-        });
-  }
-
-  function setPicturesFromBackend(roundId) {
+  function setImagesFromBackend(roundId) {
     backend.get(`round/${roundId}/images/${userId}`, {withCredentials: true}).
         then(function(response) {
-          console.log('bebe');
-          console.log(response);
-          let incomingObject = response.data;
-          let imagesObject = incomingObject.images;
-          let symbolsObject = incomingObject.symbols;
+          let imagesObject = response.data;
           setImages(imagesObject);
-          setSymbols(symbolsObject);
+        }).
+        catch(function(error) {
+          console.log(error);
+        });
+  }
 
-          console.log(imagesObject);
+  function setSymbolsFromBackend(roundId) {
+    backend.get(`round/${roundId}/symbols/${userId}`, {withCredentials: true}).
+        then(function(response) {
+          let symbolsObject = response.data;
+          setSymbols(symbolsObject);
         }).
         catch(function(error) {
           console.log(error);

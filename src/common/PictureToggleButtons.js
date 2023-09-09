@@ -1,21 +1,49 @@
 import * as React from 'react';
-import Box from "@mui/material/Box";
-import { PictureComponent } from '../common/ImageComponent';
-import '../common/Common.css'
-import RadioGroup from '@mui/material/RadioGroup';
-import Radio from '@mui/material/Radio'
-import '../common/Common.css'
-import FormControlLabel from '@mui/material/FormControlLabel'
+import Box from '@mui/material/Box';
+import {PictureComponent} from '../common/ImageComponent';
 
-export function PictureToggleButtons({picture_array, setChosenSymbol, className="horizonstalToggleButton"}) {
-    return <RadioGroup className={className}>
+import RadioGroup from '@mui/material/RadioGroup';
+import Radio from '@mui/material/Radio';
+import FormControlLabel from '@mui/material/FormControlLabel';
+
+export function PictureToggleButtons(
+    {
+      picture_array,
+      setChosenSymbol,
+      groupClassName = 'symbolToggleButtons',
+      selectedClassName = 'symbolSelected',
+      notSelectedClassName = 'symbolNotSelected',
+      formLabelClassName = 'symbolFormLabelStyle',
+    }) {
+  console.log(selectedClassName);
+  return <RadioGroup><Box className={groupClassName}>
     {
       picture_array.map((picture) => {
-        return <FormControlLabel
-        control={<Radio  onClick={() => setChosenSymbol(picture.id, picture.groupId)} value={picture.id}></Radio>}
-        label={<Box><PictureComponent  path={picture.path}></PictureComponent></Box>}
-      />
+        return (
+            <FormControlLabel
+                className={formLabelClassName}
+                control={
+                  <Radio
+                      icon={
+                        <Box className={notSelectedClassName}>
+                          <PictureComponent path={picture.path}/>
+                        </Box>
+                      }
+                      checkedIcon={
+                        <Box className={selectedClassName}>
+                          <PictureComponent
+                              path={picture.path}/>
+                        </Box>
+                      }
+                      onClick={
+                        () => setChosenSymbol(picture.id,
+                            picture.groupId)}
+                      value={picture.id}>
+                  </Radio>
+                }
+
+            />);
       })
     }
-  </RadioGroup>
-  }
+  </Box></RadioGroup>;
+}

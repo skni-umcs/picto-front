@@ -1,39 +1,43 @@
-import Box from "@mui/material/Box";
-import { styled } from "@mui/material/styles";
-import { Container } from "@mui/material";
+import Box from '@mui/material/Box';
+import {Container} from '@mui/material';
 
-import React from "react";
-import ImagesListComponent from '../common/ImageComponent'
-import SymbolSelectionComponent from '../speaker/SymbolSelectionComponent'
-import SpeakerSubmitComponent from '../speaker/SpeakerSubmitComponent'
-import { InfoComponent } from '../common/InfoComponent'
+import React, {useState} from 'react';
+import {PictureListComponent} from '../common/ImageComponent';
+import SymbolSelectionComponent from '../speaker/SymbolSelectionComponent';
+import SpeakerSubmitComponent from '../speaker/SpeakerSubmitComponent';
+import {InfoComponent} from '../common/InfoComponent';
 
-import {useState} from "react"
+function SpeakerComponent({userId, setUserState, images, symbols}) {
+  const [chosenSymbols, setChosenSymbolsObject] = useState({});
 
-const Wrapper = styled(Box)({
-    display: "grid",
-    gridTemplateColumns: "repeat(1, 1fr)",
-    height: '100%'
-  });
-  
+  function setChosenSymbol(symbolId, groupId) {
+    let newChosenSymbols = chosenSymbols;
+    newChosenSymbols[groupId] = symbolId;
+    setChosenSymbolsObject(newChosenSymbols);
+    console.log(chosenSymbols);
+  }
 
-function SpeakerComponent({userId, setUserState}) {
-    const [chosenSymbols, setChosenSymbolsObject] = useState({})
-    function setChosenSymbol(symbolId, groupId) {
-        let newChosenSymbols = chosenSymbols
-        newChosenSymbols[groupId] = symbolId
-        setChosenSymbolsObject(newChosenSymbols)
-        console.log(chosenSymbols)
-    }
-    return (
-    <Container className="fillSite">
-        <Wrapper> 
-        <Box><ImagesListComponent></ImagesListComponent></Box>
-        <Box className="doubleSplit"><SymbolSelectionComponent setChosenSymbol={setChosenSymbol}/><InfoComponent userId={userId}/></Box>
-        <Box><SpeakerSubmitComponent chosenSymbols={chosenSymbols} setUserState={setUserState}/></Box>
-        </Wrapper>
-    </Container>
-    )
+  console.log('bleblekania');
+  console.log(images);
+  if (images === null) {
+    images = [];
+  }
+  if(symbols === null) {
+    symbols = [];
+  }
+  return (
+      <Container className="speakerComponent">
+        <Box className="speakerWrapper">
+          <InfoComponent userId={userId}/>
+          <PictureListComponent pictures={images}
+                                className="imageListComponent"/>
+          <SymbolSelectionComponent setChosenSymbol={setChosenSymbol}
+                                    selectionSymbols={symbols}/>
+          <SpeakerSubmitComponent chosenSymbols={chosenSymbols}
+                                  setUserState={setUserState}/>
+        </Box>
+      </Container>
+  );
 }
 
 export default SpeakerComponent;

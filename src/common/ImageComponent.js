@@ -1,48 +1,45 @@
-import Box from "@mui/material/Box";
-import { getImages } from '../api/ApiCalls'
-import { ImageListItem } from "@mui/material";
+import Box from '@mui/material/Box';
+import {ImageListItem} from '@mui/material';
+import {getUrl} from '../common/ImageFunctions'
 
-export function PictureComponent({path, chosen}){
-  console.log(chosen)
+export function PictureComponent({path, className = 'pictureComponent'}) {
+  console.log(className);
   return (
-  <Box sx={{
-    border: chosen ? "7px" : "0px",
-    borderColor: 'red',
-    borderStyle: "solid"
-  }}>
-    <ImageListItem>
-      <img 
-      alt="failed to load image"
-      src={`${path}`}
-      style={{
-          maxHeight: 100,
-          maxWidth: 200,
-        }}
-      />
-    </ImageListItem>
-  </Box>
-  )
+      <Box className={className}>
+        <ImageListItem>
+          <img
+              alt="failed to load image"
+              src={`${getUrl(path)}`}
+              style={{
+                maxHeight: 100,
+                maxWidth: 200,
+              }}
+          />
+        </ImageListItem>
+      </Box>
+  );
 }
 
-export function PictureListComponent({pictures}){
+export function PictureListComponent(
+    {
+      pictures,
+      className = 'symbolListComponent',
+    }) {
   return (
-    <Box 
-      sx={{
-        display: 'flex',
-        flexWrap: 'nowrap',
-        p: 1,
-        m: 1,
-        bgcolor: 'background.paper',
-        borderRadius: 1,
-        justifyContent : 'space-between'
-      }}
-    >
-      {pictures.map(picture => <PictureComponent path={picture.path} chosen={picture.chosen}></PictureComponent>)}
-    </Box>
-  )
+      <Box
+          className={className}>
+        {
+          pictures.map(picture =>
+              <PictureComponent
+                  path={picture.path}
+                  className={
+                    picture.chosen ?
+                        'pictureSelectedComponent' :
+                        'pictureNotSelectedComponent'
+                  }
+              />,
+          )
+        }
+      </Box>
+  );
 }
-
-export default function ImagesListComponent(){
-    return <PictureListComponent pictures={getImages()}/>;
-}
-  

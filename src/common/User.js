@@ -10,6 +10,7 @@ import {StyledEngineProvider} from '@mui/material';
 import Result from './Result';
 import {useCookies} from 'react-cookie';
 import {EventSourcePolyfill} from 'event-source-polyfill';
+import {wait} from '@testing-library/user-event/dist/utils';
 
 function User() {
 
@@ -38,6 +39,7 @@ function User() {
 
     source.addEventListener(EventType.GAME_BEGIN, (event) => {
       setUserState('waiting');
+      callNextRound();
     });
 
     source.addEventListener(EventType.AWAITING_ROUND, (event) => {
@@ -45,11 +47,13 @@ function User() {
     });
 
     source.addEventListener(EventType.SPEAKER_READY, (event) => {
-      setNextRoundSpeakerState();
+      setUserState("speaker");
+      //setNextRoundSpeakerState();
     });
 
     source.addEventListener(EventType.LISTENER_READY, (event) => {
-      setNextRoundListenerState();
+      setUserState("listener");
+      //setNextRoundListenerState();
     });
 
     source.addEventListener(EventType.SPEAKER_HOLD, (event) => {
@@ -87,11 +91,27 @@ function User() {
     });
   }
 
+  function callNextRound() {
+    console.log("callNextRound");
+    backend.get(`round/next/${userId}`, {withCredentials: true}).
+        then(function(response) {
+          console.log("inside callNextRound backend call")
+          let roundObject = response.data;
+          let roundId = roundObject.id;
+          setPicturesFromBackend(roundId)
+          console.log(response);
+        }).catch(function(error) {
+      console.log(error);
+    });
+
+  }
+
   function setNextRoundSpeakerState() {
     backend.get(`round/next/${userId}`, {withCredentials: true}).
         then(function(response) {
           let roundObject = response.data;
           console.log(roundObject);
+          console.log('spiker');
           let roundId = roundObject.id;
           setPicturesFromBackend(roundId);
           setUserState('speaker');
@@ -117,13 +137,14 @@ function User() {
   function setPicturesFromBackend(roundId) {
     backend.get(`round/${roundId}/images/${userId}`, {withCredentials: true}).
         then(function(response) {
-          console.log("bebe")
+          console.log('bebe');
           console.log(response);
           let incomingObject = response.data;
           let imagesObject = incomingObject.images;
           let symbolsObject = incomingObject.symbols;
           setImages(imagesObject);
           setSymbols(symbolsObject);
+
           console.log(imagesObject);
         }).
         catch(function(error) {
@@ -150,7 +171,7 @@ function User() {
             <ListenerComponent userId={userId} setUserState={setUserState}
                                images={images}
                                symbols={symbols}
-                            />
+            />
         }
         {
             userState === 'join' &&

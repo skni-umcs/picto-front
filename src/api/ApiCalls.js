@@ -6,14 +6,20 @@ export const backend = axios.create({
   baseURL: BACKEND_IP,
   timeout: 5000,
   headers: {
-    "x-session" : `${localStorage.getItem("access_token")}`
-  }
+    'x-session': `${localStorage.getItem('access_token')}`,
+  },
 });
 
 export function submitSpeaker(
     userId, roundId, answerTime, symbolsSelected, setUserState) {
   console.log(symbolsSelected);
-  backend.post(`/round/${roundId}/speaker`).then(function(response) {
+  backend.post(`/round/${roundId}/speaker`, {
+    'userId': userId,
+    'roundId': roundId,
+    'answerTime': answerTime,
+    'imageSelected': {id: 0},
+    'symbolsSelected': [symbolsSelected],
+  }).then(function(response) {
     console.log(response);
   }).catch(function(error) {
     console.log(error);
@@ -50,6 +56,7 @@ export function createGame(
       probabilityOfEdgeRedrawing,
       maxVertexDegree,
       createDateTime,
+      groupId,
       setEndRoundId,
     },
 ) {
@@ -67,6 +74,9 @@ export function createGame(
           'id': topologyId,
           'probabilityOfEdgeRedrawing': probabilityOfEdgeRedrawing,
           'maxVertexDegree': maxVertexDegree,
+        },
+        'group': {
+          'id': groupId
         },
         'createDateTime': createDateTime,
       }).then(function(response) {

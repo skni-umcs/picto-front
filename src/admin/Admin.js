@@ -95,6 +95,7 @@ function AdminFormComponent() {
       probabilityOfEdgeRedrawing: probabilityOfEdgeRedrawing,
       maxVertexDegree: maxVertexDegree,
       createDateTime: moment().format('YYYY-MM-DD[T]HH:mm:ss.SSS'),
+      groupId: 1,
       setEndRoundId: setCurrentRoundId,
     });
   }

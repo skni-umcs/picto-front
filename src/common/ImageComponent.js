@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box';
 import {ImageListItem} from '@mui/material';
+import {getUrl} from '../common/ImageFunctions'
 
 export function PictureComponent({path, className = 'pictureComponent'}) {
   console.log(className);
@@ -8,7 +9,7 @@ export function PictureComponent({path, className = 'pictureComponent'}) {
         <ImageListItem>
           <img
               alt="failed to load image"
-              src={`${path}`}
+              src={`${getUrl(path)}`}
               style={{
                 maxHeight: 100,
                 maxWidth: 200,

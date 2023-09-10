@@ -33,8 +33,8 @@ export function submitListener(
         'userId': userId,
         'roundId': roundId,
         'answerTime': answerTime,
-        'imageSelected': imageSelected,
-        'symbolsSelected': symbolsSelected,
+        'imageSelected': {id: imageSelected},
+        'symbolsSelected': [],
       }).then(function(response) {
     console.log(response);
   }).catch(function(error) {

@@ -7,7 +7,7 @@ import SymbolSelectionComponent from '../speaker/SymbolSelectionComponent';
 import SpeakerSubmitComponent from '../speaker/SpeakerSubmitComponent';
 import {InfoComponent} from '../common/InfoComponent';
 
-function SpeakerComponent({userId, setUserState, images, symbols}) {
+function SpeakerComponent({userId, setUserState, images, symbols, roundId}) {
   const [chosenSymbols, setChosenSymbolsObject] = useState({});
 
   function setChosenSymbol(symbolId, groupId) {
@@ -22,7 +22,7 @@ function SpeakerComponent({userId, setUserState, images, symbols}) {
   if (images === null) {
     images = [];
   }
-  if(symbols === null) {
+  if (symbols === null) {
     symbols = [];
   }
   return (
@@ -34,7 +34,9 @@ function SpeakerComponent({userId, setUserState, images, symbols}) {
           <SymbolSelectionComponent setChosenSymbol={setChosenSymbol}
                                     selectionSymbols={symbols}/>
           <SpeakerSubmitComponent chosenSymbols={chosenSymbols}
-                                  setUserState={setUserState}/>
+                                  setUserState={setUserState}
+                                  userId={userId}
+                                  roundId={roundId}/>
         </Box>
       </Container>
   );

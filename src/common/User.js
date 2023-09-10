@@ -1,5 +1,5 @@
 import {backend, BACKEND_IP} from '../api/ApiCalls';
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 
 import SpeakerComponent from '../speaker/SpeakerComponent';
 import ListenerComponent from '../listener/ListenerComponent';
@@ -10,7 +10,6 @@ import {StyledEngineProvider} from '@mui/material';
 import Result from './Result';
 import {useCookies} from 'react-cookie';
 import {EventSourcePolyfill} from 'event-source-polyfill';
-import {wait} from '@testing-library/user-event/dist/utils';
 
 function User() {
 
@@ -19,6 +18,14 @@ function User() {
   const [cookies, setCookies, removeCookies] = useCookies();
   const [images, setImages] = useState(null);
   const [symbols, setSymbols] = useState(null);
+  const [roundIdState, setRoundId] = useState(null);
+  const [result, setResult] = useState(null);
+
+  const roundIdRef = useRef(null);
+
+  useEffect(() => {
+    roundIdRef.current = roundIdState
+  }, [roundIdState]);
 
   function subscribeEventSource() {
     console.log('subscribeEventSource');
@@ -33,6 +40,7 @@ function User() {
       LISTENER_READY: 'LISTENER_READY',
       SPEAKER_HOLD: 'SPEAKER_HOLD',
       LISTENER_HOLD: 'LISTENER_HOLD',
+      RESULT_READY: 'RESULT_READY',
       PAUSE_GAME: 'PAUSE_GAME', //currently unused
       END_GAME: 'END_GAME',
     };
@@ -43,25 +51,36 @@ function User() {
     });
 
     source.addEventListener(EventType.AWAITING_ROUND, (event) => {
+      console.log("AWAITING_ROUND");
       setUserState('waiting');
+      callNextRound();
     });
 
     source.addEventListener(EventType.SPEAKER_READY, (event) => {
-      setUserState("speaker");
-      //setNextRoundSpeakerState();
+      console.log("zostalem speakerem");
+      setUserState('speaker');
     });
 
     source.addEventListener(EventType.LISTENER_READY, (event) => {
-      setUserState("listener");
-      //setNextRoundListenerState();
+      console.log("jestem ready listenerem?")
+      setUserState('listener');
     });
 
     source.addEventListener(EventType.SPEAKER_HOLD, (event) => {
+      console.log("jestem holdowanym speakerem?")
       setUserState('waiting');
     });
 
     source.addEventListener(EventType.LISTENER_HOLD, (event) => {
+      console.log("zostalem listenerem")
       setUserState('waiting');
+    });
+
+    source.addEventListener(EventType.RESULT_READY, (event) => {
+      console.log("result");
+      console.log(roundIdRef.current);
+      setUserState('result')
+      updateResult();
     });
 
     source.onmessage = function(event) {
@@ -92,13 +111,17 @@ function User() {
   }
 
   function callNextRound() {
-    console.log("callNextRound");
+    console.log('callNextRound');
     backend.get(`round/next/${userId}`, {withCredentials: true}).
         then(function(response) {
-          console.log("inside callNextRound backend call")
+          console.log('inside callNextRound backend call');
           let roundObject = response.data;
-          let roundId = roundObject.id;
-          setPicturesFromBackend(roundId)
+          let currentRoundId = roundObject.id;
+          setRoundId(currentRoundId);
+          console.log("currentRoundId")
+          console.log(currentRoundId);
+          setImagesFromBackend(currentRoundId);
+          setSymbolsFromBackend(currentRoundId);
           console.log(response);
         }).catch(function(error) {
       console.log(error);
@@ -106,46 +129,45 @@ function User() {
 
   }
 
-  function setNextRoundSpeakerState() {
-    backend.get(`round/next/${userId}`, {withCredentials: true}).
-        then(function(response) {
-          let roundObject = response.data;
-          console.log(roundObject);
-          console.log('spiker');
-          let roundId = roundObject.id;
-          setPicturesFromBackend(roundId);
-          setUserState('speaker');
-        }).
-        catch(function(error) {
-          console.log(error);
-        });
-  }
-
-  function setNextRoundListenerState() {
-    backend.get(`round/next/${userId}`, {withCredentials: true}).
-        then(function(response) {
-          let roundObject = response.data;
-          let roundId = roundObject.id;
-          setPicturesFromBackend(roundId);
-          setUserState('listener');
-        }).
-        catch(function(error) {
-          console.log(error);
-        });
-  }
-
-  function setPicturesFromBackend(roundId) {
+  function setImagesFromBackend(roundId) {
     backend.get(`round/${roundId}/images/${userId}`, {withCredentials: true}).
         then(function(response) {
-          console.log('bebe');
-          console.log(response);
-          let incomingObject = response.data;
-          let imagesObject = incomingObject.images;
-          let symbolsObject = incomingObject.symbols;
+          let imagesObject = response.data;
           setImages(imagesObject);
-          setSymbols(symbolsObject);
+        }).
+        catch(function(error) {
+          console.log(error);
+        });
+  }
 
-          console.log(imagesObject);
+  function setSymbolsFromBackend(roundId) {
+    backend.get(`round/${roundId}/symbols/${userId}`, {withCredentials: true}).
+        then(function(response) {
+          console.log('ss');
+          console.log(response);
+          let symbolsObject = response.data;
+          let i = 0;
+          symbolsObject.forEach(
+              (symbolArray) => {
+                symbolArray.forEach((symbol) => {
+                  symbol['groupId'] = i;
+                });
+                i++;
+              },
+          );
+          console.log(symbolsObject);
+          setSymbols(symbolsObject);
+        }).
+        catch(function(error) {
+          console.log(error);
+        });
+  }
+
+  function updateResult() {
+    backend.get(`round/${roundIdRef.current}/result`, {withCredentials: true}).
+        then(function(response) {
+          let resultObject = response.data
+          setResult(resultObject);
         }).
         catch(function(error) {
           console.log(error);
@@ -164,13 +186,15 @@ function User() {
             userState === 'speaker' &&
             <SpeakerComponent userId={userId} setUserState={setUserState}
                               images={images}
-                              symbols={symbols}/>
+                              symbols={symbols}
+                              roundId={roundIdState}/>
         }
         {
             userState === 'listener' &&
             <ListenerComponent userId={userId} setUserState={setUserState}
                                images={images}
                                symbols={symbols}
+                               roundId={roundIdState}
             />
         }
         {

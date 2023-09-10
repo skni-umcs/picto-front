@@ -7,17 +7,17 @@ import ImageSelectionComponent from '../listener/ImageSelectionComponent';
 import {InfoComponent} from '../common/InfoComponent';
 import ListenerSubmitComponent from '../listener/ListenerSubmitComponent';
 
-function ListenerComponent({userId, setUserState, images, symbols}) {
+function ListenerComponent({userId, setUserState, images, symbols, roundId}) {
   const [chosenImage, setChosenImageObject] = useState(null);
 
   function setChosenImage(imageId, groupId) {
     setChosenImageObject(imageId);
   }
 
-  if(images === null) {
+  if (images === null) {
     images = [];
   }
-  if(symbols === null) {
+  if (symbols === null) {
     symbols = [[]];
   }
 
@@ -25,13 +25,16 @@ function ListenerComponent({userId, setUserState, images, symbols}) {
       <Container className="listenerComponent">
         <Box className="listenerWrapper">
           <InfoComponent userId={userId}/>
-          <ImageSelectionComponent images={images} setChosenImage={setChosenImage}/>
+          <ImageSelectionComponent images={images}
+                                   setChosenImage={setChosenImage}/>
           <PictureListComponent
               pictures={symbols[0]}
               className="symbolListComponent"/>
           <ListenerSubmitComponent
               imageSelected={chosenImage}
-              setUserState={setUserState}/>
+              setUserState={setUserState}
+              userId={userId}
+              roundId={roundId}/>
         </Box>
       </Container>
   );

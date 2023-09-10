@@ -3,7 +3,6 @@ import {ImageListItem} from '@mui/material';
 import {getUrl} from '../common/ImageFunctions'
 
 export function PictureComponent({path, className = 'pictureComponent'}) {
-  console.log(className);
   return (
       <Box className={className}>
         <ImageListItem>

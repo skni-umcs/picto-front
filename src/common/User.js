@@ -10,7 +10,6 @@ import {StyledEngineProvider} from '@mui/material';
 import Result from './Result';
 import {useCookies} from 'react-cookie';
 import {EventSourcePolyfill} from 'event-source-polyfill';
-import {wait} from '@testing-library/user-event/dist/utils';
 
 function User() {
 
@@ -19,6 +18,7 @@ function User() {
   const [cookies, setCookies, removeCookies] = useCookies();
   const [images, setImages] = useState(null);
   const [symbols, setSymbols] = useState(null);
+  const [roundId, setRoundId] = useState(null);
 
   function subscribeEventSource() {
     console.log('subscribeEventSource');
@@ -44,21 +44,26 @@ function User() {
 
     source.addEventListener(EventType.AWAITING_ROUND, (event) => {
       setUserState('waiting');
+      callNextRound();
     });
 
     source.addEventListener(EventType.SPEAKER_READY, (event) => {
-      setUserState("speaker");
+      console.log("zostalem speakerem");
+      setUserState('speaker');
     });
 
     source.addEventListener(EventType.LISTENER_READY, (event) => {
-      setUserState("listener");
+      console.log("jestem ready listenerem?")
+      setUserState('listener');
     });
 
     source.addEventListener(EventType.SPEAKER_HOLD, (event) => {
+      console.log("jestem holdowanym speakerem?")
       setUserState('waiting');
     });
 
     source.addEventListener(EventType.LISTENER_HOLD, (event) => {
+      console.log("zostalem listenerem")
       setUserState('waiting');
     });
 
@@ -90,14 +95,16 @@ function User() {
   }
 
   function callNextRound() {
-    console.log("callNextRound");
+    console.log('callNextRound');
     backend.get(`round/next/${userId}`, {withCredentials: true}).
         then(function(response) {
-          console.log("inside callNextRound backend call")
+          console.log('inside callNextRound backend call');
           let roundObject = response.data;
-          let roundId = roundObject.id;
-          setImagesFromBackend(roundId);
-          setSymbolsFromBackend(roundId);
+          let currentRoundId = roundObject.id;
+          setRoundId(currentRoundId);
+          console.log(currentRoundId);
+          setImagesFromBackend(currentRoundId);
+          setSymbolsFromBackend(currentRoundId);
           console.log(response);
         }).catch(function(error) {
       console.log(error);
@@ -119,7 +126,19 @@ function User() {
   function setSymbolsFromBackend(roundId) {
     backend.get(`round/${roundId}/symbols/${userId}`, {withCredentials: true}).
         then(function(response) {
+          console.log('ss');
+          console.log(response);
           let symbolsObject = response.data;
+          let i = 0;
+          symbolsObject.forEach(
+              (symbolArray) => {
+                symbolArray.forEach((symbol) => {
+                  symbol['groupId'] = i;
+                });
+                i++;
+              },
+          );
+          console.log(symbolsObject);
           setSymbols(symbolsObject);
         }).
         catch(function(error) {
@@ -139,13 +158,15 @@ function User() {
             userState === 'speaker' &&
             <SpeakerComponent userId={userId} setUserState={setUserState}
                               images={images}
-                              symbols={symbols}/>
+                              symbols={symbols}
+                              roundId={roundId}/>
         }
         {
             userState === 'listener' &&
             <ListenerComponent userId={userId} setUserState={setUserState}
                                images={images}
                                symbols={symbols}
+                               roundId={roundId}
             />
         }
         {

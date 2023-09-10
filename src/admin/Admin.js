@@ -12,6 +12,7 @@ import moment from 'moment';
 
 import * as ApiCalls from '../api/ApiCalls';
 import {FormControlLabel, RadioGroup} from '@mui/material';
+import {backend} from '../api/ApiCalls';
 
 function TopologyConfigDetailedButtons(
     {
@@ -80,6 +81,10 @@ function AdminFormComponent() {
 
   const [currentRoundId, setCurrentRoundId] = useState(
       ApiCalls.getCurrentGameId());
+
+  useEffect(() => {
+    backend.post("image/add").then(console.log("bbb"));
+  }, []);
 
   function onSubmit() {
     ApiCalls.createGame({

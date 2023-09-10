@@ -1,5 +1,5 @@
 import {backend, BACKEND_IP} from '../api/ApiCalls';
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 
 import SpeakerComponent from '../speaker/SpeakerComponent';
 import ListenerComponent from '../listener/ListenerComponent';
@@ -18,7 +18,14 @@ function User() {
   const [cookies, setCookies, removeCookies] = useCookies();
   const [images, setImages] = useState(null);
   const [symbols, setSymbols] = useState(null);
-  const [roundId, setRoundId] = useState(null);
+  const [roundIdState, setRoundId] = useState(null);
+  const [result, setResult] = useState(null);
+
+  const roundIdRef = useRef(null);
+
+  useEffect(() => {
+    roundIdRef.current = roundIdState
+  }, [roundIdState]);
 
   function subscribeEventSource() {
     console.log('subscribeEventSource');
@@ -33,6 +40,7 @@ function User() {
       LISTENER_READY: 'LISTENER_READY',
       SPEAKER_HOLD: 'SPEAKER_HOLD',
       LISTENER_HOLD: 'LISTENER_HOLD',
+      RESULT_READY: 'RESULT_READY',
       PAUSE_GAME: 'PAUSE_GAME', //currently unused
       END_GAME: 'END_GAME',
     };
@@ -43,6 +51,7 @@ function User() {
     });
 
     source.addEventListener(EventType.AWAITING_ROUND, (event) => {
+      console.log("AWAITING_ROUND");
       setUserState('waiting');
       callNextRound();
     });
@@ -65,6 +74,13 @@ function User() {
     source.addEventListener(EventType.LISTENER_HOLD, (event) => {
       console.log("zostalem listenerem")
       setUserState('waiting');
+    });
+
+    source.addEventListener(EventType.RESULT_READY, (event) => {
+      console.log("result");
+      console.log(roundIdRef.current);
+      setUserState('result')
+      updateResult();
     });
 
     source.onmessage = function(event) {
@@ -102,6 +118,7 @@ function User() {
           let roundObject = response.data;
           let currentRoundId = roundObject.id;
           setRoundId(currentRoundId);
+          console.log("currentRoundId")
           console.log(currentRoundId);
           setImagesFromBackend(currentRoundId);
           setSymbolsFromBackend(currentRoundId);
@@ -146,6 +163,17 @@ function User() {
         });
   }
 
+  function updateResult() {
+    backend.get(`round/${roundIdRef.current}/result`, {withCredentials: true}).
+        then(function(response) {
+          let resultObject = response.data
+          setResult(resultObject);
+        }).
+        catch(function(error) {
+          console.log(error);
+        });
+  }
+
   useEffect(() => {
     if (userId != null) {
       subscribeEventSource(setUserState, userId);
@@ -159,14 +187,14 @@ function User() {
             <SpeakerComponent userId={userId} setUserState={setUserState}
                               images={images}
                               symbols={symbols}
-                              roundId={roundId}/>
+                              roundId={roundIdState}/>
         }
         {
             userState === 'listener' &&
             <ListenerComponent userId={userId} setUserState={setUserState}
                                images={images}
                                symbols={symbols}
-                               roundId={roundId}
+                               roundId={roundIdState}
             />
         }
         {

@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  picto-front:
+    container_name: picto-front-prod
+    build:
+      context: .
+      target: production
+    ports:
+      - "8082:80"

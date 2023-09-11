@@ -1,29 +1,44 @@
-import Box from "@mui/material/Box";
-import { getImages } from '../api/ApiCalls'
-import { ImageListItem } from "@mui/material";
+import Box from '@mui/material/Box';
+import {ImageListItem} from '@mui/material';
+import {getUrl} from '../common/ImageFunctions'
 
-export function PictureComponent({path, className="pictureComponent"}){
-  console.log(className)
+export function PictureComponent({path, className = 'pictureComponent'}) {
   return (
-  <Box className={className}>
-    <ImageListItem>
-      <img 
-      alt="failed to load image"
-      src={`${path}`}
-      style={{
-          maxHeight: 100,
-          maxWidth: 200,
-        }}
-      />
-    </ImageListItem>
-  </Box>
-  )
+      <Box className={className}>
+        <ImageListItem>
+          <img
+              alt="failed to load image"
+              src={`${getUrl(path)}`}
+              style={{
+                maxHeight: 100,
+                maxWidth: 200,
+              }}
+          />
+        </ImageListItem>
+      </Box>
+  );
 }
 
-export function PictureListComponent({pictures, className="symbolListComponent"}){
+export function PictureListComponent(
+    {
+      pictures,
+      className = 'symbolListComponent',
+    }) {
   return (
-    <Box className={className}>
-      {pictures.map(picture => <PictureComponent path={picture.path} className={picture.chosen ? "pictureSelectedComponent" : "pictureNotSelectedComponent"}></PictureComponent>)}
-    </Box>
-  )
+      <Box
+          className={className}>
+        {
+          pictures.map(picture =>
+              <PictureComponent
+                  path={picture.path}
+                  className={
+                    picture.chosen ?
+                        'pictureSelectedComponent' :
+                        'pictureNotSelectedComponent'
+                  }
+              />,
+          )
+        }
+      </Box>
+  );
 }

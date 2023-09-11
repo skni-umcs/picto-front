@@ -1,34 +1,43 @@
-import Box from "@mui/material/Box";
+import Box from '@mui/material/Box';
+import {Container} from '@mui/material';
 
-import { styled } from "@mui/material/styles";
-import { Container } from "@mui/material";
+import React, {useState} from 'react';
+import {PictureListComponent} from '../common/ImageComponent';
+import ImageSelectionComponent from '../listener/ImageSelectionComponent';
+import {InfoComponent} from '../common/InfoComponent';
+import ListenerSubmitComponent from '../listener/ListenerSubmitComponent';
 
+function ListenerComponent({userId, setUserState, images, symbols, roundId}) {
+  const [chosenImage, setChosenImageObject] = useState(null);
 
-import React from "react";
-import { PictureListComponent } from "../common/ImageComponent"
-import { getSelectedSymbols } from "../api/ApiCalls";
-import ImageSelectionComponent from "../listener/ImageSelectionComponent"
-import { InfoComponent } from '../common/InfoComponent'
-import ListenerSubmitComponent from "../listener/ListenerSubmitComponent";
+  function setChosenImage(imageId, groupId) {
+    setChosenImageObject(imageId);
+  }
 
-import {useState} from 'react'
+  if (images === null) {
+    images = [];
+  }
+  if (symbols === null) {
+    symbols = [[]];
+  }
 
-
-function ListenerComponent({userId, setUserState}) {
-    const [chosenImage, setChosenImageObject] = useState(null)
-    function setChosenImage(imageId, groupId) {
-        setChosenImageObject(imageId)
-    }
-    return (
-        <Container className="listenerComponent">
-            <Box className="listenerWrapper">
-                <InfoComponent userId={userId}/>
-                <ImageSelectionComponent setChosenImage={setChosenImage}/>
-                <PictureListComponent pictures={getSelectedSymbols()} className="symbolListComponent"/>
-                <ListenerSubmitComponent imageSelected={chosenImage} setUserState={setUserState}/>
-            </Box>
-    </Container>
-    )
+  return (
+      <Container className="listenerComponent">
+        <Box className="listenerWrapper">
+          <InfoComponent userId={userId}/>
+          <ImageSelectionComponent images={images}
+                                   setChosenImage={setChosenImage}/>
+          <PictureListComponent
+              pictures={symbols[0]}
+              className="symbolListComponent"/>
+          <ListenerSubmitComponent
+              imageSelected={chosenImage}
+              setUserState={setUserState}
+              userId={userId}
+              roundId={roundId}/>
+        </Box>
+      </Container>
+  );
 }
 
 export default ListenerComponent;

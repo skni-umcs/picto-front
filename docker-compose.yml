@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  front:
+    container_name: picto-front-dev
+    build:
+      context: .
+      target: development
+    volumes:
+      - ./public:/app/public
+      - ./src:/app/src
+    ports:
+      - "3000:3000"

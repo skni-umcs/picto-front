@@ -25,8 +25,14 @@ function User() {
   const roundIdRef = useRef(null);
   const generationRef = useRef(null);
 
+  const [askBackendForSymbols, setAskBackendForSymbols] = useState(false);
+
   useEffect(() => {
     roundIdRef.current = roundIdState
+    if(askBackendForSymbols) {
+      setSymbolsFromBackend(roundIdState);
+      setAskBackendForSymbols(roundIdState);
+    }
   }, [roundIdState]);
 
   useEffect(() => {
@@ -68,11 +74,15 @@ function User() {
 
     source.addEventListener(EventType.SPEAKER_READY, (event) => {
       console.log("zostalem speakerem");
+      console.log(roundIdRef.current);
+      setAskBackendForSymbols(true);
+
       setUserState('speaker');
     });
 
     source.addEventListener(EventType.LISTENER_READY, (event) => {
-      console.log("jestem ready listenerem?")
+      console.log("jestem ready listenerem?");
+      setSymbolsFromBackend(roundIdRef.current);
       setUserState('listener');
     });
 
@@ -132,7 +142,6 @@ function User() {
           console.log("currentRoundId")
           console.log(currentRoundId);
           setImagesFromBackend(currentRoundId);
-          setSymbolsFromBackend(currentRoundId);
           console.log(response);
         }).catch(function(error) {
       console.log(error);
@@ -152,6 +161,10 @@ function User() {
   }
 
   function setSymbolsFromBackend(roundId) {
+    console.log("TUTAJ POBIERAM SYMBOLE")
+    console.log(roundId)
+    console.log(roundIdRef.current)
+    console.log(roundIdState)
     backend.get(`round/${roundId}/symbols/${userId}`, {withCredentials: true}).
         then(function(response) {
           console.log('ss');

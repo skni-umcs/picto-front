@@ -41,7 +41,7 @@ function User() {
   }, [generationState]);
 
   useEffect(() => {
-    if (topicId != null) {
+    if (topicId != null && images != null) {
       images.forEach(
           (image) => {
             if(topicId === image.id) {
@@ -52,9 +52,15 @@ function User() {
     }
   }, [topicId, images]);
 
-  useEffect(() => {
-    localStorage.setItem('cookies', cookies);
-  }, [cookies]);
+  // useEffect(() => {
+  //   localStorage.setItem('userCookie', cookies['userCookie']);
+  // }, [cookies]);
+  //
+  // useEffect(() => {
+  //   if(cookies === null) {
+  //     setCookies('userCookie',localStorage.getItem('userCookie'));
+  //   }
+  // })
 
   function subscribeEventSource() {
     console.log('subscribeEventSource');
@@ -151,6 +157,7 @@ function User() {
           let roundObject = response.data;
           console.log(roundObject);
           let currentRoundId = roundObject.id;
+          setTopicId(roundObject["topic"].id)
           setRoundId(currentRoundId);
           setGeneration(roundObject.generation);
           console.log('currentRoundId');

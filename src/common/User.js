@@ -19,13 +19,48 @@ function User() {
   const [images, setImages] = useState(null);
   const [symbols, setSymbols] = useState(null);
   const [roundIdState, setRoundId] = useState(null);
+  const [generationState, setGeneration] = useState(null);
   const [result, setResult] = useState(null);
 
   const roundIdRef = useRef(null);
+  const generationRef = useRef(null);
+
+  const [topicId, setTopicId] = useState(null);
+  const [askBackendForSymbols, setAskBackendForSymbols] = useState(false);
 
   useEffect(() => {
-    roundIdRef.current = roundIdState
+    roundIdRef.current = roundIdState;
+    if (askBackendForSymbols) {
+      setSymbolsFromBackend(roundIdState);
+      setAskBackendForSymbols(roundIdState);
+    }
   }, [roundIdState]);
+
+  useEffect(() => {
+    generationRef.current = generationState;
+  }, [generationState]);
+
+  useEffect(() => {
+    if (topicId != null && images != null) {
+      images.forEach(
+          (image) => {
+            if(topicId === image.id) {
+              image.chosen = true;
+            }
+          },
+      );
+    }
+  }, [topicId, images]);
+
+  // useEffect(() => {
+  //   localStorage.setItem('userCookie', cookies['userCookie']);
+  // }, [cookies]);
+  //
+  // useEffect(() => {
+  //   if(cookies === null) {
+  //     setCookies('userCookie',localStorage.getItem('userCookie'));
+  //   }
+  // })
 
   function subscribeEventSource() {
     console.log('subscribeEventSource');
@@ -51,35 +86,39 @@ function User() {
     });
 
     source.addEventListener(EventType.AWAITING_ROUND, (event) => {
-      console.log("AWAITING_ROUND");
+      console.log('AWAITING_ROUND');
       setUserState('waiting');
       callNextRound();
     });
 
     source.addEventListener(EventType.SPEAKER_READY, (event) => {
-      console.log("zostalem speakerem");
+      console.log('zostalem speakerem');
+      console.log(roundIdRef.current);
+      setAskBackendForSymbols(true);
+
       setUserState('speaker');
     });
 
-    source.addEventListener(EventType.LISTENER_READY, (event) => {
-      console.log("jestem ready listenerem?")
+    source.addEventListener(EventType.LISTENER_READY, async (event) => {
+      console.log('jestem ready listenerem?');
+      await setSymbolsFromBackend(roundIdRef.current);
       setUserState('listener');
     });
 
     source.addEventListener(EventType.SPEAKER_HOLD, (event) => {
-      console.log("jestem holdowanym speakerem?")
-      setUserState('waiting');
+      console.log('jestem holdowanym speakerem?');
+      setUserState('waitingListener');
     });
 
     source.addEventListener(EventType.LISTENER_HOLD, (event) => {
-      console.log("zostalem listenerem")
-      setUserState('waiting');
+      console.log('zostalem listenerem');
+      setUserState('waitingSpeaker');
     });
 
     source.addEventListener(EventType.RESULT_READY, (event) => {
-      console.log("result");
+      console.log('result');
       console.log(roundIdRef.current);
-      setUserState('result')
+      setUserState('result');
       updateResult();
     });
 
@@ -116,12 +155,14 @@ function User() {
         then(function(response) {
           console.log('inside callNextRound backend call');
           let roundObject = response.data;
+          console.log(roundObject);
           let currentRoundId = roundObject.id;
+          setTopicId(roundObject["topic"].id)
           setRoundId(currentRoundId);
-          console.log("currentRoundId")
+          setGeneration(roundObject.generation);
+          console.log('currentRoundId');
           console.log(currentRoundId);
           setImagesFromBackend(currentRoundId);
-          setSymbolsFromBackend(currentRoundId);
           console.log(response);
         }).catch(function(error) {
       console.log(error);
@@ -133,6 +174,7 @@ function User() {
     backend.get(`round/${roundId}/images/${userId}`, {withCredentials: true}).
         then(function(response) {
           let imagesObject = response.data;
+          console.log(imagesObject);
           setImages(imagesObject);
         }).
         catch(function(error) {
@@ -141,6 +183,10 @@ function User() {
   }
 
   function setSymbolsFromBackend(roundId) {
+    console.log('TUTAJ POBIERAM SYMBOLE');
+    console.log(roundId);
+    console.log(roundIdRef.current);
+    console.log(roundIdState);
     backend.get(`round/${roundId}/symbols/${userId}`, {withCredentials: true}).
         then(function(response) {
           console.log('ss');
@@ -164,9 +210,10 @@ function User() {
   }
 
   function updateResult() {
-    backend.get(`round/${roundIdRef.current}/result`, {withCredentials: true}).
+    backend.get(`round/${roundIdRef.current}/result/${userId}`,
+        {withCredentials: true}).
         then(function(response) {
-          let resultObject = response.data
+          let resultObject = response.data;
           setResult(resultObject);
         }).
         catch(function(error) {
@@ -187,7 +234,8 @@ function User() {
             <SpeakerComponent userId={userId} setUserState={setUserState}
                               images={images}
                               symbols={symbols}
-                              roundId={roundIdState}/>
+                              roundId={roundIdState}
+                              generation={generationState}/>
         }
         {
             userState === 'listener' &&
@@ -195,6 +243,7 @@ function User() {
                                images={images}
                                symbols={symbols}
                                roundId={roundIdState}
+                               generation={generationState}
             />
         }
         {
@@ -207,7 +256,17 @@ function User() {
         }
         {
             userState === 'waiting' &&
-            <WaitingComponent userId={userId}/>
+            <WaitingComponent roundId={roundIdState}/>
+        }
+        {
+            userState === 'waitingSpeaker' &&
+            <WaitingComponent roundId={roundIdState}
+                              awaitingWhom={'Speaker'}/>
+        }
+        {
+            userState === 'waitingListener' &&
+            <WaitingComponent roundId={roundIdState}
+                              awaitingWhom={'Listener'}/>
         }
       </StyledEngineProvider>
   );

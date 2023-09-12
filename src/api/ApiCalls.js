@@ -12,13 +12,20 @@ export const backend = axios.create({
 
 export function submitSpeaker(
     userId, roundId, answerTime, symbolsSelected, setUserState) {
+  console.log("symbolsSelected:")
   console.log(symbolsSelected);
+  let symbolSelectedArray = Object.entries(symbolsSelected).map(
+      ([groupId, id]) => {
+        return {id: id}
+    }
+  )
+  console.log(symbolSelectedArray);
   backend.post(`/round/${roundId}/speaker`, {
     'userId': userId,
     'roundId': roundId,
     'answerTime': answerTime,
     'imageSelected': {id: 0},
-    'symbolsSelected': [symbolsSelected],
+    'symbolsSelected': symbolSelectedArray,
   }).then(function(response) {
     console.log(response);
   }).catch(function(error) {
@@ -55,6 +62,7 @@ export function createGame(
       topologyId,
       probabilityOfEdgeRedrawing,
       maxVertexDegree,
+      numberOfGenerations,
       createDateTime,
       groupId,
       setEndRoundId,
@@ -68,12 +76,13 @@ export function createGame(
         'userTwoTime': userTwoTime,
         'symbolGroupsAmount': symbolGroupsAmount,
         'symbolsInGroupAmount': symbolsInGroupAmount,
+        'numberOfGenerations' : numberOfGenerations,
         'correctAnswerPoints': correctAnswerPoints,
         'wrongAnswerPoints': wrongAnswerPoints,
         'topology': {
           'id': topologyId,
           'probabilityOfEdgeRedrawing': probabilityOfEdgeRedrawing,
-          'maxVertexDegree': maxVertexDegree,
+          'maxVertexDegree': maxVertexDegree
         },
         'group': {
           'id': groupId

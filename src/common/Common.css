@@ -1,3 +1,7 @@
+#root {
+    height: auto;
+}
+
 .infoText {
     text-align: center;
     font-size: 70px;
@@ -54,9 +58,7 @@
 }
 
 .joinButton:focus {
-    border: 5px;
-    border-style: solid;
-    border-color: #EF767A;
+    border: 5px solid #EF767A;
 }
 
 .listenerSubmitButton, .speakerSubmitButton {
@@ -91,14 +93,12 @@
 }
 
 .pictureNotSelectedComponent {
-    border: 0px;
+    border: 0;
     margin: 7px;
 }
 
 .pictureSelectedComponent {
-    border: 7px;
-    border-color: #456990;
-    border-style: solid;
+    border: 7px solid #456990;
 }
 
 .speakerWrapper, .listenerWrapper {
@@ -117,8 +117,8 @@
 }
 
 .imageFormLabel, .symbolFormLabel {
-    margin-right: 0px;
-    margin-left: 0px;
+    margin-right: 0;
+    margin-left: 0;
 }
 
 .imageNotSelected, .symbolNotSelected {

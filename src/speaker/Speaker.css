@@ -5,11 +5,19 @@
 .symbolsWrapper {
     display: flex;
     flex-direction: row;
-    gap: 5%;
     justify-content: center;
 }
 
 .symbolOverlap {
-    position: absolute;
     opacity: 0.5;
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: center;
+}
+
+.allSelectedSymbols {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    width: 10%;
 }

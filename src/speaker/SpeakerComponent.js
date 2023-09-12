@@ -24,7 +24,7 @@ function SpeakerComponent({userId, setUserState, images, symbols, roundId, gener
     Object.entries(chosenSymbols).forEach(([groupId, id]) => {
       allChosenIds.push(id);
     });
-    return <Box>
+    return <Box className="allSelectedSymbols">
       {
         selectionSymbols.map(
             row => {

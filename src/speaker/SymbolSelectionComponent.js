@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box';
 import {PictureToggleButtons} from '../common/PictureToggleButtons.js';
+import {PictureComponent} from '../common/ImageComponent';
 
 function generateRows(width, selectionSymbols) {
   const rows = [];
@@ -16,7 +17,7 @@ function generateRows(width, selectionSymbols) {
   return rows;
 }
 
-export default function SymbolSelectionComponent({setChosenSymbol, selectionSymbols}) {
+export default function SymbolSelectionComponent({chosenSymbols, setChosenSymbol, selectionSymbols}) {
   const rows = generateRows(selectionSymbols.length, selectionSymbols);
   return (
       <Box

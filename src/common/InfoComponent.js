@@ -9,14 +9,14 @@ function UserInfoComponent({userId}) {
   return <Box className="infoText">{userId}</Box>;
 }
 
-function RoundNumberIdComponent({roundNumber = 0}) {
-  return <Box className="infoText">{roundNumber}</Box>;
+function GenerationComponent({generation = 0}) {
+  return <Box className="infoText">{generation}</Box>;
 }
 
-export function InfoComponent({userId}) {
+export function InfoComponent({userId, generation}) {
   return (
       <Box className="infoComponent">
-        <RoundNumberIdComponent/>
+        <GenerationComponent generation={generation}/>
         <TimerComponent/>
         <UserInfoComponent userId={userId}/>
       </Box>

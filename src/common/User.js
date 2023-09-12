@@ -19,13 +19,23 @@ function User() {
   const [images, setImages] = useState(null);
   const [symbols, setSymbols] = useState(null);
   const [roundIdState, setRoundId] = useState(null);
+  const [generationState, setGeneration] = useState(null);
   const [result, setResult] = useState(null);
 
   const roundIdRef = useRef(null);
+  const generationRef = useRef(null);
 
   useEffect(() => {
     roundIdRef.current = roundIdState
   }, [roundIdState]);
+
+  useEffect(() => {
+    generationRef.current = generationState
+  }, [generationState])
+
+  useEffect(() => {
+    localStorage.setItem('cookies', cookies);
+  }, [cookies]);
 
   function subscribeEventSource() {
     console.log('subscribeEventSource');
@@ -118,6 +128,7 @@ function User() {
           let roundObject = response.data;
           let currentRoundId = roundObject.id;
           setRoundId(currentRoundId);
+          setGeneration(roundObject.generation)
           console.log("currentRoundId")
           console.log(currentRoundId);
           setImagesFromBackend(currentRoundId);
@@ -164,7 +175,7 @@ function User() {
   }
 
   function updateResult() {
-    backend.get(`round/${roundIdRef.current}/result`, {withCredentials: true}).
+    backend.get(`round/${roundIdRef.current}/result/${userId}`, {withCredentials: true}).
         then(function(response) {
           let resultObject = response.data
           setResult(resultObject);
@@ -187,7 +198,8 @@ function User() {
             <SpeakerComponent userId={userId} setUserState={setUserState}
                               images={images}
                               symbols={symbols}
-                              roundId={roundIdState}/>
+                              roundId={roundIdState}
+                              generation={generationState}/>
         }
         {
             userState === 'listener' &&
@@ -195,6 +207,7 @@ function User() {
                                images={images}
                                symbols={symbols}
                                roundId={roundIdState}
+                               generation={generationState}
             />
         }
         {

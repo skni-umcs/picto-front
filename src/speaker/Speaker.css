@@ -2,3 +2,14 @@
     background-color: #EF767A;
 }
 
+.symbolsWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 5%;
+    justify-content: center;
+}
+
+.symbolOverlap {
+    position: absolute;
+    opacity: 0.5;
+}

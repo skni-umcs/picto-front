@@ -55,6 +55,7 @@ export function createGame(
       topologyId,
       probabilityOfEdgeRedrawing,
       maxVertexDegree,
+      numberOfGenerations,
       createDateTime,
       groupId,
       setEndRoundId,
@@ -68,12 +69,13 @@ export function createGame(
         'userTwoTime': userTwoTime,
         'symbolGroupsAmount': symbolGroupsAmount,
         'symbolsInGroupAmount': symbolsInGroupAmount,
+        'numberOfGenerations' : numberOfGenerations,
         'correctAnswerPoints': correctAnswerPoints,
         'wrongAnswerPoints': wrongAnswerPoints,
         'topology': {
           'id': topologyId,
           'probabilityOfEdgeRedrawing': probabilityOfEdgeRedrawing,
-          'maxVertexDegree': maxVertexDegree,
+          'maxVertexDegree': maxVertexDegree
         },
         'group': {
           'id': groupId

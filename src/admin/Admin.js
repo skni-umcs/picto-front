@@ -76,6 +76,8 @@ function AdminFormComponent() {
       ApiCalls.getProbabilityOfEdgeRedrawing());
   const [maxVertexDegree, setMaxVertexDegree] = useState(
       ApiCalls.getMaxVertexDegree());
+  const [numberOfGenerations, setNumberOfGenerations] = useState(
+      ApiCalls.getMaxVertexDegree());
 
   const [buttonMode, setButtonMode] = useState('none');
 
@@ -99,6 +101,7 @@ function AdminFormComponent() {
       topologyId: topologyId,
       probabilityOfEdgeRedrawing: probabilityOfEdgeRedrawing,
       maxVertexDegree: maxVertexDegree,
+      numberOfGenerations: numberOfGenerations,
       createDateTime: moment().format('YYYY-MM-DD[T]HH:mm:ss.SSS'),
       groupId: 1,
       setEndRoundId: setCurrentRoundId,
@@ -195,6 +198,11 @@ function AdminFormComponent() {
           name="wrongAnswerPoints"
           defaultValue={wrongAnswerPoints}
           onChange={e => setWrongAnswerPoints(e.target.value)}
+      />
+      <ElementConfigComponent
+          name="numberOfGenerations"
+          defaultValue={numberOfGenerations}
+          onChange={e => setNumberOfGenerations(e.target.value)}
       />
       <RadioButtonsComponent
           buttonMode={buttonMode}

@@ -76,6 +76,8 @@ function AdminFormComponent() {
       ApiCalls.getProbabilityOfEdgeRedrawing());
   const [maxVertexDegree, setMaxVertexDegree] = useState(
       ApiCalls.getMaxVertexDegree());
+  const [numberOfGenerations, setNumberOfGenerations] = useState(
+      ApiCalls.getMaxVertexDegree());
 
   const [buttonMode, setButtonMode] = useState('none');
 
@@ -83,7 +85,7 @@ function AdminFormComponent() {
       ApiCalls.getCurrentGameId());
 
   useEffect(() => {
-    backend.post("image/add").then(console.log("bbb"));
+    backend.post("image/add").then(console.log("Images added to backend"));
   }, []);
 
   function onSubmit() {
@@ -99,6 +101,7 @@ function AdminFormComponent() {
       topologyId: topologyId,
       probabilityOfEdgeRedrawing: probabilityOfEdgeRedrawing,
       maxVertexDegree: maxVertexDegree,
+      numberOfGenerations: numberOfGenerations,
       createDateTime: moment().format('YYYY-MM-DD[T]HH:mm:ss.SSS'),
       groupId: 1,
       setEndRoundId: setCurrentRoundId,
@@ -196,6 +199,11 @@ function AdminFormComponent() {
           defaultValue={wrongAnswerPoints}
           onChange={e => setWrongAnswerPoints(e.target.value)}
       />
+      <ElementConfigComponent
+          name="numberOfGenerations"
+          defaultValue={numberOfGenerations}
+          onChange={e => setNumberOfGenerations(e.target.value)}
+      />
       <RadioButtonsComponent
           buttonMode={buttonMode}
           setButtonMode={setButtonMode}/>
@@ -263,7 +271,6 @@ function AdminFormComponent() {
 }
 
 function Admin() {
-  console.log('admin');
   return <AdminFormComponent/>;
 }
 

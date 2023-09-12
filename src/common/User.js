@@ -44,7 +44,7 @@ function User() {
     if (topicId != null && images != null) {
       images.forEach(
           (image) => {
-            if(topicId === image.id) {
+            if (topicId === image.id) {
               image.chosen = true;
             }
           },
@@ -63,8 +63,7 @@ function User() {
   // })
 
   function subscribeEventSource() {
-    console.log('subscribeEventSource');
-    console.log(cookies.userCookie);
+    console.log("subscribing event source (should be called only once!)")
     const source = new EventSourcePolyfill(`${BACKEND_IP}/event`,
         {headers: {'x-session': `${cookies.userCookie}`}});
 
@@ -81,6 +80,7 @@ function User() {
     };
 
     source.addEventListener(EventType.GAME_BEGIN, (event) => {
+      console.log("GAME_BEGIN")
       setUserState('waiting');
       callNextRound();
     });
@@ -92,39 +92,37 @@ function User() {
     });
 
     source.addEventListener(EventType.SPEAKER_READY, (event) => {
-      console.log('zostalem speakerem');
-      console.log(roundIdRef.current);
+      console.log('SPEAKER_READY');
       setAskBackendForSymbols(true);
 
       setUserState('speaker');
     });
 
     source.addEventListener(EventType.LISTENER_READY, async (event) => {
-      console.log('jestem ready listenerem?');
+      console.log('LISTENER_READY');
       await setSymbolsFromBackend(roundIdRef.current);
       setUserState('listener');
     });
 
     source.addEventListener(EventType.SPEAKER_HOLD, (event) => {
-      console.log('jestem holdowanym speakerem?');
+      console.log('SPEAKER_HOLD');
       setUserState('waitingListener');
     });
 
     source.addEventListener(EventType.LISTENER_HOLD, (event) => {
-      console.log('zostalem listenerem');
+      console.log('LISTENER_HOLD');
       setUserState('waitingSpeaker');
     });
 
     source.addEventListener(EventType.RESULT_READY, (event) => {
-      console.log('result');
-      console.log(roundIdRef.current);
+      console.log('RESULT_READY');
       setUserState('result');
       updateResult();
     });
 
-    source.onmessage = function(event) {
-      console.log(event);
-    };
+    // source.onmessage = function(event) {
+    //   console.log(event);
+    // };
 
     return () => {
       source.close();
@@ -134,13 +132,13 @@ function User() {
   }
 
   function joinUser(gameId) {
+    console.log('user joins to' + gameId);
     backend.post(`game/${gameId}/join`,
         {
           'gameId': gameId,
         }, {withCredentials: true}).then((response) => {
       let userObject = response.data;
-      console.log(userObject.id);
-      console.log('joinUser');
+      console.log('user joining got following response: ' + JSON.stringify(userObject));
       setCookies('userCookie', userObject.cookie);
       setUserState('waiting');
       setUserId(userObject.id);
@@ -150,20 +148,16 @@ function User() {
   }
 
   function callNextRound() {
-    console.log('callNextRound');
+    console.log('callNextRound()');
     backend.get(`round/next/${userId}`, {withCredentials: true}).
         then(function(response) {
-          console.log('inside callNextRound backend call');
           let roundObject = response.data;
-          console.log(roundObject);
+          console.log('calling next round got round object: ' + JSON.stringify(roundObject));
           let currentRoundId = roundObject.id;
-          setTopicId(roundObject["topic"].id)
+          setTopicId(roundObject['topic'].id);
           setRoundId(currentRoundId);
           setGeneration(roundObject.generation);
-          console.log('currentRoundId');
-          console.log(currentRoundId);
           setImagesFromBackend(currentRoundId);
-          console.log(response);
         }).catch(function(error) {
       console.log(error);
     });
@@ -171,10 +165,11 @@ function User() {
   }
 
   function setImagesFromBackend(roundId) {
+    console.log("setImagesFromBackend");
     backend.get(`round/${roundId}/images/${userId}`, {withCredentials: true}).
         then(function(response) {
           let imagesObject = response.data;
-          console.log(imagesObject);
+          console.log("setting images from backend got image object: "+JSON.stringify(imagesObject));
           setImages(imagesObject);
         }).
         catch(function(error) {
@@ -183,16 +178,14 @@ function User() {
   }
 
   function setSymbolsFromBackend(roundId) {
-    console.log('TUTAJ POBIERAM SYMBOLE');
-    console.log(roundId);
-    console.log(roundIdRef.current);
-    console.log(roundIdState);
+    console.log("setting symbols from backend for round: "+roundId);
     backend.get(`round/${roundId}/symbols/${userId}`, {withCredentials: true}).
         then(function(response) {
-          console.log('ss');
-          console.log(response);
           let symbolsObject = response.data;
           let i = 0;
+
+          console.log("setting symbols from backend got symbols object: "+JSON.stringify(symbolsObject));
+
           symbolsObject.forEach(
               (symbolArray) => {
                 symbolArray.forEach((symbol) => {
@@ -201,7 +194,7 @@ function User() {
                 i++;
               },
           );
-          console.log(symbolsObject);
+          console.log("symbols object after adding groupIds: "+JSON.stringify(symbolsObject));
           setSymbols(symbolsObject);
         }).
         catch(function(error) {
@@ -210,10 +203,12 @@ function User() {
   }
 
   function updateResult() {
+    console.log("updateResult()");
     backend.get(`round/${roundIdRef.current}/result/${userId}`,
         {withCredentials: true}).
         then(function(response) {
           let resultObject = response.data;
+          console.log("updating result got result object: "+JSON.stringify(resultObject));
           setResult(resultObject);
         }).
         catch(function(error) {

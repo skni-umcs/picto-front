@@ -14,13 +14,10 @@ function SpeakerComponent({userId, setUserState, images, symbols, roundId, gener
     let newChosenSymbols = Object.assign({}, chosenSymbols);
     newChosenSymbols[groupId] = symbolId;
     setChosenSymbolsObject(newChosenSymbols);
-    console.log(chosenSymbols);
   }
 
   function AllSelectedSymbolsComponent({selectionSymbols}) {
     let allChosenIds = [];
-    console.log('selectionSymbols');
-    console.log(selectionSymbols);
     Object.entries(chosenSymbols).forEach(([groupId, id]) => {
       allChosenIds.push(id);
     });
@@ -44,8 +41,6 @@ function SpeakerComponent({userId, setUserState, images, symbols, roundId, gener
     </Box>;
   }
 
-  console.log('bleblekania');
-  console.log(images);
   if (images === null) {
     images = [];
   }

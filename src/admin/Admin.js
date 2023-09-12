@@ -85,7 +85,7 @@ function AdminFormComponent() {
       ApiCalls.getCurrentGameId());
 
   useEffect(() => {
-    backend.post("image/add").then(console.log("bbb"));
+    backend.post("image/add").then(console.log("Images added to backend"));
   }, []);
 
   function onSubmit() {
@@ -271,7 +271,6 @@ function AdminFormComponent() {
 }
 
 function Admin() {
-  console.log('admin');
   return <AdminFormComponent/>;
 }
 

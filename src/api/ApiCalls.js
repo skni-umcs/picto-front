@@ -12,37 +12,43 @@ export const backend = axios.create({
 
 export function submitSpeaker(
     userId, roundId, answerTime, symbolsSelected, setUserState) {
-  console.log("symbolsSelected:")
-  console.log(symbolsSelected);
+  console.log('submitSpeaker()');
   let symbolSelectedArray = Object.entries(symbolsSelected).map(
       ([groupId, id]) => {
-        return {id: id}
-    }
-  )
-  console.log(symbolSelectedArray);
-  backend.post(`/round/${roundId}/speaker`, {
+        return {id: id};
+      },
+  );
+  let dataToSend = {
     'userId': userId,
     'roundId': roundId,
     'answerTime': answerTime,
     'imageSelected': {id: 0},
     'symbolsSelected': symbolSelectedArray,
-  }).then(function(response) {
-    console.log(response);
-  }).catch(function(error) {
-    console.log(error);
-  });
+  };
+
+  console.log('submit speaker has following data to send: ' + JSON.stringify(dataToSend));
+  backend.post(`/round/${roundId}/speaker`, dataToSend).
+      then(function(response) {
+        console.log(response);
+      }).
+      catch(function(error) {
+        console.log(error);
+      });
 }
 
 export function submitListener(
     userId, roundId, answerTime, imageSelected, symbolsSelected, setUserState) {
-  backend.post(`/round/${roundId}/listener`,
-      {
-        'userId': userId,
-        'roundId': roundId,
-        'answerTime': answerTime,
-        'imageSelected': {id: imageSelected},
-        'symbolsSelected': [],
-      }).then(function(response) {
+  console.log('submitListener()');
+  let dataToSend = {
+    'userId': userId,
+    'roundId': roundId,
+    'answerTime': answerTime,
+    'imageSelected': {id: imageSelected},
+    'symbolsSelected': [],
+  };
+  console.log('submit listener has following data to send: ' + JSON.stringify(dataToSend));
+  backend.post(`/round/${roundId}/listener`, dataToSend,
+  ).then(function(response) {
     console.log(response);
   }).catch(function(error) {
     console.log(error);
@@ -68,27 +74,30 @@ export function createGame(
       setEndRoundId,
     },
 ) {
-  backend.post('game/admin/create',
-      {
-        'userOneNumberOfImages': userOneNumberOfImages,
-        'userTwoNumberOfImages': userTwoNumberOfImages,
-        'userOneTime': userOneTime,
-        'userTwoTime': userTwoTime,
-        'symbolGroupsAmount': symbolGroupsAmount,
-        'symbolsInGroupAmount': symbolsInGroupAmount,
-        'numberOfGenerations' : numberOfGenerations,
-        'correctAnswerPoints': correctAnswerPoints,
-        'wrongAnswerPoints': wrongAnswerPoints,
-        'topology': {
-          'id': topologyId,
-          'probabilityOfEdgeRedrawing': probabilityOfEdgeRedrawing,
-          'maxVertexDegree': maxVertexDegree
-        },
-        'group': {
-          'id': groupId
-        },
-        'createDateTime': createDateTime,
-      }).then(function(response) {
+  console.log('createGame()');
+  let dataToSend = {
+    'userOneNumberOfImages': userOneNumberOfImages,
+    'userTwoNumberOfImages': userTwoNumberOfImages,
+    'userOneTime': userOneTime,
+    'userTwoTime': userTwoTime,
+    'symbolGroupsAmount': symbolGroupsAmount,
+    'symbolsInGroupAmount': symbolsInGroupAmount,
+    'numberOfGenerations': numberOfGenerations,
+    'correctAnswerPoints': correctAnswerPoints,
+    'wrongAnswerPoints': wrongAnswerPoints,
+    'topology': {
+      'id': topologyId,
+      'probabilityOfEdgeRedrawing': probabilityOfEdgeRedrawing,
+      'maxVertexDegree': maxVertexDegree,
+    },
+    'group': {
+      'id': groupId,
+    },
+    'createDateTime': createDateTime,
+  };
+  console.log('create game data to send: ' + JSON.stringify(dataToSend));
+  backend.post('game/admin/create', dataToSend,
+  ).then(function(response) {
     console.log(response);
     setEndRoundId(response.data.id);
   }).catch(function(error) {
@@ -98,10 +107,13 @@ export function createGame(
 }
 
 export function beginGame(gameId) {
-  backend.post(`game/${gameId}/admin/begin`,
-      {
-        'gameId': gameId,
-      }).then(function(response) {
+  console.log('beginGame');
+  let dataToSend = {
+    'gameId': gameId,
+  };
+  console.log('beginGame data to send: ' + JSON.stringify(dataToSend));
+  backend.post(`game/${gameId}/admin/begin`, dataToSend,
+  ).then(function(response) {
     console.log(response);
   }).catch(function(error) {
     console.log(error);
@@ -109,10 +121,13 @@ export function beginGame(gameId) {
 }
 
 export function endGame(gameId) {
-  backend.post(`game/${gameId}/admin/end`,
-      {
-        'gameId': gameId,
-      }).then(function(response) {
+  console.log('endGame');
+  let dataToSend = {
+    'gameId': gameId,
+  };
+  console.log('end game got data to send: ' + JSON.stringify(dataToSend));
+  backend.post(`game/${gameId}/admin/end`, dataToSend,
+  ).then(function(response) {
     console.log(response);
   }).catch(function(error) {
     console.log(error);

@@ -15,7 +15,6 @@ export function PictureToggleButtons(
       notSelectedClassName = 'symbolNotSelected',
       formLabelClassName = 'symbolFormLabelStyle',
     }) {
-  console.log(selectedClassName);
   return <RadioGroup><Box className={groupClassName}>
     {
       picture_array.map((picture) => {

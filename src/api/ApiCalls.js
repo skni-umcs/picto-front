@@ -12,13 +12,20 @@ export const backend = axios.create({
 
 export function submitSpeaker(
     userId, roundId, answerTime, symbolsSelected, setUserState) {
+  console.log("symbolsSelected:")
   console.log(symbolsSelected);
+  let symbolSelectedArray = Object.entries(symbolsSelected).map(
+      ([groupId, id]) => {
+        return {id: id}
+    }
+  )
+  console.log(symbolSelectedArray);
   backend.post(`/round/${roundId}/speaker`, {
     'userId': userId,
     'roundId': roundId,
     'answerTime': answerTime,
     'imageSelected': {id: 0},
-    'symbolsSelected': [symbolsSelected],
+    'symbolsSelected': symbolSelectedArray,
   }).then(function(response) {
     console.log(response);
   }).catch(function(error) {

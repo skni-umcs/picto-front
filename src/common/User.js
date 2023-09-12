@@ -80,9 +80,9 @@ function User() {
       setUserState('speaker');
     });
 
-    source.addEventListener(EventType.LISTENER_READY, (event) => {
+    source.addEventListener(EventType.LISTENER_READY, async (event) => {
       console.log("jestem ready listenerem?");
-      setSymbolsFromBackend(roundIdRef.current);
+      await setSymbolsFromBackend(roundIdRef.current);
       setUserState('listener');
     });
 

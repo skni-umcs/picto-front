@@ -78,12 +78,12 @@ function User() {
 
     source.addEventListener(EventType.SPEAKER_HOLD, (event) => {
       console.log("jestem holdowanym speakerem?")
-      setUserState('waiting');
+      setUserState('waitingListener');
     });
 
     source.addEventListener(EventType.LISTENER_HOLD, (event) => {
       console.log("zostalem listenerem")
-      setUserState('waiting');
+      setUserState('waitingSpeaker');
     });
 
     source.addEventListener(EventType.RESULT_READY, (event) => {
@@ -220,7 +220,17 @@ function User() {
         }
         {
             userState === 'waiting' &&
-            <WaitingComponent userId={userId}/>
+            <WaitingComponent roundId={roundIdState}/>
+        }
+        {
+            userState === 'waitingSpeaker' &&
+            <WaitingComponent roundId={roundIdState}
+            awaitingWhom={"Speaker"}/>
+        }
+        {
+            userState === 'waitingListener' &&
+            <WaitingComponent roundId={roundIdState}
+            awaitingWhom={"Listener"}/>
         }
       </StyledEngineProvider>
   );

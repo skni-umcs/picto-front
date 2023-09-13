@@ -84,9 +84,9 @@ function AdminFormComponent() {
   const [currentRoundId, setCurrentRoundId] = useState(
       ApiCalls.getCurrentGameId());
 
-  useEffect(() => {
+  function onImageAdd() {
     backend.post("image/add").then(console.log("Images added to backend"));
-  }, []);
+  }
 
   function onSubmit() {
     ApiCalls.createGame({
@@ -159,6 +159,7 @@ function AdminFormComponent() {
           gap: 4,
         }}
     >
+      <Button onClick={onImageAdd}>Add images</Button>
       <ElementConfigComponent
           name="selectionWidth"
           defaultValue={selectionWidth}

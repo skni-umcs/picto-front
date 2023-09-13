@@ -1,14 +1,14 @@
 import Box from '@mui/material/Box';
 
-function Result({joinUser}) {
-  return (
-      <Box sx={{flexDirection: 'column', display: 'flex'}}
-           className={'joinComponent'}>
-        <Box className="joinComponentsContainer">
-          Temporary result screen
-        </Box>
-      </Box>
-  );
+function Result({result}) {
+  if(result == null) {
+    result = {}
+  }
+  let correct = result.result === "CORRECT";
+  return (<>
+          {correct && <Box className="resultFieldCorrect">CORRECT</Box>}
+          {!correct && <Box className="resultFieldWrong">WRONG</Box>}
+    </>);
 }
 
 export default Result;

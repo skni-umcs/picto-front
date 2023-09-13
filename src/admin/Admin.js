@@ -13,6 +13,7 @@ import moment from 'moment';
 import * as ApiCalls from '../api/ApiCalls';
 import {FormControlLabel, RadioGroup} from '@mui/material';
 import {backend} from '../api/ApiCalls';
+import SymbolListComponent from './SymbolListComponent';
 
 function TopologyConfigDetailedButtons(
     {
@@ -84,8 +85,12 @@ function AdminFormComponent() {
   const [currentRoundId, setCurrentRoundId] = useState(
       ApiCalls.getCurrentGameId());
 
+  const [symbols, setSymbols] = useState([]);
+  const [images, setImages] = useState([]);
+
   useEffect(() => {
     backend.post("image/add").then(console.log("Images added to backend"));
+    getAllSymbols();
   }, []);
 
   function onSubmit() {
@@ -134,6 +139,18 @@ function AdminFormComponent() {
                           }}/>}
           label="Detailed"></FormControlLabel>
     </RadioGroup></Box>;
+  }
+
+  function getAllSymbols() {
+    console.log("Getting all symbols");
+    backend.get(`symbol/all`, {withCredentials: true}).
+        then(function(response) {
+          let symbolsObject = response.data;
+          console.log('calling all symbols got symbol object: ' + JSON.stringify(symbolsObject));
+          setSymbols(symbolsObject);
+        }).catch(function(error) {
+      console.log(error);
+    });
   }
 
   return <Box
@@ -220,7 +237,8 @@ function AdminFormComponent() {
             setTopologyId={setTopologyId}/>}
       </Box>
 
-      
+      <SymbolListComponent symbols={symbols}/>
+
       {/*<PreviewElementList*/}
       {/*    name="Images"*/}
       {/*    list={ApiCalls.getImages()}*/}

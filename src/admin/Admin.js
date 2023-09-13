@@ -220,15 +220,15 @@ function AdminFormComponent() {
             setTopologyId={setTopologyId}/>}
       </Box>
 
-
-      <PreviewElementList
-          name="Images"
-          list={ApiCalls.getImages()}
-      />
-      <ListOfPreviewElementLists
-          name="Symbols"
-          list={ApiCalls.getSelectionSymbols()}
-      />
+      
+      {/*<PreviewElementList*/}
+      {/*    name="Images"*/}
+      {/*    list={ApiCalls.getImages()}*/}
+      {/*/>*/}
+      {/*<ListOfPreviewElementLists*/}
+      {/*    name="Symbols"*/}
+      {/*    list={ApiCalls.getSelectionSymbols()}*/}
+      {/*/>*/}
     </Box>
     <Box
         sx={{

@@ -10,6 +10,7 @@ import {StyledEngineProvider} from '@mui/material';
 import Result from './Result';
 import {useCookies} from 'react-cookie';
 import {EventSourcePolyfill} from 'event-source-polyfill';
+import Admin from '../admin/Admin';
 
 function User() {
 
@@ -27,6 +28,8 @@ function User() {
 
   const [topicId, setTopicId] = useState(null);
   const [askBackendForSymbols, setAskBackendForSymbols] = useState(false);
+
+  const [reRender, setReRender] = useState(false);
 
   useEffect(() => {
     roundIdRef.current = roundIdState;
@@ -49,6 +52,7 @@ function User() {
             }
           },
       );
+      setReRender(true);
     }
   }, [topicId, images]);
 
@@ -133,18 +137,24 @@ function User() {
 
   function joinUser(gameId) {
     console.log('user joins to' + gameId);
-    backend.post(`game/${gameId}/join`,
-        {
-          'gameId': gameId,
-        }, {withCredentials: true}).then((response) => {
-      let userObject = response.data;
-      console.log('user joining got following response: ' + JSON.stringify(userObject));
-      setCookies('userCookie', userObject.cookie);
-      setUserState('waiting');
-      setUserId(userObject.id);
-    }).catch(function(error) {
-      console.log(error);
-    });
+    if(gameId === "admin") {
+      setUserState("admin")
+    }
+    else {
+      backend.post(`game/${gameId}/join`,
+      {
+        'gameId': gameId,
+      }, {withCredentials: true}).then((response) => {
+    let userObject = response.data;
+    console.log('user joining got following response: ' + JSON.stringify(userObject));
+    setCookies('userCookie', userObject.cookie);
+    setUserState('waiting');
+    setUserId(userObject.id);
+  }).catch(function(error) {
+    console.log(error);
+  });
+    }
+
   }
 
   function callNextRound() {
@@ -224,6 +234,9 @@ function User() {
 
   return (
       <StyledEngineProvider injectFirst>
+        {
+          userState === 'admin' && <Admin></Admin>
+        }
         {
             userState === 'speaker' &&
             <SpeakerComponent userId={userId} setUserState={setUserState}

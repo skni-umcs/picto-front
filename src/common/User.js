@@ -120,7 +120,6 @@ function User() {
 
     source.addEventListener(EventType.RESULT_READY, (event) => {
       console.log('RESULT_READY');
-      setUserState('result');
       updateResult();
     });
 
@@ -220,6 +219,7 @@ function User() {
           let resultObject = response.data;
           console.log("updating result got result object: "+JSON.stringify(resultObject));
           setResult(resultObject);
+          setUserState('result');
         }).
         catch(function(error) {
           console.log(error);
@@ -260,7 +260,7 @@ function User() {
         }
         {
             userState === 'result' &&
-            <Result/>
+            <Result result={result}/>
         }
         {
             userState === 'waiting' &&

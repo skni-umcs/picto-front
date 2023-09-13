@@ -28,6 +28,8 @@ function User() {
   const [topicId, setTopicId] = useState(null);
   const [askBackendForSymbols, setAskBackendForSymbols] = useState(false);
 
+  const [reRender, setReRender] = useState(false);
+
   useEffect(() => {
     roundIdRef.current = roundIdState;
     if (askBackendForSymbols) {
@@ -49,6 +51,7 @@ function User() {
             }
           },
       );
+      setReRender(true);
     }
   }, [topicId, images]);
 

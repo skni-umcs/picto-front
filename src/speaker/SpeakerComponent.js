@@ -51,7 +51,7 @@ function SpeakerComponent({
                     className="speakerSubmitButton"
                     onClick={() => submitSpeaker(userId, roundId, answerTime,
                         chosenSymbols,
-                        setUserState)}>submit</Button>}</Box>
+                        setUserState)}>Wyślij</Button>}</Box>
         </Box>
       </Container>
   );

@@ -6,8 +6,8 @@ function Result({result}) {
   }
   let correct = result.result === "CORRECT";
   return (<>
-          {correct && <Box className="resultFieldCorrect">CORRECT</Box>}
-          {!correct && <Box className="resultFieldWrong">WRONG</Box>}
+          {correct && <Box className="resultFieldCorrect">DOBRZE</Box>}
+          {!correct && <Box className="resultFieldWrong">ŹLE</Box>}
     </>);
 }
 

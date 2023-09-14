@@ -35,7 +35,7 @@ function ListenerComponent({userId, setUserState, images, symbols, roundId, gene
           <Box sx={{display: 'flex', justifyContent: 'right'}}>{chosenImage != null && <Button
               className="listenerSubmitButton"
               onClick={() => submitListener(userId, roundId, answerTime, chosenImage, {},
-                  setUserState)}>submit</Button>}</Box>
+                  setUserState)}>Wyślij</Button>}</Box>
         </Box>
       </Container>
   );

@@ -15,7 +15,7 @@ function UserJoin({joinUser}) {
         <Box className="joinComponentsContainer">
           <input className="joinInput" value={gameId}
                  onChange={e => setGameId(e.target.value)}></input>
-          <Button className="joinButton" onClick={onJoin}>JOIN</Button>
+          <Button className="joinButton" onClick={onJoin}>DOŁĄCZ</Button>
         </Box>
       </Box>
   );

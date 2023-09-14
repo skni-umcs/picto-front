@@ -4,7 +4,7 @@ import React from 'react';
 function EndScreen({roundId = 0, awaitingWhom="Round"}) {
   return (
       <Box className="waitingComponent">
-        Thanks for playing!
+        Dziękujemy za grę!
       </Box>
   );
 }

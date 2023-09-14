@@ -6,6 +6,7 @@ import {PictureComponent, PictureListComponent} from '../common/ImageComponent';
 import SymbolSelectionComponent from '../speaker/SymbolSelectionComponent';
 import SpeakerSubmitComponent from '../speaker/SpeakerSubmitComponent';
 import {InfoComponent} from '../common/InfoComponent';
+import AllSelectedSymbolsComponent from '../common/AllSelectedSymbolsComponent'
 
 function SpeakerComponent({userId, setUserState, images, symbols, roundId, generation}) {
   const [chosenSymbols, setChosenSymbolsObject] = useState({});
@@ -14,31 +15,6 @@ function SpeakerComponent({userId, setUserState, images, symbols, roundId, gener
     let newChosenSymbols = Object.assign({}, chosenSymbols);
     newChosenSymbols[groupId] = symbolId;
     setChosenSymbolsObject(newChosenSymbols);
-  }
-
-  function AllSelectedSymbolsComponent({selectionSymbols}) {
-    let allChosenIds = [];
-    Object.entries(chosenSymbols).forEach(([groupId, id]) => {
-      allChosenIds.push(id);
-    });
-    return <Box className="allSelectedSymbols">
-      {
-        selectionSymbols.map(
-            row => {
-              return row.map(
-                  symbol => {
-                    if (allChosenIds.includes(symbol.id)) {
-                      return <PictureComponent
-                          path={symbol.path}
-                          className={"symbolOverlap"}
-                      />;
-                    }
-                  },
-              );
-            },
-        )
-      }
-    </Box>;
   }
 
   if (images === null) {
@@ -57,7 +33,8 @@ function SpeakerComponent({userId, setUserState, images, symbols, roundId, gener
             <SymbolSelectionComponent setChosenSymbol={setChosenSymbol}
                                       selectionSymbols={symbols}
                                       chosenSymbols={chosenSymbols}/>
-            <AllSelectedSymbolsComponent selectionSymbols={symbols}/>
+            <AllSelectedSymbolsComponent selectionSymbols={symbols}
+            chosenSymbols={chosenSymbols}/>
           </Box>
           <SpeakerSubmitComponent chosenSymbols={chosenSymbols}
                                   setUserState={setUserState}

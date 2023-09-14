@@ -6,6 +6,7 @@ import {PictureListComponent} from '../common/ImageComponent';
 import ImageSelectionComponent from '../listener/ImageSelectionComponent';
 import {InfoComponent} from '../common/InfoComponent';
 import ListenerSubmitComponent from '../listener/ListenerSubmitComponent';
+import AllSelectedSymbolsComponent from '../common/AllSelectedSymbolsComponent';
 
 function ListenerComponent({userId, setUserState, images, symbols, roundId, generation}) {
   const [chosenImage, setChosenImageObject] = useState(null);
@@ -27,9 +28,7 @@ function ListenerComponent({userId, setUserState, images, symbols, roundId, gene
           <InfoComponent userId={userId} generation={generation}/>
           <ImageSelectionComponent images={images}
                                    setChosenImage={setChosenImage}/>
-          <PictureListComponent
-              pictures={symbols[0]}
-              className="symbolListComponent"/>
+        <AllSelectedSymbolsComponent symbols={symbols[0]} selectAll={true}/>
           <ListenerSubmitComponent
               imageSelected={chosenImage}
               setUserState={setUserState}

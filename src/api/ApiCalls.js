@@ -134,6 +134,16 @@ export function endGame(gameId) {
   });
 }
 
+export function endAll() {
+  console.log('endAll');
+  backend.post(`game/admin/end/all`,
+  ).then(function(response) {
+    console.log(response);
+  }).catch(function(error) {
+    console.log(error);
+  });
+}
+
 //values below are defaults that are at the moment in-code but will be dynamic later
 
 export function getSelectionSymbols() {

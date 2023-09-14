@@ -45,7 +45,7 @@ function SpeakerComponent({
             <AllSelectedSymbolsComponent selectionSymbols={symbols}
                                          chosenSymbols={chosenSymbols}/>
           </Box>
-          <Box sx={{display: 'flex', justifyContent: 'right'}}>
+          <Box className="speakerSubmitContainer">
             {chosenSymbols != null && Object.keys(chosenSymbols).length ===
                 symbols.length && <Button
                     className="speakerSubmitButton"

@@ -28,10 +28,10 @@ function ListenerComponent({userId, setUserState, images, symbols, roundId, gene
       <Container className="listenerComponent">
         <Box className="listenerWrapper">
           <InfoComponent userId={userId} generation={generation}/>
+          <Box className="allSelectedSymbolsListener"><AllSelectedSymbolsComponent selectionSymbols={symbols} selectAll={true}/></Box>
           <ImageSelectionComponent images={images}
                                    setChosenImage={setChosenImage}/>
-          <Box className="allSelectedSymbolsListener"><AllSelectedSymbolsComponent selectionSymbols={symbols} selectAll={true}/></Box>
-          <Box sx={{display: 'flex', justifyContent: 'right'}}>{chosenImage != null && <Button
+          <Box className="listenerSubmitContainer">{chosenImage != null && <Button
               className="listenerSubmitButton"
               onClick={() => submitListener(userId, roundId, Date.now()-startTime, chosenImage, {},
                   setUserState)}>Wyślij</Button>}</Box>

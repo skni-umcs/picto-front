@@ -7,11 +7,3 @@
     flex-direction: row;
     justify-content: center;
 }
-
-.symbolOverlap {
-    opacity: 0.5;
-    grid-column: 1;
-    grid-row: 1;
-    justify-self: center;
-    align-self: center;
-}

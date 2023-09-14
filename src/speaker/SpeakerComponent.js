@@ -2,14 +2,23 @@ import Box from '@mui/material/Box';
 import {Container} from '@mui/material';
 
 import React, {useState} from 'react';
-import {PictureComponent, PictureListComponent} from '../common/ImageComponent';
+import {PictureListComponent} from '../common/ImageComponent';
 import SymbolSelectionComponent from '../speaker/SymbolSelectionComponent';
-import SpeakerSubmitComponent from '../speaker/SpeakerSubmitComponent';
 import {InfoComponent} from '../common/InfoComponent';
-import AllSelectedSymbolsComponent from '../common/AllSelectedSymbolsComponent'
+import AllSelectedSymbolsComponent from '../common/AllSelectedSymbolsComponent';
+import Button from '@mui/material/Button';
+import {submitSpeaker} from '../api/ApiCalls';
 
-function SpeakerComponent({userId, setUserState, images, symbols, roundId, generation}) {
+function SpeakerComponent({
+                            userId,
+                            setUserState,
+                            images,
+                            symbols,
+                            roundId,
+                            generation,
+                          }) {
   const [chosenSymbols, setChosenSymbolsObject] = useState({});
+  const [answerTime, setAnswerTime] = useState(0);
 
   function setChosenSymbol(symbolId, groupId) {
     let newChosenSymbols = Object.assign({}, chosenSymbols);
@@ -34,12 +43,15 @@ function SpeakerComponent({userId, setUserState, images, symbols, roundId, gener
                                       selectionSymbols={symbols}
                                       chosenSymbols={chosenSymbols}/>
             <AllSelectedSymbolsComponent selectionSymbols={symbols}
-            chosenSymbols={chosenSymbols}/>
+                                         chosenSymbols={chosenSymbols}/>
           </Box>
-          <SpeakerSubmitComponent chosenSymbols={chosenSymbols}
-                                  setUserState={setUserState}
-                                  userId={userId}
-                                  roundId={roundId}/>
+          <Box sx={{display: 'flex', justifyContent: 'right'}}>
+            {chosenSymbols != null && Object.keys(chosenSymbols).length ===
+                symbols.length && <Button
+                    className="speakerSubmitButton"
+                    onClick={() => submitSpeaker(userId, roundId, answerTime,
+                        chosenSymbols,
+                        setUserState)}>submit</Button>}</Box>
         </Box>
       </Container>
   );

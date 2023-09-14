@@ -32,6 +32,8 @@ function User() {
 
   const [reRender, setReRender] = useState(false);
 
+  const [startTime, setStartTime] = useState(0);
+
   useEffect(() => {
     roundIdRef.current = roundIdState;
     if (askBackendForSymbols) {
@@ -99,14 +101,15 @@ function User() {
     source.addEventListener(EventType.SPEAKER_READY, (event) => {
       console.log('SPEAKER_READY');
       setAskBackendForSymbols(true);
-
       setUserState('speaker');
+      setStartTime(Date.now());
     });
 
     source.addEventListener(EventType.LISTENER_READY, async (event) => {
       console.log('LISTENER_READY');
       await setSymbolsFromBackend(roundIdRef.current);
       setUserState('listener');
+      setStartTime(Date.now());
     });
 
     source.addEventListener(EventType.SPEAKER_HOLD, (event) => {
@@ -249,7 +252,9 @@ function User() {
                               images={images}
                               symbols={symbols}
                               roundId={roundIdState}
-                              generation={generationState}/>
+                              generation={generationState}
+                              startTime={startTime}
+            />
         }
         {
             userState === 'listener' &&
@@ -258,6 +263,7 @@ function User() {
                                symbols={symbols}
                                roundId={roundIdState}
                                generation={generationState}
+                               startTime={startTime}
             />
         }
         {

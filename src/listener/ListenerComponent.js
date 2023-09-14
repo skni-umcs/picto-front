@@ -10,9 +10,8 @@ import AllSelectedSymbolsComponent from '../common/AllSelectedSymbolsComponent';
 import Button from '@mui/material/Button';
 import {submitListener} from '../api/ApiCalls';
 
-function ListenerComponent({userId, setUserState, images, symbols, roundId, generation}) {
+function ListenerComponent({userId, setUserState, images, symbols, roundId, generation, startTime}) {
   const [chosenImage, setChosenImageObject] = useState(null);
-  const [answerTime, setAnswerTime] = useState(0);
 
   function setChosenImage(imageId, groupId) {
     setChosenImageObject(imageId);
@@ -34,7 +33,7 @@ function ListenerComponent({userId, setUserState, images, symbols, roundId, gene
           <Box className="allSelectedSymbolsListener"><AllSelectedSymbolsComponent selectionSymbols={symbols} selectAll={true}/></Box>
           <Box sx={{display: 'flex', justifyContent: 'right'}}>{chosenImage != null && <Button
               className="listenerSubmitButton"
-              onClick={() => submitListener(userId, roundId, answerTime, chosenImage, {},
+              onClick={() => submitListener(userId, roundId, Date.now()-startTime, chosenImage, {},
                   setUserState)}>Wyślij</Button>}</Box>
         </Box>
       </Container>

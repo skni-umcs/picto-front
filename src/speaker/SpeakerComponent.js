@@ -16,9 +16,9 @@ function SpeakerComponent({
                             symbols,
                             roundId,
                             generation,
+                            startTime
                           }) {
   const [chosenSymbols, setChosenSymbolsObject] = useState({});
-  const [answerTime, setAnswerTime] = useState(0);
 
   function setChosenSymbol(symbolId, groupId) {
     let newChosenSymbols = Object.assign({}, chosenSymbols);
@@ -49,7 +49,7 @@ function SpeakerComponent({
             {chosenSymbols != null && Object.keys(chosenSymbols).length ===
                 symbols.length && <Button
                     className="speakerSubmitButton"
-                    onClick={() => submitSpeaker(userId, roundId, answerTime,
+                    onClick={() => submitSpeaker(userId, roundId, Date.now()-startTime,
                         chosenSymbols,
                         setUserState)}>Wyślij</Button>}</Box>
         </Box>

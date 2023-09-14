@@ -1,21 +1,28 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import {useState} from 'react';
+import {useRef, useState} from 'react';
 
 function UserJoin({joinUser}) {
   const [gameId, setGameId] = useState(0);
+  const buttonRef = useRef(null);
 
   function onJoin() {
     joinUser(gameId);
+  }
+
+  const handleKeyPress = e => {
+    if(e.key === "Enter") {
+      buttonRef.current.click();
+    }
   }
 
   return (
       <Box sx={{flexDirection: 'column', display: 'flex'}}
            className={'joinComponent'}>
         <Box className="joinComponentsContainer">
-          <input className="joinInput" value={gameId}
+          <input onKeyDown={handleKeyPress} className="joinInput" value={gameId}
                  onChange={e => setGameId(e.target.value)}></input>
-          <Button className="joinButton" onClick={onJoin}>DOŁĄCZ</Button>
+          <Button ref={buttonRef} className="joinButton" onClick={onJoin} autofocus>DOŁĄCZ</Button>
         </Box>
       </Box>
   );

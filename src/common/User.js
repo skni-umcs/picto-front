@@ -11,6 +11,7 @@ import Result from './Result';
 import {useCookies} from 'react-cookie';
 import {EventSourcePolyfill} from 'event-source-polyfill';
 import Admin from '../admin/Admin';
+import EndScreen from './EndScreen';
 
 function User() {
 
@@ -122,6 +123,11 @@ function User() {
       console.log('RESULT_READY');
       updateResult();
     });
+
+    source.addEventListener(EventType.END_GAME, (event) => {
+      console.log('END_GAME');
+      setUserState("end")
+    })
 
     // source.onmessage = function(event) {
     //   console.log(event);
@@ -275,6 +281,10 @@ function User() {
             userState === 'waitingListener' &&
             <WaitingComponent roundId={roundIdState}
                               awaitingWhom={'Listener'}/>
+        }
+        {
+          userState === 'end' &&
+            <EndScreen></EndScreen>
         }
       </StyledEngineProvider>
   );

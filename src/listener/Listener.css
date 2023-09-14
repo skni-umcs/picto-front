@@ -5,3 +5,8 @@
 .symbolListComponent {
     scale: 70%;
 }
+
+.allSelectedSymbolsListener {
+    justify-content: center;
+    width: 100%;
+}

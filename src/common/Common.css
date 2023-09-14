@@ -149,3 +149,11 @@
 .imageSelected {
     border-color: #EF767A;
 }
+
+.allSelectedSymbols {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    padding-left: 10%;
+    padding-right: 10%;
+}

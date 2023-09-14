@@ -28,7 +28,7 @@ function ListenerComponent({userId, setUserState, images, symbols, roundId, gene
           <InfoComponent userId={userId} generation={generation}/>
           <ImageSelectionComponent images={images}
                                    setChosenImage={setChosenImage}/>
-        <AllSelectedSymbolsComponent symbols={symbols[0]} selectAll={true}/>
+          <Box className="allSelectedSymbolsListener"><AllSelectedSymbolsComponent selectionSymbols={symbols} selectAll={true}/></Box>
           <ListenerSubmitComponent
               imageSelected={chosenImage}
               setUserState={setUserState}

@@ -37,7 +37,6 @@ function User() {
   useEffect(() => {
     roundIdRef.current = roundIdState;
     if (askBackendForSymbols) {
-      setSymbolsFromBackend(roundIdState);
       setAskBackendForSymbols(roundIdState);
     }
   }, [roundIdState]);
@@ -176,6 +175,7 @@ function User() {
           setRoundId(currentRoundId);
           setGeneration(roundObject.generation);
           setImagesFromBackend(currentRoundId);
+          setSymbolsFromBackend(currentRoundId)
         }).catch(function(error) {
       console.log(error);
     });

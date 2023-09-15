@@ -58,10 +58,36 @@
     border: 5px solid #EF767A;
 }
 
+.speakerSubmitContainer, .listenerSubmitContainer {
+    display: flex;
+    justify-content: right;
+}
+
+.speakerSubmitContainer, .listenerSubmitContainer, .listenerSubmitButton, .speakerSubmitButton {
+    height: 250px;
+
+}
+
+.listenerSubmitContainer {
+    margin-bottom: 5%;
+}
+
 .listenerSubmitButton, .speakerSubmitButton {
+    width: 500px;
     background-color: #EEB868;
     color: #456990;
     border-radius: 5px;
+}
+
+.speakerSubmitButton {
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+}
+
+.listenerSubmitButton {
+    margin-bottom: 5%;
+    margin-right: 5%;
 }
 
 .resultFieldWrong, .resultFieldCorrect {
@@ -148,4 +174,21 @@
 
 .imageSelected {
     border-color: #EF767A;
+}
+
+.allSelectedSymbols {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    padding-left: 10%;
+    padding-right: 10%;
+    width: 200px;
+}
+
+.symbolOverlap {
+    opacity: 0.5;
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: center;
+    align-self: center;
 }

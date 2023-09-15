@@ -120,6 +120,10 @@ function AdminFormComponent() {
     ApiCalls.endGame(currentRoundId);
   }
 
+  function onEndAll() {
+    ApiCalls.endAll();
+  }
+
   function RadioButtonsComponent({buttonMode, setButtonMode}) {
     return <Box><RadioGroup>
       <FormControlLabel
@@ -277,6 +281,9 @@ function AdminFormComponent() {
         >
           <Button onClick={onEnd}>
             End Game
+          </Button>
+          <Button onClick={onEndAll}>
+            End All Games
           </Button>
           <input
               value={currentRoundId}

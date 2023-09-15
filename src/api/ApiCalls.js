@@ -4,7 +4,6 @@ export const BACKEND_IP = "api";
 
 export const backend = axios.create({
   baseURL: BACKEND_IP,
-  timeout: 900000, //15 minutes
   headers: {
     'x-session': `${localStorage.getItem('access_token')}`,
   },
@@ -127,6 +126,16 @@ export function endGame(gameId) {
   };
   console.log('end game got data to send: ' + JSON.stringify(dataToSend));
   backend.post(`game/${gameId}/admin/end`, dataToSend,
+  ).then(function(response) {
+    console.log(response);
+  }).catch(function(error) {
+    console.log(error);
+  });
+}
+
+export function endAll() {
+  console.log('endAll');
+  backend.post(`game/admin/end/all`,
   ).then(function(response) {
     console.log(response);
   }).catch(function(error) {

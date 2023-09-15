@@ -11,6 +11,7 @@ import Result from './Result';
 import {useCookies} from 'react-cookie';
 import {EventSourcePolyfill} from 'event-source-polyfill';
 import Admin from '../admin/Admin';
+import EndScreen from './EndScreen';
 
 function User() {
 
@@ -31,10 +32,11 @@ function User() {
 
   const [reRender, setReRender] = useState(false);
 
+  const [startTime, setStartTime] = useState(0);
+
   useEffect(() => {
     roundIdRef.current = roundIdState;
     if (askBackendForSymbols) {
-      setSymbolsFromBackend(roundIdState);
       setAskBackendForSymbols(roundIdState);
     }
   }, [roundIdState]);
@@ -98,14 +100,15 @@ function User() {
     source.addEventListener(EventType.SPEAKER_READY, (event) => {
       console.log('SPEAKER_READY');
       setAskBackendForSymbols(true);
-
       setUserState('speaker');
+      setStartTime(Date.now());
     });
 
     source.addEventListener(EventType.LISTENER_READY, async (event) => {
       console.log('LISTENER_READY');
       await setSymbolsFromBackend(roundIdRef.current);
       setUserState('listener');
+      setStartTime(Date.now());
     });
 
     source.addEventListener(EventType.SPEAKER_HOLD, (event) => {
@@ -122,6 +125,11 @@ function User() {
       console.log('RESULT_READY');
       updateResult();
     });
+
+    source.addEventListener(EventType.END_GAME, (event) => {
+      console.log('END_GAME');
+      setUserState("end")
+    })
 
     // source.onmessage = function(event) {
     //   console.log(event);
@@ -167,6 +175,7 @@ function User() {
           setRoundId(currentRoundId);
           setGeneration(roundObject.generation);
           setImagesFromBackend(currentRoundId);
+          setSymbolsFromBackend(currentRoundId)
         }).catch(function(error) {
       console.log(error);
     });
@@ -243,7 +252,9 @@ function User() {
                               images={images}
                               symbols={symbols}
                               roundId={roundIdState}
-                              generation={generationState}/>
+                              generation={generationState}
+                              startTime={startTime}
+            />
         }
         {
             userState === 'listener' &&
@@ -252,6 +263,7 @@ function User() {
                                symbols={symbols}
                                roundId={roundIdState}
                                generation={generationState}
+                               startTime={startTime}
             />
         }
         {
@@ -269,12 +281,16 @@ function User() {
         {
             userState === 'waitingSpeaker' &&
             <WaitingComponent roundId={roundIdState}
-                              awaitingWhom={'Speaker'}/>
+                              awaitingWhom={'mówcy'}/>
         }
         {
             userState === 'waitingListener' &&
             <WaitingComponent roundId={roundIdState}
-                              awaitingWhom={'Listener'}/>
+                              awaitingWhom={'słuchacza'}/>
+        }
+        {
+          userState === 'end' &&
+            <EndScreen></EndScreen>
         }
       </StyledEngineProvider>
   );

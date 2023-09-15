@@ -4,7 +4,6 @@ export const BACKEND_IP = "api";
 
 export const backend = axios.create({
   baseURL: BACKEND_IP,
-  timeout: 900000, //15 minutes
   headers: {
     'x-session': `${localStorage.getItem('access_token')}`,
   },

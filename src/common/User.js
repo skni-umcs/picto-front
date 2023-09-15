@@ -73,7 +73,7 @@ function User() {
   function subscribeEventSource() {
     console.log("subscribing event source (should be called only once!)")
     const source = new EventSourcePolyfill(`${BACKEND_IP}/event`,
-        {headers: {'x-session': `${cookies.userCookie}`}});
+        {headers: {'x-session': `${cookies.userCookie}`}, heartbeatTimeout: 120000});
 
     const EventType = {
       GAME_BEGIN: 'GAME_BEGIN',
@@ -101,17 +101,19 @@ function User() {
 
     source.addEventListener(EventType.SPEAKER_READY, (event) => {
       console.log('SPEAKER_READY');
-      setTimeout(userNewRoundWaitTime);
-      setUserState('speaker');
-      setStartTime(Date.now());
+      setTimeout(() => {
+        setUserState('speaker');
+        setStartTime(Date.now());
+        }, userNewRoundWaitTime);
     });
 
     source.addEventListener(EventType.LISTENER_READY, async (event) => {
       console.log('LISTENER_READY');
       await setSymbolsFromBackend(roundIdRef.current);
-      setTimeout(userNewRoundWaitTime);
-      setUserState('listener');
-      setStartTime(Date.now());
+      setTimeout(() => {
+        setUserState('listener');
+        setStartTime(Date.now());
+      },userNewRoundWaitTime);
     });
 
     source.addEventListener(EventType.SPEAKER_HOLD, (event) => {

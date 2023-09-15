@@ -80,7 +80,7 @@ function AdminFormComponent() {
   const [numberOfGenerations, setNumberOfGenerations] = useState(
       ApiCalls.getMaxVertexDegree());
 
-  const [buttonMode, setButtonMode] = useState('none');
+  const [buttonMode, setButtonMode] = useState('detailed');
 
   const [currentRoundId, setCurrentRoundId] = useState(
       ApiCalls.getCurrentGameId());

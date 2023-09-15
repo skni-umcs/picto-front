@@ -30,7 +30,7 @@ function User() {
   const [topicId, setTopicId] = useState(null);
   const [askBackendForSymbols, setAskBackendForSymbols] = useState(false);
 
-  const [reRender, setReRender] = useState(false);
+  const [reRender, setReRender] = useState(0);
 
   const [startTime, setStartTime] = useState(0);
 
@@ -54,8 +54,8 @@ function User() {
             }
           },
       );
-      setReRender(true);
     }
+    setReRender(reRender+1);
   }, [topicId, images]);
 
   // useEffect(() => {
@@ -99,7 +99,6 @@ function User() {
 
     source.addEventListener(EventType.SPEAKER_READY, (event) => {
       console.log('SPEAKER_READY');
-      setAskBackendForSymbols(true);
       setUserState('speaker');
       setStartTime(Date.now());
     });

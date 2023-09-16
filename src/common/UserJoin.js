@@ -4,7 +4,7 @@ import React, {useRef, useState} from 'react';
 import {Checkbox} from '@mui/material';
 
 function UserJoin({joinUser}) {
-  const [gameId, setGameId] = useState(0);
+  const [gameId, setGameId] = useState(null);
   const buttonRef = useRef(null);
   const [agreePanel, setAgreePanel] = useState(false);
 

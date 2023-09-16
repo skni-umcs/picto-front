@@ -72,8 +72,10 @@ function User() {
 
   function subscribeEventSource() {
     console.log("subscribing event source (should be called only once!)")
-    const source = new EventSourcePolyfill(`${BACKEND_IP}/event`,
-        {headers: {'x-session': `${cookies.userCookie}`}});
+    let query = `?token=${cookies.userCookie}`;
+    let a = `${BACKEND_IP}/event`+query
+    console.log(a);
+    const source = new EventSource(a);
 
     const EventType = {
       GAME_BEGIN: 'GAME_BEGIN',

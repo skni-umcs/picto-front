@@ -6,7 +6,7 @@
 .infoComponent {
     display: flex;
     flex-direction: row;
-    justify-content: right;
+    justify-content: space-between;
 }
 
 .doubleSplit {

@@ -10,12 +10,13 @@ function UserInfoComponent({userId}) {
 }
 
 function GenerationComponent({generation = 0}) {
-  return <Box className="infoText">Generacja gracza: {generation}</Box>;
+  return <Box className="infoText">Generacja: {generation}</Box>;
 }
 
 export function InfoComponent({userId, generation}) {
   return (
       <Box className="infoComponent">
+        <GenerationComponent generation={generation}/>
         <UserInfoComponent userId={userId}/>
       </Box>
   );

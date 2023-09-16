@@ -13,6 +13,7 @@ export default function AllSelectedSymbolsComponent({selectionSymbols, chosenSym
       allChosenIds.push(id);
     });
     return <Box className="allSelectedSymbols">
+      <Box className="symbolOverlap"/>
       {
         selectionSymbols.map(
             row => {

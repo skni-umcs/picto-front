@@ -162,6 +162,11 @@
     justify-content: center;
 }
 
+.symbolSelected, .symbolNotSelected {
+    background-color: #f2f2f2;
+    padding: 10px;
+}
+
 .imageNotSelected, .symbolNotSelected {
     margin: 10px;
 }
@@ -190,7 +195,10 @@
 }
 
 .symbolOverlap {
-    opacity: 0.5;
+    width: 100px;
+    height: 100px;
+    background-color: #f2f2f2;
+    padding: 10%;
     grid-column: 1;
     grid-row: 1;
     justify-self: center;

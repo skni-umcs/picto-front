@@ -6,18 +6,16 @@ function TimerComponent({time = '01:03'}) {
 }
 
 function UserInfoComponent({userId}) {
-  return <Box className="infoText">{userId}</Box>;
+  return <Box className="infoText">ID: {userId}</Box>;
 }
 
 function GenerationComponent({generation = 0}) {
-  return <Box className="infoText">{generation}</Box>;
+  return <Box className="infoText">Generacja gracza: {generation}</Box>;
 }
 
 export function InfoComponent({userId, generation}) {
   return (
       <Box className="infoComponent">
-        <GenerationComponent generation={generation}/>
-        <TimerComponent/>
         <UserInfoComponent userId={userId}/>
       </Box>
   );

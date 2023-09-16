@@ -101,19 +101,19 @@ function User() {
 
     source.addEventListener(EventType.SPEAKER_READY, (event) => {
       console.log('SPEAKER_READY');
-      setTimeout(() => {
+      // setTimeout(() => {
         setUserState('speaker');
         setStartTime(Date.now());
-        }, userNewRoundWaitTime);
+        // }, userNewRoundWaitTime);
     });
 
     source.addEventListener(EventType.LISTENER_READY, async (event) => {
       console.log('LISTENER_READY');
       await setSymbolsFromBackend(roundIdRef.current);
-      setTimeout(() => {
+      // setTimeout(() => {
         setUserState('listener');
         setStartTime(Date.now());
-      },userNewRoundWaitTime);
+      // },userNewRoundWaitTime);
     });
 
     source.addEventListener(EventType.SPEAKER_HOLD, (event) => {

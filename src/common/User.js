@@ -15,6 +15,8 @@ import EndScreen from './EndScreen';
 
 function User() {
 
+  const userNewRoundWaitTime = 500;
+
   const [userState, setUserState] = useState('join');
   const [userId, setUserId] = useState(null);
   const [cookies, setCookies, removeCookies] = useCookies();
@@ -30,7 +32,7 @@ function User() {
   const [topicId, setTopicId] = useState(null);
   const [askBackendForSymbols, setAskBackendForSymbols] = useState(false);
 
-  const [reRender, setReRender] = useState(false);
+  const [reRender, setReRender] = useState(0);
 
   const [startTime, setStartTime] = useState(0);
 
@@ -54,8 +56,8 @@ function User() {
             }
           },
       );
-      setReRender(true);
     }
+    setReRender(reRender+1);
   }, [topicId, images]);
 
   // useEffect(() => {
@@ -70,8 +72,10 @@ function User() {
 
   function subscribeEventSource() {
     console.log("subscribing event source (should be called only once!)")
-    const source = new EventSourcePolyfill(`${BACKEND_IP}/event`,
-        {headers: {'x-session': `${cookies.userCookie}`}});
+    let query = `?token=${cookies.userCookie}`;
+    let a = `${BACKEND_IP}/event`+query
+    console.log(a);
+    const source = new EventSource(a);
 
     const EventType = {
       GAME_BEGIN: 'GAME_BEGIN',
@@ -99,16 +103,19 @@ function User() {
 
     source.addEventListener(EventType.SPEAKER_READY, (event) => {
       console.log('SPEAKER_READY');
-      setAskBackendForSymbols(true);
-      setUserState('speaker');
-      setStartTime(Date.now());
+      setTimeout(() => {
+        setUserState('speaker');
+        setStartTime(Date.now());
+        }, userNewRoundWaitTime);
     });
 
     source.addEventListener(EventType.LISTENER_READY, async (event) => {
       console.log('LISTENER_READY');
       await setSymbolsFromBackend(roundIdRef.current);
-      setUserState('listener');
-      setStartTime(Date.now());
+      setTimeout(() => {
+        setUserState('listener');
+        setStartTime(Date.now());
+      },userNewRoundWaitTime);
     });
 
     source.addEventListener(EventType.SPEAKER_HOLD, (event) => {

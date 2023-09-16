@@ -79,8 +79,9 @@ function AdminFormComponent() {
       ApiCalls.getMaxVertexDegree());
   const [numberOfGenerations, setNumberOfGenerations] = useState(
       ApiCalls.getMaxVertexDegree());
+  const [resultScreenTime, setResultScreenTime] = useState(5);
 
-  const [buttonMode, setButtonMode] = useState('none');
+  const [buttonMode, setButtonMode] = useState('detailed');
 
   const [currentRoundId, setCurrentRoundId] = useState(
       ApiCalls.getCurrentGameId());
@@ -109,6 +110,7 @@ function AdminFormComponent() {
       createDateTime: moment().format('YYYY-MM-DD[T]HH:mm:ss.SSS'),
       groupId: 1,
       setEndRoundId: setCurrentRoundId,
+      showResultScreenTime: resultScreenTime
     });
   }
 
@@ -224,6 +226,11 @@ function AdminFormComponent() {
           name="numberOfGenerations"
           defaultValue={numberOfGenerations}
           onChange={e => setNumberOfGenerations(e.target.value)}
+      />
+      <ElementConfigComponent
+          name="resultScreenTime"
+          defaultValue={resultScreenTime}
+          onChange={e => setResultScreenTime(e.target.value)}
       />
       <RadioButtonsComponent
           buttonMode={buttonMode}

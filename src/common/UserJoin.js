@@ -39,7 +39,7 @@ function UserJoin({joinUser}) {
       <Box className="joinComponentsContainer">
         <input onKeyDown={handleKeyPress} className="joinInput" value={gameId}
                onChange={e => setGameId(e.target.value)}></input>
-        <Button ref={buttonRef} className="joinButton" onClick={setAgreePanelClick} autofocus>DOŁĄCZ</Button>
+        <Button ref={buttonRef} className="joinButton" onClick={setAgreePanelClick}>DOŁĄCZ</Button>
       </Box>
     </Box>}
   </>

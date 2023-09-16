@@ -102,7 +102,11 @@
     background-color: #FF8989;
 }
 
-.joinComponent, .joinComponentsContainer, .waitingComponent, .waitingComponentsContainer, .listenerComponent, .speakerComponent, .resultFieldCorrect, .resultFieldWrong {
+.agreeComponent {
+    background-color: #EEB868;
+}
+
+.joinComponent, .joinComponentsContainer, .waitingComponent, .waitingComponentsContainer, .listenerComponent, .speakerComponent, .resultFieldCorrect, .resultFieldWrong, .agreeComponent {
     display: flex;
     justify-content: center;
     align-items: center;

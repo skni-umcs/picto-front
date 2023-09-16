@@ -37,6 +37,31 @@ function User() {
   const [startTime, setStartTime] = useState(0);
 
   useEffect(() => {
+    let cookieInStorage = localStorage.getItem('userCookie');
+    console.log("userCookie: "+cookieInStorage);
+    if(cookieInStorage !== "undefined" && typeof cookieInStorage !== undefined && cookieInStorage !== null) {
+      console.log("cookie present")
+      setCookies('userCookie', cookieInStorage);
+      let config = {
+        headers: {
+          "x-session":  cookieInStorage
+        }
+      };
+      backend.post("game/cookie/join", {} ,config)
+          .then(function(response)
+          {
+            console.log("Join as user with cookie response: "+JSON.stringify(response));
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+    }
+    else {
+      console.log("cookie not present")
+    }
+  }, []);
+
+  useEffect(() => {
     roundIdRef.current = roundIdState;
     if (askBackendForSymbols) {
       setAskBackendForSymbols(roundIdState);
@@ -60,15 +85,9 @@ function User() {
     setReRender(reRender+1);
   }, [topicId, images]);
 
-  // useEffect(() => {
-  //   localStorage.setItem('userCookie', cookies['userCookie']);
-  // }, [cookies]);
-  //
-  // useEffect(() => {
-  //   if(cookies === null) {
-  //     setCookies('userCookie',localStorage.getItem('userCookie'));
-  //   }
-  // })
+  useEffect(() => {
+    localStorage.setItem('userCookie', cookies['userCookie']);
+  }, [cookies]);
 
   function subscribeEventSource() {
     console.log("subscribing event source (should be called only once!)")

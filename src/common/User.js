@@ -12,6 +12,7 @@ import {useCookies} from 'react-cookie';
 import {EventSourcePolyfill} from 'event-source-polyfill';
 import Admin from '../admin/Admin';
 import EndScreen from './EndScreen';
+import UserJoinAdvanced from './UserJoinAdvanced';
 
 function User() {
 
@@ -171,6 +172,24 @@ function User() {
 
   }
 
+  function joinUserAdvanced(gameId, userId) {
+    console.log('user ' + userId + ' joins to' + gameId);
+      backend.post(`game/${gameId}/join/${userId}`,
+          {
+            'gameId': gameId,
+            'userId': userId
+          }, {withCredentials: true}).then((response) => {
+        let userObject = response.data;
+        console.log('user joining got following response: ' +
+            JSON.stringify(userObject));
+        setCookies('userCookie', userObject.cookie);
+        setUserState('waiting');
+        setUserId(userObject.id);
+      }).catch(function(error) {
+        console.log(error);
+      });
+  }
+
   function callNextRound() {
     console.log('callNextRound()');
     backend.get(`round/next/${userId}`, {withCredentials: true}).
@@ -280,7 +299,12 @@ function User() {
         }
         {
             userState === 'join' &&
-            <UserJoin joinUser={joinUser}/>
+            <UserJoin joinUser={joinUser}
+            setUserState={setUserState}/>
+        }
+        {
+          userState === 'joinAdvanced' &&
+            <UserJoinAdvanced joinUser={joinUserAdvanced}/>
         }
         {
             userState === 'result' &&

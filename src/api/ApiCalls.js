@@ -71,6 +71,7 @@ export function createGame(
       createDateTime,
       groupId,
       setEndRoundId,
+      showResultScreenTime
     },
 ) {
   console.log('createGame()');
@@ -93,6 +94,7 @@ export function createGame(
       'id': groupId,
     },
     'createDateTime': createDateTime,
+    'showResultScreenTime': showResultScreenTime
   };
   console.log('create game data to send: ' + JSON.stringify(dataToSend));
   backend.post('game/admin/create', dataToSend,

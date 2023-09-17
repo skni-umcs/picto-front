@@ -7,6 +7,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 100%;
 }
 
 .doubleSplit {
@@ -33,6 +34,10 @@
     background-color: #EEB868;
 }
 
+.waitingComponent {
+    flex-direction: column;
+}
+
 .waitingComponentsContainer, .joinComponentsContainer {
     flex-direction: column;
     gap: 15px;
@@ -46,12 +51,13 @@
     background-color: #EF767A;
 }
 .joinButton, .awaitingRound {
-    width: 100%;
-    height: 20%;
+    width: 50vw;
+    height: 20vw;
     border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 72px;
 }
 
 .joinButton:hover {
@@ -104,6 +110,7 @@
 
 .agreeComponent {
     background-color: #EEB868;
+    font-size: 50px;
 }
 
 .joinComponent, .joinComponentsContainer, .waitingComponent, .waitingComponentsContainer, .listenerComponent, .speakerComponent, .resultFieldCorrect, .resultFieldWrong, .agreeComponent {
@@ -113,11 +120,6 @@
     max-width: 100%;
     height: 100%;
     color: white;
-}
-
-.joinComponentsContainer, .waitingComponentsContainer {
-    width: 30%;
-    height: 70%;
 }
 
 .joinInput, .waitingText {

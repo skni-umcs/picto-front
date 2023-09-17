@@ -1,14 +1,16 @@
 import Box from '@mui/material/Box';
 import React from 'react';
+import {InfoComponent} from './InfoComponent';
+import {Container} from '@mui/material';
 
-function WaitingComponent({roundId = 0, awaitingWhom="Rundy"}) {
+function WaitingComponent({generation, userId, awaitingWhom="na rundę"}) {
   return (
-      <Box className="waitingComponent">
+      <Container className="waitingComponent">
+        <InfoComponent generation={generation} userId={userId}/>
         <Box className="waitingComponentsContainer">
           <Box className="awaitingRound">Oczekiwanie {awaitingWhom}</Box>
-          <Box className="awaitingRoundUserId">id rundy: {roundId}</Box>
         </Box>
-      </Box>
+      </Container>
   );
 }
 

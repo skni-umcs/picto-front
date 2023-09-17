@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Radio from '@mui/material/Radio';
 import Box from '@mui/material/Box';
 import {
@@ -11,7 +11,12 @@ import Button from '@mui/material/Button';
 import moment from 'moment';
 
 import * as ApiCalls from '../api/ApiCalls';
-import {FormControlLabel, RadioGroup} from '@mui/material';
+import {
+  FormControl,
+  FormControlLabel,
+  InputLabel, MenuItem,
+  RadioGroup, Select,
+} from '@mui/material';
 import {backend} from '../api/ApiCalls';
 import SymbolListComponent from './SymbolListComponent';
 
@@ -80,11 +85,18 @@ function AdminFormComponent() {
   const [numberOfGenerations, setNumberOfGenerations] = useState(
       ApiCalls.getMaxVertexDegree());
   const [resultScreenTime, setResultScreenTime] = useState(5);
+  const [groupId, setGroupId] = useState('');
 
   const [buttonMode, setButtonMode] = useState('detailed');
 
   const [currentRoundId, setCurrentRoundId] = useState(
       ApiCalls.getCurrentGameId());
+
+  const [imageGroups, setImageGroups] = useState([]);
+
+  const handleSetGroup = (event) => {
+    setGroupId(event.target.value);
+  };
 
   function onImageAdd() {
     backend.post("image/add").then(console.log("Images added to backend"));
@@ -108,7 +120,7 @@ function AdminFormComponent() {
       maxVertexDegree: maxVertexDegree,
       numberOfGenerations: numberOfGenerations,
       createDateTime: moment().format('YYYY-MM-DD[T]HH:mm:ss.SSS'),
-      groupId: 1,
+      groupId: groupId,
       setEndRoundId: setCurrentRoundId,
       showResultScreenTime: resultScreenTime
     });
@@ -158,6 +170,23 @@ function AdminFormComponent() {
     });
   }
 
+  function getAllImageGroups() {
+    console.log("Getting all images groups");
+    backend.get("image/groups")
+        .then(function(response){
+          let imageGroups = response.data;
+          console.log('calling all image groups got object: ' + JSON.stringify(imageGroups));
+          setImageGroups(imageGroups);
+          if(imageGroups.length > 0) {
+            setGroupId(imageGroups[0].id);
+          }
+        })
+  }
+
+    useEffect(() => {
+      getAllImageGroups();
+    }, []);
+
   return <Box
       sx={{
         flexDirection: 'row',
@@ -193,14 +222,9 @@ function AdminFormComponent() {
           onChange={e => setSelectionHeight(e.target.value)}
       />
       <ElementConfigComponent
-          name="topicsLength"
+          name="image count"
           defaultValue={topicsLength}
           onChange={e => setTopicsLength(e.target.value)}
-      />
-      <CheckBoxConfigComponent
-          name="enableTimer"
-          defaultValue={enableTimer}
-          onChange={e => setEnableTimer(e.target.value)}
       />
       <ElementConfigComponent
           name="userOneTime"
@@ -247,6 +271,21 @@ function AdminFormComponent() {
             setMaxVertexDegree={setMaxVertexDegree} topologyId={topologyId}
             setTopologyId={setTopologyId}/>}
       </Box>
+
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Image group</InputLabel>
+        <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={groupId}
+            label="Image group"
+            onChange={handleSetGroup}
+        >
+          {imageGroups.map((group) => {
+            return <MenuItem value={group.id}>{group.name}</MenuItem>
+          })}
+        </Select>
+      </FormControl>
 
       <SymbolListComponent symbols={symbols}/>
 

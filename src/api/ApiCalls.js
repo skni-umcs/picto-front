@@ -258,11 +258,11 @@ export function getTopologyId() {
 }
 
 export function getProbabilityOfEdgeRedrawing() {
-  return 0.5;
+  return 0.1;
 }
 
 export function getMaxVertexDegree() {
-  return 3;
+  return 4;
 }
 
 export function getCurrentGameId() {

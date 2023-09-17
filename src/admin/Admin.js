@@ -15,7 +15,7 @@ import {
   FormControl,
   FormControlLabel,
   InputLabel, MenuItem,
-  RadioGroup, Select,
+  RadioGroup, Select
 } from '@mui/material';
 import {backend} from '../api/ApiCalls';
 import SymbolListComponent from './SymbolListComponent';
@@ -82,8 +82,7 @@ function AdminFormComponent() {
       ApiCalls.getProbabilityOfEdgeRedrawing());
   const [maxVertexDegree, setMaxVertexDegree] = useState(
       ApiCalls.getMaxVertexDegree());
-  const [numberOfGenerations, setNumberOfGenerations] = useState(
-      ApiCalls.getMaxVertexDegree());
+  const [numberOfGenerations, setNumberOfGenerations] = useState(400);
   const [resultScreenTime, setResultScreenTime] = useState(5);
   const [groupId, setGroupId] = useState('');
 

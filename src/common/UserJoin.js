@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import React, {useRef, useState} from 'react';
 import {Checkbox} from '@mui/material';
 
-function UserJoin({joinUser}) {
+function UserJoin({joinUser, setUserState}) {
   const [gameId, setGameId] = useState("");
   const buttonRef = useRef(null);
   const [agreePanel, setAgreePanel] = useState(false);
@@ -15,6 +15,10 @@ function UserJoin({joinUser}) {
 
   function setAgreePanelClick() {
     setAgreePanel(true);
+  }
+
+  function setAdvancedJoin() {
+    setUserState("joinAdvanced");
   }
 
   function AgreeComponent() {
@@ -42,6 +46,7 @@ function UserJoin({joinUser}) {
         <input onKeyDown={handleKeyPress} className="joinInput" value={gameId}
                onChange={e => setGameId(e.target.value)}></input>
         <Button ref={buttonRef} className="joinButton" onClick={setAgreePanelClick}>DOŁĄCZ</Button>
+        <Button onClick={setAdvancedJoin}>advanced</Button>
       </Box>
     </Box>}
   </>

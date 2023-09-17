@@ -110,6 +110,7 @@
 
 .agreeComponent {
     background-color: #EEB868;
+    font-size: 50px;
 }
 
 .joinComponent, .joinComponentsContainer, .waitingComponent, .waitingComponentsContainer, .listenerComponent, .speakerComponent, .resultFieldCorrect, .resultFieldWrong, .agreeComponent {

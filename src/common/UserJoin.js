@@ -20,8 +20,10 @@ function UserJoin({joinUser}) {
   function AgreeComponent() {
     return (
         <Box className="agreeComponent">
-          <Checkbox onClick={onJoin}></Checkbox>
-          Wyrażam zgodę na udział w badaniu
+          <Checkbox style={{
+            transform: "scale(2)",
+          }} onClick={onJoin}></Checkbox>
+          &nbsp;Wyrażam zgodę na udział w badaniu
         </Box>
     );
   }

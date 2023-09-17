@@ -222,14 +222,9 @@ function AdminFormComponent() {
           onChange={e => setSelectionHeight(e.target.value)}
       />
       <ElementConfigComponent
-          name="topicsLength"
+          name="image count"
           defaultValue={topicsLength}
           onChange={e => setTopicsLength(e.target.value)}
-      />
-      <CheckBoxConfigComponent
-          name="enableTimer"
-          defaultValue={enableTimer}
-          onChange={e => setEnableTimer(e.target.value)}
       />
       <ElementConfigComponent
           name="userOneTime"

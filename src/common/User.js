@@ -57,7 +57,7 @@ function User() {
           },
       );
     }
-    setReRender(reRender+1);
+    setReRender(reRender + 1);
   }, [topicId, images]);
 
   // useEffect(() => {
@@ -71,9 +71,9 @@ function User() {
   // })
 
   function subscribeEventSource() {
-    console.log("subscribing event source (should be called only once!)")
+    console.log('subscribing event source (should be called only once!)');
     let query = `?token=${cookies.userCookie}`;
-    let a = `${BACKEND_IP}/event`+query
+    let a = `${BACKEND_IP}/event` + query;
     console.log(a);
     const source = new EventSource(a);
 
@@ -90,7 +90,7 @@ function User() {
     };
 
     source.addEventListener(EventType.GAME_BEGIN, (event) => {
-      console.log("GAME_BEGIN")
+      console.log('GAME_BEGIN');
       setUserState('waiting');
       callNextRound();
     });
@@ -106,7 +106,7 @@ function User() {
       setTimeout(() => {
         setUserState('speaker');
         setStartTime(Date.now());
-        }, userNewRoundWaitTime);
+      }, userNewRoundWaitTime);
     });
 
     source.addEventListener(EventType.LISTENER_READY, async (event) => {
@@ -115,7 +115,7 @@ function User() {
       setTimeout(() => {
         setUserState('listener');
         setStartTime(Date.now());
-      },userNewRoundWaitTime);
+      }, userNewRoundWaitTime);
     });
 
     source.addEventListener(EventType.SPEAKER_HOLD, (event) => {
@@ -135,8 +135,8 @@ function User() {
 
     source.addEventListener(EventType.END_GAME, (event) => {
       console.log('END_GAME');
-      setUserState("end")
-    })
+      setUserState('end');
+    });
 
     // source.onmessage = function(event) {
     //   console.log(event);
@@ -151,22 +151,22 @@ function User() {
 
   function joinUser(gameId) {
     console.log('user joins to' + gameId);
-    if(gameId === "admin") {
-      setUserState("admin")
-    }
-    else {
+    if (gameId === 'admin') {
+      setUserState('admin');
+    } else {
       backend.post(`game/${gameId}/join`,
-      {
-        'gameId': gameId,
-      }, {withCredentials: true}).then((response) => {
-    let userObject = response.data;
-    console.log('user joining got following response: ' + JSON.stringify(userObject));
-    setCookies('userCookie', userObject.cookie);
-    setUserState('waiting');
-    setUserId(userObject.id);
-  }).catch(function(error) {
-    console.log(error);
-  });
+          {
+            'gameId': gameId,
+          }, {withCredentials: true}).then((response) => {
+        let userObject = response.data;
+        console.log('user joining got following response: ' +
+            JSON.stringify(userObject));
+        setCookies('userCookie', userObject.cookie);
+        setUserState('waiting');
+        setUserId(userObject.id);
+      }).catch(function(error) {
+        console.log(error);
+      });
     }
 
   }
@@ -176,13 +176,14 @@ function User() {
     backend.get(`round/next/${userId}`, {withCredentials: true}).
         then(function(response) {
           let roundObject = response.data;
-          console.log('calling next round got round object: ' + JSON.stringify(roundObject));
+          console.log('calling next round got round object: ' +
+              JSON.stringify(roundObject));
           let currentRoundId = roundObject.id;
           setTopicId(roundObject['topic'].id);
           setRoundId(currentRoundId);
           setGeneration(roundObject.generation);
           setImagesFromBackend(currentRoundId);
-          setSymbolsFromBackend(currentRoundId)
+          setSymbolsFromBackend(currentRoundId);
         }).catch(function(error) {
       console.log(error);
     });
@@ -190,11 +191,12 @@ function User() {
   }
 
   function setImagesFromBackend(roundId) {
-    console.log("setImagesFromBackend");
+    console.log('setImagesFromBackend');
     backend.get(`round/${roundId}/images/${userId}`, {withCredentials: true}).
         then(function(response) {
           let imagesObject = response.data;
-          console.log("setting images from backend got image object: "+JSON.stringify(imagesObject));
+          console.log('setting images from backend got image object: ' +
+              JSON.stringify(imagesObject));
           setImages(imagesObject);
         }).
         catch(function(error) {
@@ -203,13 +205,14 @@ function User() {
   }
 
   function setSymbolsFromBackend(roundId) {
-    console.log("setting symbols from backend for round: "+roundId);
+    console.log('setting symbols from backend for round: ' + roundId);
     backend.get(`round/${roundId}/symbols/${userId}`, {withCredentials: true}).
         then(function(response) {
           let symbolsObject = response.data;
           let i = 0;
 
-          console.log("setting symbols from backend got symbols object: "+JSON.stringify(symbolsObject));
+          console.log('setting symbols from backend got symbols object: ' +
+              JSON.stringify(symbolsObject));
 
           symbolsObject.forEach(
               (symbolArray) => {
@@ -219,7 +222,8 @@ function User() {
                 i++;
               },
           );
-          console.log("symbols object after adding groupIds: "+JSON.stringify(symbolsObject));
+          console.log('symbols object after adding groupIds: ' +
+              JSON.stringify(symbolsObject));
           setSymbols(symbolsObject);
         }).
         catch(function(error) {
@@ -228,12 +232,13 @@ function User() {
   }
 
   function updateResult() {
-    console.log("updateResult()");
+    console.log('updateResult()');
     backend.get(`round/${roundIdRef.current}/result/${userId}`,
         {withCredentials: true}).
         then(function(response) {
           let resultObject = response.data;
-          console.log("updating result got result object: "+JSON.stringify(resultObject));
+          console.log('updating result got result object: ' +
+              JSON.stringify(resultObject));
           setResult(resultObject);
           setUserState('result');
         }).
@@ -251,7 +256,7 @@ function User() {
   return (
       <StyledEngineProvider injectFirst>
         {
-          userState === 'admin' && <Admin></Admin>
+            userState === 'admin' && <Admin></Admin>
         }
         {
             userState === 'speaker' &&
@@ -283,20 +288,23 @@ function User() {
         }
         {
             userState === 'waiting' &&
-            <WaitingComponent roundId={roundIdState}/>
+            <WaitingComponent generation={generationState}
+                              userId={userId}/>
         }
         {
             userState === 'waitingSpeaker' &&
-            <WaitingComponent roundId={roundIdState}
+            <WaitingComponent generation={generationState}
+                              userId={userId}
                               awaitingWhom={'na mówcę'}/>
         }
         {
             userState === 'waitingListener' &&
-            <WaitingComponent roundId={roundIdState}
+            <WaitingComponent generation={generationState}
+                              userId={userId}
                               awaitingWhom={'na słuchacza'}/>
         }
         {
-          userState === 'end' &&
+            userState === 'end' &&
             <EndScreen></EndScreen>
         }
       </StyledEngineProvider>

@@ -288,12 +288,12 @@ function User() {
         {
             userState === 'waitingSpeaker' &&
             <WaitingComponent roundId={roundIdState}
-                              awaitingWhom={'mówcy'}/>
+                              awaitingWhom={'na mówcę'}/>
         }
         {
             userState === 'waitingListener' &&
             <WaitingComponent roundId={roundIdState}
-                              awaitingWhom={'słuchacza'}/>
+                              awaitingWhom={'na słuchacza'}/>
         }
         {
           userState === 'end' &&

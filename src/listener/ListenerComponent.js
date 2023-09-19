@@ -10,7 +10,7 @@ import AllSelectedSymbolsComponent from '../common/AllSelectedSymbolsComponent';
 import Button from '@mui/material/Button';
 import {submitListener} from '../api/ApiCalls';
 
-function ListenerComponent({userId, setUserState, images, symbols, roundId, generation, startTime, waitMs}) {
+function ListenerComponent({userId, setUserState, images, symbols, roundId, generation, startTime}) {
   const [chosenImage, setChosenImageObject] = useState(null);
 
   function setChosenImage(imageId, groupId) {
@@ -27,7 +27,7 @@ function ListenerComponent({userId, setUserState, images, symbols, roundId, gene
   return (
       <Container className="listenerComponent">
         <Box className="listenerWrapper">
-          <InfoComponent userId={userId} generation={generation} waitMs={waitMs}/>
+          <InfoComponent userId={userId} generation={generation}/>
           <Box className="allSelectedSymbolsListener"><AllSelectedSymbolsComponent selectionSymbols={symbols} selectAll={true}/></Box>
           <ImageSelectionComponent images={images}
                                    setChosenImage={setChosenImage}/>

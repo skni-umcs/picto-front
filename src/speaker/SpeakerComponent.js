@@ -16,8 +16,7 @@ function SpeakerComponent({
                             symbols,
                             roundId,
                             generation,
-                            startTime,
-                            waitMs
+                            startTime
                           }) {
   const [chosenSymbols, setChosenSymbolsObject] = useState({});
 
@@ -36,7 +35,7 @@ function SpeakerComponent({
   return (
       <Container className="speakerComponent">
         <Box className="speakerWrapper">
-          <InfoComponent userId={userId} generation={generation} waitMs={waitMs}/>
+          <InfoComponent userId={userId} generation={generation}/>
           <PictureListComponent pictures={images}
                                 className="imageListComponent"/>
           <Box className="symbolsWrapper">

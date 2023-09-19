@@ -3,10 +3,10 @@ import React from 'react';
 import {InfoComponent} from './InfoComponent';
 import {Container} from '@mui/material';
 
-function WaitingComponent({generation, userId, awaitingWhom="na rundę"}) {
+function WaitingComponent({generation, userId, awaitingWhom="na rundę", waitMs = 0}) {
   return (
       <Container className="waitingComponent">
-        <InfoComponent generation={generation} userId={userId}/>
+        <InfoComponent generation={generation} userId={userId} waitMs={waitMs}/>
         <Box className="waitingComponentsContainer">
           <Box className="awaitingRound">Oczekiwanie {awaitingWhom}</Box>
         </Box>

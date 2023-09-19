@@ -18,6 +18,8 @@ function User() {
 
   const userNewRoundWaitTime = 500;
 
+  const dummyTimeLeft = 60000;
+
   const [userState, setUserState] = useState('join');
   const [userId, setUserId] = useState(null);
   const [cookies, setCookies, removeCookies] = useCookies();
@@ -285,6 +287,7 @@ function User() {
                               roundId={roundIdState}
                               generation={generationState}
                               startTime={startTime}
+                              waitMs={dummyTimeLeft}
             />
         }
         {
@@ -295,6 +298,7 @@ function User() {
                                roundId={roundIdState}
                                generation={generationState}
                                startTime={startTime}
+                               waitMs={dummyTimeLeft}
             />
         }
         {

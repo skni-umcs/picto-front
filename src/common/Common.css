@@ -47,6 +47,13 @@
     text-align: center;
     font-size: 100px;
 }
+
+.awaitingRound {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
 .joinButton, .awaitingRound {
     background-color: #EF767A;
 }
@@ -55,9 +62,12 @@
     height: 20vw;
     border-radius: 10px;
     display: flex;
-    justify-content: center;
     align-items: center;
     font-size: 72px;
+}
+
+.joinButton {
+    justify-content: center;
 }
 
 .joinButton:hover {

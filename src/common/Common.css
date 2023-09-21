@@ -217,16 +217,15 @@
     align-content: center;
     padding-left: 10%;
     padding-right: 10%;
-    width: 200px;
 }
 
 .symbolOverlap {
-    width: 100px;
-    height: 100px;
     background-color: #f2f2f2;
     padding: 10%;
     grid-column: 1;
     grid-row: 1;
     justify-self: center;
     align-self: center;
+    width: 9vw;
+    height: 9vw;
 }

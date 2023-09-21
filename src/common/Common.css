@@ -146,11 +146,11 @@
 
 .pictureNotSelectedComponent {
     border: 0;
-    margin: 10px;
+    margin: 1vw;
 }
 
 .pictureSelectedComponent {
-    border: 10px solid #456990;
+    border: 1vw solid #456990;
 }
 
 .speakerWrapper, .listenerWrapper {
@@ -182,14 +182,26 @@
     max-height: 7vw;
 }
 
-.imageNotSelected, .symbolNotSelected {
-    margin: 10px;
+.imageNotSelected {
+    margin: 1vw;
+}
+
+.symbolNotSelected {
+    margin: 0.5vw;
 }
 
 .imageSelected, .symbolSelected {
     border-style: solid;
-    border-width: 10px;
-    border-radius: 10px;
+}
+
+.imageSelected {
+    border-width: 1vw;
+    border-radius: 1vw;
+}
+
+.symbolSelected {
+    border-width: 0.5vw;
+    border-radius: 0.5vw;
 }
 
 .pictureSelectedComponent, .pictureNotSelectedComponent {

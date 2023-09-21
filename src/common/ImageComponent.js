@@ -9,10 +9,6 @@ export function PictureComponent({path, className = 'pictureComponent'}) {
           <img
               alt="failed to load image"
               src={`${getUrl(path)}`}
-              style={{
-                maxHeight: 100,
-                maxWidth: 200,
-              }}
           />
         </ImageListItem>
       </Box>

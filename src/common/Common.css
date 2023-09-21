@@ -36,6 +36,7 @@
 
 .waitingComponent {
     flex-direction: column;
+    font-size: 5vw;
 }
 
 .waitingComponentsContainer, .joinComponentsContainer {
@@ -63,7 +64,7 @@
     border-radius: 10px;
     display: flex;
     align-items: center;
-    font-size: 72px;
+    font-size: 4vw;
 }
 
 .joinButton {
@@ -120,7 +121,7 @@
 
 .agreeComponent {
     background-color: #EEB868;
-    font-size: 50px;
+    font-size: 3vw;
 }
 
 .joinComponent, .joinComponentsContainer, .waitingComponent, .waitingComponentsContainer, .listenerComponent, .speakerComponent, .resultFieldCorrect, .resultFieldWrong, .agreeComponent {
@@ -145,11 +146,11 @@
 
 .pictureNotSelectedComponent {
     border: 0;
-    margin: 10px;
+    margin: 1vw;
 }
 
 .pictureSelectedComponent {
-    border: 10px solid #456990;
+    border: 1vw solid #456990;
 }
 
 .speakerWrapper, .listenerWrapper {
@@ -177,16 +178,36 @@
 .symbolSelected, .symbolNotSelected {
     background-color: #f2f2f2;
     padding: 10px;
+    max-width: 7vw;
+    max-height: 7vw;
 }
 
-.imageNotSelected, .symbolNotSelected {
-    margin: 10px;
+.imageNotSelected {
+    margin: 1vw;
+}
+
+.symbolNotSelected {
+    margin: 0.5vw;
 }
 
 .imageSelected, .symbolSelected {
     border-style: solid;
-    border-width: 10px;
-    border-radius: 10px;
+}
+
+.imageSelected {
+    border-width: 1vw;
+    border-radius: 1vw;
+}
+
+.symbolSelected {
+    border-width: 0.5vw;
+    border-radius: 0.5vw;
+}
+
+.pictureSelectedComponent, .pictureNotSelectedComponent {
+    max-width: 15vw;
+    max-height: 15vw;
+    display: flex;
 }
 
 .symbolSelected {
@@ -197,22 +218,26 @@
     border-color: #EF767A;
 }
 
+.imageSelected, .imageNotSelected {
+    max-width: 15vw;
+    max-height: 15vw;
+}
+
 .allSelectedSymbols {
     display: grid;
     justify-content: center;
     align-content: center;
     padding-left: 10%;
     padding-right: 10%;
-    width: 200px;
 }
 
 .symbolOverlap {
-    width: 100px;
-    height: 100px;
     background-color: #f2f2f2;
     padding: 10%;
     grid-column: 1;
     grid-row: 1;
     justify-self: center;
     align-self: center;
+    width: 9vw;
+    height: 9vw;
 }
